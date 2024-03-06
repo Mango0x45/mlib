@@ -1,0 +1,24 @@
+MLib — Useful Standard Library Extensions
+
+MLib is a collection of various headers and libraries that I find useful
+in a large enough number of my personal C projects.  This includes for
+example: common datastructures, useful non-POSIX APIs, and 21st-century
+strings.
+
+This does not aim to be a LibC replacement, but rather a supplimentary
+library.  It is a C23 library with no plans to support older standards.
+
+The headers as of now are:
+ • alloc.h — memory allocation functions
+ • bitset.h — macros for implementing a bitset
+ • bob.h — bob the string-builder
+ • dynarr.h — macros for implementing a dynamic array
+ • errors.h — err.h-inspired diagnostics functions
+ • macros.h — miscellaneous utility macros (MIN/MAX/lengthof/etc.)
+ • mbstring.h — multibyte-strings
+ • rune.h — inttypes.h but for runes
+
+The headers planned for inclusion are:
+ • optparse.h — option parsing functions
+ • unicode/gbrk.h — grapheme breaking
+ • unicode/props.h — unicode character properties
