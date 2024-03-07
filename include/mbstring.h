@@ -24,10 +24,12 @@ struct u8view {
 #define U8_BYTE_C(x) (((x) & 0xC0) == 0x80)
 /* clang-format on */
 
-static const rune U8_1B_MAX = 0x00007FL;
-static const rune U8_2B_MAX = 0x0007FFL;
-static const rune U8_3B_MAX = 0x00FFFFL;
-static const rune U8_4B_MAX = 0x10FFFFL;
+#define U8_1B_MAX RUNE_C(0x00007FL)
+#define U8_2B_MAX RUNE_C(0x0007FFL)
+#define U8_3B_MAX RUNE_C(0x00FFFFL)
+#define U8_4B_MAX RUNE_C(0x10FFFFL)
+
+#define U8_LEN_MAX 4
 
 #define PRIsU8          ".*s"
 #define U8_PRI_ARGS(sv) ((int)(sv).len), ((sv).p)
@@ -49,7 +51,5 @@ size_t u8spn(const char8_t *, size_t, const rune *, size_t);
 #	define u8chr(s, ch, n)  __MLIB_Q_PTR(char8_t, u8chr, (s), (s), (ch), (n))
 #	define u8rchr(s, ch, n) __MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (ch), (n))
 #endif
-
-static const int U8_LEN_MAX = 4;
 
 #endif /* !MLIB_MBSTRING_H */

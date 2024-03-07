@@ -28,9 +28,9 @@
 
 #define RUNE_C(x) UINT32_C(x)
 
-static const rune ASCII_MAX  = RUNE_C(0x00007F);
-static const rune LATIN1_MAX = RUNE_C(0x0000FF);
-static const rune RUNE_ERROR = RUNE_C(0x00FFFD);
-static const rune RUNE_MAX   = RUNE_C(0x10FFFF);
+#define ASCII_MAX  RUNE_C(0x00007F)
+#define LATIN1_MAX RUNE_C(0x0000FF)
+#define RUNE_ERROR RUNE_C(0x00FFFD)
+#define RUNE_MAX   RUNE_C(0x10FFFF)
 
 #endif /* !MLIB_RUNE_H */
