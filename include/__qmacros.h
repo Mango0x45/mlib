@@ -8,16 +8,16 @@
    The macros are taken from the N3020 proposal for C23. */
 
 /* clang-format off */
-#define _RUNE_PTR_IS_CONST(P) \
+#define __MLIB_PTR_IS_CONST(P) \
 	_Generic(1 ? (P) : (void *)(P), \
 	         const void *: 1, \
 	         default: 0)
-#define _RUNE_STATIC_IF(P, T, E) \
+#define __MLIB_STATIC_IF(P, T, E) \
 	_Generic(&(char[!!(P) + 1]){0}, \
 	         char(*)[2]: T, \
 	         char(*)[1]: E)
-#define _RUNE_Q_PTR(T, F, S, ...) \
-	_RUNE_STATIC_IF(_RUNE_PTR_IS_CONST((S)), \
+#define __MLIB_Q_PTR(T, F, S, ...) \
+	__MLIB_STATIC_IF(__MLIB_PTR_IS_CONST((S)), \
 	                (const T *)(F)(__VA_ARGS__), \
 	                      (T *)(F)(__VA_ARGS__))
 /* clang-format on */

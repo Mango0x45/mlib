@@ -42,10 +42,10 @@ size_t u8cspn(const char8_t *, size_t, const rune *, size_t);
 size_t u8len(const char8_t *, size_t);
 size_t u8spn(const char8_t *, size_t, const rune *, size_t);
 
-#if !_RUNE_NO_MACRO_WRAPPER
-#	define u8chk(s, n)      _RUNE_Q_PTR(char8_t, u8chk, (s), (s), (n))
-#	define u8chr(s, ch, n)  _RUNE_Q_PTR(char8_t, u8chr, (s), (s), (ch), (n))
-#	define u8rchr(s, ch, n) _RUNE_Q_PTR(char8_t, u8rchr, (s), (s), (ch), (n))
+#if !__MLIB_NO_MACRO_WRAPPER
+#	define u8chk(s, n)      __MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))
+#	define u8chr(s, ch, n)  __MLIB_Q_PTR(char8_t, u8chr, (s), (s), (ch), (n))
+#	define u8rchr(s, ch, n) __MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (ch), (n))
 #endif
 
 static const int U8_LEN_MAX = 4;
