@@ -42,7 +42,6 @@ u8strtou8(struct u8str s)
 	    int: u8strpushr, \
 	    rune: u8strpushr, \
 	    char *: u8strpushstr, \
-	    struct u8view: u8strpushu8 \
-	)((sb), (x))
+	    struct u8view: u8strpushu8)((sb), (x))
 
 #endif /* !MLIB_BOB_H */

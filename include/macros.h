@@ -15,8 +15,10 @@
 #	define ASSUME(p) ((p) ? (void)0 : unreachable())
 #else
 #	include "errors.h"
-#	define ASSUME(p) ((p) ? (void)0 : warnx("%s:%s:%d: assumption ‘%s’ failed", \
-                                            __FILE__, __func__, __LINE__, #p))
+#	define ASSUME(p) \
+		((p) ? (void)0 \
+		     : warnx("%s:%s:%d: assumption ‘%s’ failed", __FILE__, __func__, \
+		             __LINE__, #p))
 #endif
 
 #endif /* !MLIB_MACROS_H */

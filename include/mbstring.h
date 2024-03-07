@@ -16,11 +16,13 @@ struct u8view {
 };
 #endif
 
+/* clang-format off */
 #define U8_BYTE_1(x) (((x) & 0x80) == 0x00)
 #define U8_BYTE_2(x) (((x) & 0xE0) == 0xC0)
 #define U8_BYTE_3(x) (((x) & 0xF0) == 0xE0)
 #define U8_BYTE_4(x) (((x) & 0xF8) == 0xF0)
 #define U8_BYTE_C(x) (((x) & 0xC0) == 0x80)
+/* clang-format on */
 
 static const rune U8_1B_MAX = 0x00007FL;
 static const rune U8_2B_MAX = 0x0007FFL;
