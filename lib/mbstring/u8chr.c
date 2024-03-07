@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#define _RUNE_NO_MACRO_WRAPPER 1
+#define __MLIB_NO_MACRO_WRAPPER 1
 #include "mbstring.h"
 
 /* NOTE: The memmem*() functions were taken directly from the memmem()

@@ -1,5 +1,5 @@
 #include "rune.h"
-#define _RUNE_NO_MACRO_WRAPPER 1
+#define __MLIB_NO_MACRO_WRAPPER 1
 #include "mbstring.h"
 
 char8_t *
