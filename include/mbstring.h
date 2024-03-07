@@ -34,6 +34,8 @@ struct u8view {
 #define PRIsU8          ".*s"
 #define U8_PRI_ARGS(sv) ((int)(sv).len), ((sv).p)
 
+bool u8haspfx(const char8_t *, size_t, const char8_t *, size_t);
+bool u8hassfx(const char8_t *, size_t, const char8_t *, size_t);
 char8_t *u8chk(const char8_t *, size_t);
 char8_t *u8chr(const char8_t *, rune, size_t);
 char8_t *u8rchr(const char8_t *, rune, size_t);
