@@ -16,9 +16,9 @@ The headers as of now are:
  • errors.h — err.h-inspired diagnostics functions
  • macros.h — miscellaneous utility macros (MIN/MAX/lengthof/etc.)
  • mbstring.h — multibyte-strings
+ • optparse.h — option parsing functions
  • rune.h — inttypes.h but for runes
 
 The headers planned for inclusion are:
- • optparse.h — option parsing functions
  • unicode/gbrk.h — grapheme breaking
  • unicode/props.h — unicode character properties
