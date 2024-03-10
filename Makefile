@@ -12,7 +12,9 @@ CC = gcc-13
 CFLAGS = -std=c2x -Iinclude
 endif
 
-all: $(objs)
+all: out
+out: $(objs)
+	$(CC) $(CFLAGS) -o $@ $^
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
