@@ -142,7 +142,7 @@ error_s(struct optparse *st, const char *msg, const char *s)
 {
 	const char *p = strchr(s, '=');
 	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
-	         (int)(p ? p - s : strlen(s)), s);
+	         (int)(p ? (size_t)(p - s) : strlen(s)), s);
 	return -1;
 }
 
