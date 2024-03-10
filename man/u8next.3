@@ -1,0 +1,112 @@
+.Dd February 20 2024
+.Dt U8NEXT 3
+.Os
+.Sh NAME
+.Nm u8next ,
+.Nm u8prev
+.Nd iterate over Unicode codepoints
+.Sh LIBRARY
+.Lb mlib
+.Sh SYNOPSIS
+.In mbstring.h
+.Ft int
+.Fn u8next "rune *ch" "const char8_t **s" "size_t *n"
+.Ft int
+.Fn u8prev "rune *ch" "const char8_t **s" "const char8_t *start"
+.Sh DESCRIPTION
+The
+.Fn u8next
+function decodes the first rune in the UTF-8 encoded string pointed to by
+.Fa s
+of length
+.Fa n
+and stores the result in
+.Fa ch .
+It then updates
+.Fa s
+to point to the next codepoint in the buffer and updates the length
+.Fa n
+accordingly.
+.Pp
+The
+.Fn u8prev
+function takes a pointer
+.Fa start
+which points to the start of the string instead of a length,
+and updates
+.Fa s
+to point to the previous codepoint in the buffer.
+The rune
+.Fa ch
+is set to UTF-8 codepoint pointed to by
+.Fa s
+after iteration.
+.Pp
+Both of these functions set
+.Va *ch
+to
+.Dv RUNE_ERROR
+in the case of invalid UTF-8.
+.Sh RETURN VALUES
+The
+.Fn u8next
+and
+.Fn u8prev
+functions return the length of the UTF-8-encoded rune iterated over in
+bytes,
+or 0 at the end of iteration.
+.Sh EXAMPLES
+The following calls to
+.Fn u8next
+iterate over and print all the codepoints in
+.Va s .
+.Bd -literal -offset indent
+#include <rune.h> /* For PRIXRUNE; see rune(3) */
+
+#define STRING u8"Ta’ Ħaġrat"
+
+int w;
+rune ch;
+const char8_t *s = STRING;
+size_t n = sizeof(STRING) - 1;
+
+while (w = u8next(&ch, &s, &n))
+	printf("U+%04" PRIXRUNE ": ‘%.*s’\en", ch, w, s - w);
+.Ed
+.Pp
+The following example is the same as the previous,
+but it uses the
+.Fn u8prev
+function to iterate backwards.
+.Bd -literal -offset indent
+#include <rune.h> /* For PRIXRUNE; see rune(3) */
+
+#define STRING u8"Ta’ Ħaġrat"
+
+int w;
+rune ch;
+const char8_t *s, *start;
+size_t n = sizeof(STRING) - 1;
+
+start = STRING;
+s = start + n;
+
+while (w = u8prev(&ch, &s, start))
+	printf("U+%04" PRIXRUNE ": ‘%.*s’\en", ch, w, s);
+.Ed
+.Sh SEE ALSO
+.Xr rune 3 ,
+.Xr u8gnext 3 ,
+.Xr u8tor 3 ,
+.Xr RUNE_ERROR 3const ,
+.Xr unicode 7 ,
+.Xr utf\-8 7
+.Sh STANDARDS
+.Rs
+.%A F. Yergeau
+.%D November 2003
+.%R RFC 3629
+.%T UTF-8, a transformation format of ISO 10646
+.Re
+.Sh AUTHORS
+.An Thomas Voss Aq Mt mail@thomasvoss.com

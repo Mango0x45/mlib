@@ -1,0 +1,65 @@
+.Dd March 10 2024
+.Dt U8TOR 3
+.Os
+.Sh NAME
+.Nm u8tor
+.Nd decode UTF-8 into a rune
+.Sh LIBRARY
+.Lb mlib
+.Sh SYNOPSIS
+.In mbstring.h
+.Ft int
+.Fn u8tor "rune *ch" "const char8_t *s"
+.Sh DESCRIPTION
+The
+.Fn u8tor
+function decodes the first rune in the UTF-8 buffer
+.Fa s ,
+storing the result in the rune pointed to by
+.Fa ch
+and returns the number of bytes which compose the decoded
+UTF-8.
+.Pp
+If attempting to decode an invalid byte,
+.Va *ch
+will be set to
+.Dv RUNE_ERROR.
+.Sh RETURN VALUES
+The
+.Fn u8tor
+function returns the number of bytes from
+.Fa s
+decoded into
+.Fa ch .
+.Sh EXAMPLES
+The following call to
+.Fn u8tor
+attempts to decode the first UTF-8 codepoint in
+.Va buf .
+.Bd -literal -offset indent
+/* Implementation of read_codepoint() omitted */
+
+rune ch;
+char8_t *buf = read_codepoint(stdin);
+int w = u8tor(&ch, buf);
+if (ch == RUNE_ERROR)
+	errx("Got invalid UTF-8 codepoint");
+printf("Got rune ‘%.*s’\en", w, buf);
+.Ed
+.Sh SEE ALSO
+.Xr errx 3mlib ,
+.Xr rtou8 3 ,
+.Xr u8chk 3 ,
+.Xr u8next 3 ,
+.Xr RUNE_ERROR 3const ,
+.Xr unicode 7 ,
+.Xr utf\-8 7
+.Sh STANDARDS
+.Rs
+.%A F. Yergeau
+.%D November 2003
+.%R RFC 3629
+.%T UTF-8, a transformation format of ISO 10646
+.Re
+.Sh AUTHORS
+.An Thomas Voss Aq Mt mail@thomasvoss.com

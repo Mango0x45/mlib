@@ -1,0 +1,1 @@
+sudo tee -a /usr/share/groff/site-tmac/mdoc.local <man/Lb-desc.tmac >/dev/null
