@@ -45,7 +45,6 @@ is used to print a rune to the standard output.
 #include <rune.h> /* For PRIXRUNE; see rune(3) */
 
 rune ch = U\(aqĦ\(aq;
-
 char buf[U8_LEN_MAX];
 int w = rtou8(buf, sizeof(buf), ch);
 
