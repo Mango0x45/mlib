@@ -20,15 +20,6 @@ static rune error_r(struct optparse *, const char *, rune);
 static rune error_s(struct optparse *, const char *, struct u8view);
 static rune shortopt(struct optparse *, const struct op_option *, size_t);
 
-struct optparse
-mkoptparser(char **argv)
-{
-	return (struct optparse){
-		._argv = argv,
-		.optind = argv[0] != nullptr,
-	};
-}
-
 rune
 optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 {

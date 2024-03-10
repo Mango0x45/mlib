@@ -30,6 +30,15 @@ struct op_option {
 };
 
 rune optparse(struct optparse *, const struct op_option *, size_t);
-struct optparse mkoptparser(char **);
+
+[[gnu::always_inline]]
+static inline struct optparse
+mkoptparser(char **argv)
+{
+	return (struct optparse){
+		._argv = argv,
+		.optind = argv[0] != nullptr,
+	};
+}
 
 #endif /* !MLIB_OPTPARSE_H */
