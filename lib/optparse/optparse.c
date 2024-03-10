@@ -9,15 +9,14 @@
 #define OPT_MSG_MISSING "option requires an argument"
 #define OPT_MSG_TOOMANY "option takes no arguments"
 
-#define IS_SHORTOPT(s) ((s)[0] == '-' && (s)[1] != '-' && (s)[1] != '\0')
-#define IS_LONGOPT(s)  ((s)[0] == '-' && (s)[1] == '-' && (s)[2] != '\0')
+#define IS_SHORTOPT(s) ((s).len > 1 && (s).p[0] == '-' && (s).p[1] != '-')
+#define IS_LONGOPT(s)  ((s).len > 2 && (s).p[0] == '-' && (s).p[1] == '-')
 
 #define error(st, msg, x) \
-	_Generic((x), const char *: error_s, rune: error_r)((st), (msg), (x))
+	_Generic((x), struct u8view: error_s, rune: error_r)((st), (msg), (x))
 
-static bool is_a_match(const char *, const char *);
 static rune error_r(struct optparse *, const char *, rune);
-static rune error_s(struct optparse *, const char *, const char *);
+static rune error_s(struct optparse *, const char *, struct u8view);
 static rune shortopt(struct optparse *, const struct op_option *, size_t);
 
 struct optparse
@@ -35,10 +34,12 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 	st->errmsg[0] = '\0';
 	st->optarg = (struct u8view){};
 
-	const char *opt = st->_argv[st->optind];
-	if (opt == nullptr)
+	struct u8view opt = {.p = st->_argv[st->optind]};
+	if (opt.p == nullptr)
 		return 0;
-	if (streq(opt, "--")) {
+	opt.len = strlen(opt.p);
+
+	if (u8eq(opt, U8V("--"))) {
 		st->optind++;
 		return 0;
 	}
@@ -49,41 +50,61 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 
 	st->_subopt = 0;
 	st->optind++;
-	opt += 2; /* Skip ‘--’ */
+
+	/* Skip ‘--’ */
+	opt.p += 2;
+	opt.len -= 2;
+
+	const struct op_option *o = nullptr;
+	const char8_t *eq_p = u8chr(opt.p, '=', opt.len);
+	struct u8view opt_no_eq = {
+		.p = opt.p,
+		.len = eq_p == nullptr ? opt.len : (size_t)(eq_p - opt.p),
+	};
 
 	for (size_t i = 0; i < nopts; i++) {
-		struct op_option o = opts[i];
-		if (!is_a_match(opt, o.longopt))
+		if (!u8haspfx(opts[i].longopt.p, opts[i].longopt.len, opt_no_eq.p,
+		              opt_no_eq.len))
+		{
 			continue;
-		switch (o.argtype) {
-		case OPT_NONE:
-			if (strchr(opt, '=') != nullptr)
-				return error(st, OPT_MSG_TOOMANY, opt);
-			break;
-		case OPT_REQ: {
-			const char *p = strchr(opt, '=');
-			if (p == nullptr) {
-				if (st->_argv[st->optind] == nullptr)
-					return error(st, OPT_MSG_MISSING, opt);
-				st->optarg.p = st->_argv[st->optind++];
-			} else
-				st->optarg.p = p + 1;
-			st->optarg.len = strlen(st->optarg.p);
-		} break;
-		case OPT_OPT: {
-			const char *p = strchr(opt, '=');
-			if (p == nullptr)
-				st->optarg = (struct u8view){};
-			else {
-				st->optarg.p = p + 1;
-				st->optarg.len = strlen(st->optarg.p);
-			}
-		} break;
 		}
-		return o.shortopt;
+
+		if (o)
+			return error(st, OPT_MSG_INVALID, opt_no_eq);
+		o = opts + i;
 	}
 
-	return error(st, OPT_MSG_INVALID, opt);
+	if (o == nullptr)
+		return error(st, OPT_MSG_INVALID, opt_no_eq);
+
+	switch (o->argtype) {
+	case OPT_NONE:
+		if (eq_p != nullptr)
+			return error(st, OPT_MSG_TOOMANY, opt);
+		break;
+	case OPT_OPT:
+		if (eq_p == nullptr)
+			st->optarg = (struct u8view){};
+		else {
+			ASSUME(opt.len > opt_no_eq.len);
+			st->optarg.p = eq_p + 1;
+			st->optarg.len = opt.len - opt_no_eq.len + 1;
+		}
+		break;
+	case OPT_REQ:
+		if (eq_p == nullptr) {
+			if (st->_argv[st->optind] == nullptr)
+				return error(st, OPT_MSG_MISSING, opt);
+			st->optarg.p = st->_argv[st->optind++];
+			st->optarg.len = strlen(st->optarg.p);
+		} else {
+			ASSUME(opt.len > opt_no_eq.len);
+			st->optarg.p = eq_p + 1;
+			st->optarg.len = opt.len - opt_no_eq.len + 1;
+		}
+		break;
+	}
+	return o->shortopt;
 }
 
 rune
@@ -127,29 +148,22 @@ out:
 	return ch;
 }
 
-bool
-is_a_match(const char *u, const char *t)
-{
-	for (; *u && *t && *u != '='; u++, t++) {
-		if (*u != *t)
-			return false;
-	}
-	return *t == '\0' && (*u == '\0' || *u == '=');
-}
-
 rune
-error_s(struct optparse *st, const char *msg, const char *s)
+error_s(struct optparse *st, const char *msg, struct u8view s)
 {
-	const char *p = strchr(s, '=');
 	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
-	         (int)(p ? (size_t)(p - s) : strlen(s)), s);
+	         U8_PRI_ARGS(s));
 	return -1;
 }
+
+/* clang-format off */
 
 rune
 error_r(struct optparse *st, const char *msg, rune ch)
 {
 	char buf[U8_LEN_MAX + 1] = {};
-	rtou8(buf, ch, sizeof(buf));
-	return error_s(st, msg, buf);
+	return error_s(st, msg, (struct u8view){
+		.p = buf,
+		.len = rtou8(buf, ch, sizeof(buf)),
+	});
 }

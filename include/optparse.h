@@ -25,7 +25,7 @@ enum op_argkind {
 
 struct op_option {
 	rune shortopt;
-	const char8_t *longopt;
+	struct u8view longopt;
 	enum op_argkind argtype;
 };
 
