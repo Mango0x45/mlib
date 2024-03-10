@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 
-void *bufalloc(void *, size_t, size_t);
+[[gnu::returns_nonnull]] void *bufalloc(void *, size_t, size_t);
+void *bufalloc_noterm(void *, size_t, size_t);
 
 #endif /* !MLIB_ALLOC_H */
