@@ -1,3 +1,5 @@
 .cache/
 *.o
 compile_commands.json
+out
+test.c
