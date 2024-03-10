@@ -1,5 +1,7 @@
 .cache/
-*.o
+*.[ao]
+*.so
 compile_commands.json
+make
 out
 test.c
