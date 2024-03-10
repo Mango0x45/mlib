@@ -20,14 +20,13 @@ static rune error_r(struct optparse *, const char *, rune);
 static rune error_s(struct optparse *, const char *, const char *);
 static rune shortopt(struct optparse *, const struct op_option *, size_t);
 
-void
-optparse_init(struct optparse *st, char **argv)
+struct optparse
+mkoptparser(char **argv)
 {
-	st->argv = argv;
-	st->optind = argv[0] != nullptr;
-	st->subopt = 0;
-	st->optarg = (struct u8view){};
-	st->errmsg[0] = '\0';
+	return (struct optparse){
+		._argv = argv,
+		.optind = argv[0] != nullptr,
+	};
 }
 
 rune
@@ -36,7 +35,7 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 	st->errmsg[0] = '\0';
 	st->optarg = (struct u8view){};
 
-	const char *opt = st->argv[st->optind];
+	const char *opt = st->_argv[st->optind];
 	if (opt == nullptr)
 		return 0;
 	if (streq(opt, "--")) {
@@ -48,7 +47,7 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 	if (!IS_LONGOPT(opt))
 		return 0;
 
-	st->subopt = 0;
+	st->_subopt = 0;
 	st->optind++;
 	opt += 2; /* Skip ‘--’ */
 
@@ -64,9 +63,9 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 		case OPT_REQ: {
 			const char *p = strchr(opt, '=');
 			if (p == nullptr) {
-				if (st->argv[st->optind] == nullptr)
+				if (st->_argv[st->optind] == nullptr)
 					return error(st, OPT_MSG_MISSING, opt);
-				st->optarg.p = st->argv[st->optind++];
+				st->optarg.p = st->_argv[st->optind++];
 			} else
 				st->optarg.p = p + 1;
 			st->optarg.len = strlen(st->optarg.p);
@@ -91,10 +90,10 @@ rune
 shortopt(struct optparse *st, const struct op_option *opts, size_t nopts)
 {
 	rune ch;
-	const char *opt = st->argv[st->optind];
-	st->subopt += u8tor(&ch, opt + st->subopt + 1);
+	const char *opt = st->_argv[st->optind];
+	st->_subopt += u8tor(&ch, opt + st->_subopt + 1);
 	if (ch == '\0') {
-		st->subopt = 0;
+		st->_subopt = 0;
 		st->optind++;
 		return optparse(st, opts, nopts);
 	}
@@ -103,10 +102,10 @@ shortopt(struct optparse *st, const struct op_option *opts, size_t nopts)
 			continue;
 		if (opts[i].argtype == OPT_NONE)
 			goto out;
-		if (opt[st->subopt + 1] != '\0') {
-			st->optarg.p = opt + st->subopt + 1;
+		if (opt[st->_subopt + 1] != '\0') {
+			st->optarg.p = opt + st->_subopt + 1;
 			st->optarg.len = strlen(st->optarg.p);
-			st->subopt = 0;
+			st->_subopt = 0;
 			st->optind++;
 			goto out;
 		}
@@ -114,11 +113,11 @@ shortopt(struct optparse *st, const struct op_option *opts, size_t nopts)
 			st->optarg = (struct u8view){};
 			goto out;
 		}
-		if (st->argv[st->optind + 1] == nullptr) {
+		if (st->_argv[st->optind + 1] == nullptr) {
 			st->optarg = (struct u8view){};
 			return error(st, OPT_MSG_MISSING, ch);
 		}
-		st->optarg.p = st->argv[st->optind + 1];
+		st->optarg.p = st->_argv[st->optind + 1];
 		st->optarg.len = strlen(st->optarg.p);
 		st->optind += 2;
 		goto out;

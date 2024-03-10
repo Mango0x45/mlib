@@ -8,9 +8,12 @@
 #include "__u8view.h"
 
 struct optparse {
-	int optind, subopt;
+	bool _b;
+	int _subopt;
+	char **_argv;
+
+	int optind;
 	char errmsg[128];
-	char **argv;
 	struct u8view optarg;
 };
 
@@ -27,6 +30,6 @@ struct op_option {
 };
 
 rune optparse(struct optparse *, const struct op_option *, size_t);
-void optparse_init(struct optparse *, char **);
+struct optparse mkoptparser(char **);
 
 #endif /* !MLIB_OPTPARSE_H */
