@@ -9,8 +9,9 @@
 #define OPT_MSG_MISSING "option requires an argument"
 #define OPT_MSG_TOOMANY "option takes no arguments"
 
-#define IS_SHORTOPT(s) ((s).len > 1 && (s).p[0] == '-' && (s).p[1] != '-')
-#define IS_LONGOPT(s)  ((s).len > 2 && (s).p[0] == '-' && (s).p[1] == '-')
+#define IS_DASHDASH(s) ((s).len == 2 && (s).p[0] == '-' && (s).p[1] == '-')
+#define IS_LONGOPT(s)  ((s).len >= 3 && (s).p[0] == '-' && (s).p[1] == '-')
+#define IS_SHORTOPT(s) ((s).len >= 2 && (s).p[0] == '-' && (s).p[1] != '-')
 
 #define error(st, msg, x) \
 	_Generic((x), struct u8view: error_s, rune: error_r)((st), (msg), (x))
@@ -39,7 +40,7 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 		return 0;
 	opt.len = strlen(opt.p);
 
-	if (u8eq(opt, U8V("--"))) {
+	if (IS_DASHDASH(opt)) {
 		st->optind++;
 		return 0;
 	}
@@ -63,12 +64,8 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 	};
 
 	for (size_t i = 0; i < nopts; i++) {
-		if (!u8haspfx(opts[i].longopt.p, opts[i].longopt.len, opt_no_eq.p,
-		              opt_no_eq.len))
-		{
+		if (!u8haspfx(U8_ARGS(opts[i].longopt), U8_ARGS(opt_no_eq)))
 			continue;
-		}
-
 		if (o)
 			return error(st, OPT_MSG_INVALID, opt_no_eq);
 		o = opts + i;
@@ -87,8 +84,10 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 			st->optarg = (struct u8view){};
 		else {
 			ASSUME(opt.len > opt_no_eq.len);
-			st->optarg.p = eq_p + 1;
-			st->optarg.len = opt.len - opt_no_eq.len + 1;
+			st->optarg = (struct u8view){
+				.p = eq_p + 1,
+				.len = opt.len - opt_no_eq.len + 1,
+			};
 		}
 		break;
 	case OPT_REQ:
@@ -99,11 +98,14 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 			st->optarg.len = strlen(st->optarg.p);
 		} else {
 			ASSUME(opt.len > opt_no_eq.len);
-			st->optarg.p = eq_p + 1;
-			st->optarg.len = opt.len - opt_no_eq.len + 1;
+			st->optarg = (struct u8view){
+				.p = eq_p + 1,
+				.len = opt.len - opt_no_eq.len + 1,
+			};
 		}
 		break;
 	}
+
 	return o->shortopt;
 }
 

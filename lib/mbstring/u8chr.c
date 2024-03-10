@@ -75,10 +75,10 @@ memmem4(const char8_t *h, size_t k, const char8_t *n)
 }
 
 char8_t *
-u8chr(const char8_t *s, rune ch, size_t n)
+u8chr(const char8_t *s, size_t n, rune ch)
 {
 	char8_t buf[U8_LEN_MAX];
-	int m = rtou8(buf, ch, sizeof(buf));
+	int m = rtou8(buf, sizeof(buf), ch);
 
 	if (n < (size_t)m)
 		return nullptr;

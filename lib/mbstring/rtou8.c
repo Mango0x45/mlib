@@ -4,7 +4,7 @@
 #include "rune.h"
 
 int
-rtou8(char8_t *s, rune ch, size_t n)
+rtou8(char8_t *s, size_t n, rune ch)
 {
 	if (ch <= U8_1B_MAX) {
 		if (n >= 1)
@@ -33,5 +33,5 @@ rtou8(char8_t *s, rune ch, size_t n)
 		return 4;
 	}
 
-	return rtou8(s, RUNE_ERROR, n);
+	return rtou8(s, n, RUNE_ERROR);
 }

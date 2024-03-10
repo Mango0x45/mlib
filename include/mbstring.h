@@ -8,7 +8,8 @@
 #include "__rune.h"
 #include "__u8view.h"
 
-#define U8V(s) ((struct u8view){.p = (s), .len = sizeof(s) - 1})
+#define U8V(s)     ((struct u8view){.p = (s), .len = sizeof(s) - 1})
+#define U8_ARGS(s) ((s).p), ((s).len)
 
 /* clang-format off */
 #define U8_BYTE_1(x) (((x) & 0x80) == 0x00)
@@ -31,10 +32,10 @@
 bool u8haspfx(const char8_t *, size_t, const char8_t *, size_t);
 bool u8hassfx(const char8_t *, size_t, const char8_t *, size_t);
 char8_t *u8chk(const char8_t *, size_t);
-char8_t *u8chr(const char8_t *, rune, size_t);
-char8_t *u8rchr(const char8_t *, rune, size_t);
-int rtou8(char8_t *, rune, size_t);
-int u8cmp(struct u8view, struct u8view);
+char8_t *u8chr(const char8_t *, size_t, rune);
+char8_t *u8rchr(const char8_t *, size_t, rune);
+int rtou8(char8_t *, size_t, rune);
+int u8cmp(const char8_t *, size_t, const char8_t *, size_t);
 int u8next(rune *, const char8_t **, size_t *);
 int u8prev(rune *, const char8_t **, const char8_t *);
 int u8tor(rune *, const char8_t *);
@@ -44,8 +45,8 @@ size_t u8spn(const char8_t *, size_t, const rune *, size_t);
 
 #if !__MLIB_NO_MACRO_WRAPPER
 #	define u8chk(s, n)      __MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))
-#	define u8chr(s, ch, n)  __MLIB_Q_PTR(char8_t, u8chr, (s), (s), (ch), (n))
-#	define u8rchr(s, ch, n) __MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (ch), (n))
+#	define u8chr(s, n, ch)  __MLIB_Q_PTR(char8_t, u8chr, (s), (s), (n), (ch))
+#	define u8rchr(s, n, ch) __MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (n), (ch))
 #endif
 
 #endif /* !MLIB_MBSTRING_H */

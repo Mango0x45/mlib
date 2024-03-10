@@ -6,9 +6,9 @@
 
 #define lengthof(a) (sizeof(a) / sizeof(*(a)))
 
-#define memeq(x, y, n) (!memcmp(x, y, n))
-#define streq(x, y)    (!strcmp(x, y))
-#define u8eq(x, y)     (!u8cmp(x, y))
+#define memeq(x, y, n)   (!memcmp(x, y, n))
+#define streq(x, y)      (!strcmp(x, y))
+#define u8eq(x, n, y, m) (!u8cmp(x, n, y, m))
 
 #ifdef NDEBUG
 #	include <stddef.h>
