@@ -22,3 +22,12 @@ The headers as of now are:
 The headers planned for inclusion are:
  • unicode/gbrk.h — grapheme breaking
  • unicode/props.h — unicode character properties
+
+DISCLAIMER:
+
+    This library is developed for use by me (the author).  You are free to use
+    this code for whatever you’d like, but do be warned that breaking changes
+    may (and will) occur at any moment with no prior warning.  Additionally, be
+    warned that I do not care about whether or not you think the API is
+    well-designed or human-friendly.  If you have an issue with the code here,
+    fix it — you are a programmer are you not?
