@@ -17,6 +17,11 @@ void vwarnx(const char *, va_list);
 
 extern const char *__mlib_errors_progname;
 
-#define progname() (__mlib_errors_progname)
+[[gnu::always_inline]]
+static inline const char *
+progname(void)
+{
+	return __mlib_errors_progname;
+}
 
 #endif /* !MLIB_ERRORS_H */
