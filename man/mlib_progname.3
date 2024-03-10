@@ -1,0 +1,75 @@
+.Dd 10 March 2024
+.Dt PROGNAME 3
+.Os
+.Sh NAME
+.Nm mlib_progname ,
+.Nm mlib_setprogname
+.Nd get and set the program name
+.Sh LIBRARY
+.Lb mlib
+.Sh SYNOPSIS
+.In errors.h
+.Ft "const char *"
+.Fn mlib_progname void
+.Ft void
+.Fn mlib_setprogname "const char *s"
+.Sh DESCRIPTION
+The
+.Fn mlib_progname
+and
+.Fn mlib_setprogname
+functions can be used to get- and set the program name respectively.
+The program name is a global c-string used by various diagnostic
+functions such as
+.Fn err
+and
+.Fn warn
+in their generated diagnostic messages.
+.Pp
+The
+.Fn mlib_progname
+function returns a pointer to the global program name.
+.Pp
+The
+.Fn mlib_setprogname
+function sets the global program name to the null-terminated string
+.Fa s .
+This function is not thread-safe.
+.Sh RETURN VALUES
+The
+.Fn mlib_progname
+function returns a pointer to the global program name or
+.Dv nullptr
+if it hasn’t been set yet.
+.Sh EXAMPLES
+The following calls to
+.Fn mlib_progname
+and
+.Fn mlib_setprogname
+set the program name at the beginning of execution as is customary,
+and then prints a usage error if no command-line arguments are specified.
+.Bd -literal -offset indent
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <errors.h>
+
+int
+main(int argc, char **argv)
+{
+	mlib_setprogname(argv[0]);
+
+	if (argc < 2) {
+		fprintf(stderr, \(dqUsage: %s file ...\en\(dq, mlib_progname());
+		exit(EXIT_FAILURE);
+	}
+
+	/* … */
+
+	return EXIT_SUCCESS;
+}
+.Ed
+.Sh SEE ALSO
+.Xr err 3mlib
+.Sh AUTHORS
+.An Thomas Voss Aq Mt mail@thomasvoss.com
