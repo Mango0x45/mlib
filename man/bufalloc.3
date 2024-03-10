@@ -1,0 +1,90 @@
+.Dd March 10 2024
+.Dt BUFALLOC 3
+.Os
+.Sh NAME
+.Nm bufalloc ,
+.Nm bufalloc_noterm
+.Nd allocate dynamic memory
+.Sh LIBRARY
+.Lb mlib
+.Sh SYNOPSIS
+.In alloc.h
+.Ft "[[gnu::returns_nonnull]] void *"
+.Fn bufalloc "void *p" "size_t n" "size_t m"
+.Ft "void *"
+.Fn bufalloc_noterm "void *p" "size_t n" "size_t m"
+.Sh DESCRIPTION
+The
+.Fn bufalloc
+function resizes the dynamically-allocated buffer pointed to by
+.Fa p
+to be large enough for an array of
+.Fa n
+elements, each of which is
+.Fa m
+bytes in size.
+If the buffer to be resized is
+.Dv nullptr
+then a freshly-allocated buffer is returned instead.
+.Pp
+On error
+.Pq including buffer-size overflow
+the
+.Fn bufalloc
+function prints a diagnostic to the standard output and terminates
+execution.
+.Pp
+The
+.Fn bufalloc_noterm
+function is identical to
+.Fn bufalloc
+except on error it returns
+.Dv nullptr
+instead of printing a diagnostic and terminating.
+.Sh RETURN VALUES
+The
+.Fn bufalloc
+function returns a pointer to the newly allocated- or resized buffer.
+.Pp
+The
+.Fn bufalloc
+function returns a pointer to the newly allocated- or resized buffer if
+successful;
+otherwise the value
+.Dv nullptr
+is returned and the global variable
+.Va errno
+is set to indicate the error.
+.Sh EXAMPLES
+The following calls to
+.Fn bufalloc
+first allocate a buffer to hold 5 values of type
+.Vt int
+and then resize it to hold 10 values of the same type.
+.Bd -literal -offset indent
+int *p = bufalloc(nullptr, 5, sizeof(int));
+p[0] = 69;
+p[1] = 420;
+
+/* … */
+
+p = bufalloc(p, 10, sizeof(int));
+p[9] = 1337;
+.Ed
+.Sh ERRORS
+.Bl -tag -width Er
+.It Bq Er EOVERFLOW
+Overflow occured when computing buffer size.
+.El
+.Pp
+The
+.Fn bufalloc_noterm
+function may fail and set the external variable
+.Va errno
+for any of the errors specified for the library function
+.Xr realloc 3 .
+.Sh SEE ALSO
+.Xr realloc 3 ,
+.Xr reallocarray 3
+.Sh AUTHORS
+.An Thomas Voss Aq Mt mail@thomasvoss.com
