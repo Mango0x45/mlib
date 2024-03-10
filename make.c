@@ -19,7 +19,7 @@
 #endif
 #define LIBNAME "libmlib"
 #define WARNINGS \
-	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", \
+	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", "-Wvla", \
 		"-Wno-pointer-sign"
 
 #define CMDPRC(c) \
