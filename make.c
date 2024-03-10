@@ -12,10 +12,10 @@
 #define CFLAGS_ALL WARNINGS, "-pipe", "-std=c23", "-Iinclude"
 #define CFLAGS_DBG CFLAGS_ALL, "-g", "-ggdb3", "-Og"
 #ifdef __APPLE__
-#	define CFLAGS_RLS CFLAGS_ALL, "-O3", "-flto"
+#	define CFLAGS_RLS CFLAGS_ALL, "-O3", "-flto", "-DNDEBUG"
 #else
 #	define CFLAGS_RLS \
-		CFLAGS_ALL, "-O3", "-flto", "-march=native", "-mtune=native"
+		CFLAGS_ALL, "-O3", "-flto", "-DNDEBUG", "-march=native", "-mtune=native"
 #endif
 #define LIBNAME "libmlib"
 #define WARNINGS \
