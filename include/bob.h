@@ -5,15 +5,7 @@
 
 #include "__charN_t.h"
 #include "__rune.h"
-
-#if !__MLIB_HAS_U8VIEW
-#	define __MLIB_HAS_U8VIEW 1
-
-struct u8view {
-	const char8_t *p;
-	size_t len;
-};
-#endif
+#include "__u8view.h"
 
 struct u8str {
 	char8_t *p;
