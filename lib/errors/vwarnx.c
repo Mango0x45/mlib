@@ -6,7 +6,7 @@
 void
 vwarnx(const char *fmt, va_list ap)
 {
-	fprintf(stderr, "%s: ", progname());
+	fprintf(stderr, "%s: ", mlib_progname());
 	vfprintf(stderr, fmt, ap);
 	fputc('\n', stderr);
 }

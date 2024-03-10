@@ -3,8 +3,6 @@
 
 #include <stdarg.h>
 
-void setprogname(const char *);
-
 [[gnu::format(printf, 1, 2)]] void warn(const char *, ...);
 [[gnu::format(printf, 1, 2)]] void warnx(const char *, ...);
 void vwarn(const char *, va_list);
@@ -17,9 +15,11 @@ void vwarnx(const char *, va_list);
 
 extern const char *__mlib_errors_progname;
 
+void mlib_setprogname(const char *);
+
 [[gnu::always_inline]]
 static inline const char *
-progname(void)
+mlib_progname(void)
 {
 	return __mlib_errors_progname;
 }

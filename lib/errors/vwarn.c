@@ -9,7 +9,7 @@ void
 vwarn(const char *fmt, va_list ap)
 {
 	int save = errno;
-	fprintf(stderr, "%s: ", progname());
+	fprintf(stderr, "%s: ", mlib_progname());
 	vfprintf(stderr, fmt, ap);
 	fprintf(stderr, ": %s\n", strerror(save));
 }
