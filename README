@@ -10,9 +10,9 @@ library.  It is a C23 library with no plans to support older standards.
 
 The headers as of now are:
  • alloc.h — memory allocation functions
- • bitset.h — macros for implementing a bitset
+ • bitset.h — bitset implementation
  • bob.h — bob the string-builder
- • dynarr.h — macros for implementing a dynamic array
+ • dynarr.h — dynamic array implementation
  • errors.h — err.h-inspired diagnostics functions
  • macros.h — miscellaneous utility macros (MIN/MAX/lengthof/etc.)
  • mbstring.h — multibyte-strings
