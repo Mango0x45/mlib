@@ -29,19 +29,28 @@
 #define PRIsU8          ".*s"
 #define U8_PRI_ARGS(sv) ((int)(sv).len), ((sv).p)
 
-bool u8haspfx(const char8_t *, size_t, const char8_t *, size_t);
-bool u8hassfx(const char8_t *, size_t, const char8_t *, size_t);
-char8_t *u8chk(const char8_t *, size_t);
-char8_t *u8chr(const char8_t *, size_t, rune);
-char8_t *u8rchr(const char8_t *, size_t, rune);
+[[__nodiscard__]] bool u8haspfx(const char8_t *, size_t, const char8_t *,
+                                size_t);
+[[__nodiscard__]] bool u8hassfx(const char8_t *, size_t, const char8_t *,
+                                size_t);
+
+[[__nodiscard__]] char8_t *u8chk(const char8_t *, size_t);
+
+[[__nodiscard__]] char8_t *u8chr(const char8_t *, size_t, rune);
+[[__nodiscard__]] char8_t *u8rchr(const char8_t *, size_t, rune);
+
 int rtou8(char8_t *, size_t, rune);
-int u8cmp(const char8_t *, size_t, const char8_t *, size_t);
+int u8tor(rune *, const char8_t *);
+
+[[__nodiscard__]] int u8cmp(const char8_t *, size_t, const char8_t *, size_t);
+
 int u8next(rune *, const char8_t **, size_t *);
 int u8prev(rune *, const char8_t **, const char8_t *);
-int u8tor(rune *, const char8_t *);
-size_t u8cspn(const char8_t *, size_t, const rune *, size_t);
-size_t u8len(const char8_t *, size_t);
-size_t u8spn(const char8_t *, size_t, const rune *, size_t);
+
+[[__nodiscard__]] size_t u8spn(const char8_t *, size_t, const rune *, size_t);
+[[__nodiscard__]] size_t u8cspn(const char8_t *, size_t, const rune *, size_t);
+
+[[__nodiscard__]] size_t u8len(const char8_t *, size_t);
 
 #if !__MLIB_NO_MACRO_WRAPPER
 #	define u8chk(s, n)      __MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))

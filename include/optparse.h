@@ -29,9 +29,10 @@ struct op_option {
 	enum op_argkind argtype;
 };
 
-rune optparse(struct optparse *, const struct op_option *, size_t);
+[[__nodiscard__]] rune optparse(struct optparse *, const struct op_option *,
+                                size_t);
 
-[[gnu::always_inline]]
+[[gnu::__always_inline__]]
 static inline struct optparse
 mkoptparser(char **argv)
 {
