@@ -8,8 +8,9 @@
 #include "__rune.h"
 #include "__u8view.h"
 
-#define U8V(s)     ((struct u8view){.p = (s), .len = sizeof(s) - 1})
-#define U8_ARGS(s) ((s).p), ((s).len)
+#define U8V(s)      ((struct u8view){.p = (s), .len = sizeof(s) - 1})
+#define U8_ARGS(s)  ((s).p), ((s).len)
+#define U8_ARGSP(s) (&(s).p), (&(s).len)
 
 /* clang-format off */
 #define U8_BYTE_1(x) (((x) & 0x80) == 0x00)
