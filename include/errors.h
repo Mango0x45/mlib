@@ -19,7 +19,8 @@ extern const char *__mlib_errors_progname;
 
 void mlib_setprogname(const char *);
 
-[[gnu::__always_inline__]] static inline const char *
+[[gnu::__always_inline__]]
+static inline const char *
 mlib_progname(void)
 {
 	return __mlib_errors_progname;
