@@ -1,8 +1,9 @@
 #ifndef MLIB_MACROS_H
 #define MLIB_MACROS_H
 
-#define MIN(x, y) ((x) < (y) ? (x) : (y))
-#define MAX(x, y) ((x) > (y) ? (x) : (y))
+#define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+#define MIN(x, y)          ((x) < (y) ? (x) : (y))
+#define MAX(x, y)          ((x) > (y) ? (x) : (y))
 
 #define lengthof(a) (sizeof(a) / sizeof(*(a)))
 
