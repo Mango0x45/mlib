@@ -5,26 +5,26 @@
 
 #include "__rune.h"
 
-#define _RUNE_PRIDEF(c) PRI##c##LEAST32
-#define _RUNE_SCNDEF(c) SCN##c##LEAST32
+#define __MLIB_RUNE_PRIDEF(c) PRI##c##LEAST32
+#define __MLIB_RUNE_SCNDEF(c) SCN##c##LEAST32
 
 #ifdef PRIBLEAST32
-#	define PRIBRUNE _RUNE_PRIDEF(B)
+#	define PRIBRUNE __MLIB_RUNE_PRIDEF(B)
 #endif
-#define PRIbRUNE _RUNE_PRIDEF(b)
-#define PRIdRUNE _RUNE_PRIDEF(d)
-#define PRIiRUNE _RUNE_PRIDEF(i)
-#define PRIoRUNE _RUNE_PRIDEF(o)
-#define PRIuRUNE _RUNE_PRIDEF(u)
-#define PRIxRUNE _RUNE_PRIDEF(x)
-#define PRIXRUNE _RUNE_PRIDEF(X)
+#define PRIbRUNE __MLIB_RUNE_PRIDEF(b)
+#define PRIdRUNE __MLIB_RUNE_PRIDEF(d)
+#define PRIiRUNE __MLIB_RUNE_PRIDEF(i)
+#define PRIoRUNE __MLIB_RUNE_PRIDEF(o)
+#define PRIuRUNE __MLIB_RUNE_PRIDEF(u)
+#define PRIxRUNE __MLIB_RUNE_PRIDEF(x)
+#define PRIXRUNE __MLIB_RUNE_PRIDEF(X)
 
-#define SCNbRUNE _RUNE_SCNDEF(b)
-#define SCNdRUNE _RUNE_SCNDEF(d)
-#define SCNiRUNE _RUNE_SCNDEF(i)
-#define SCNuRUNE _RUNE_SCNDEF(u)
-#define SCNoRUNE _RUNE_SCNDEF(o)
-#define SCNxRUNE _RUNE_SCNDEF(x)
+#define SCNbRUNE __MLIB_RUNE_SCNDEF(b)
+#define SCNdRUNE __MLIB_RUNE_SCNDEF(d)
+#define SCNiRUNE __MLIB_RUNE_SCNDEF(i)
+#define SCNuRUNE __MLIB_RUNE_SCNDEF(u)
+#define SCNoRUNE __MLIB_RUNE_SCNDEF(o)
+#define SCNxRUNE __MLIB_RUNE_SCNDEF(x)
 
 #define RUNE_C(x) UINT32_C(x)
 
