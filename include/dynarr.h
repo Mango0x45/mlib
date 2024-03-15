@@ -34,7 +34,9 @@
 		(a)->len += (n); \
 	} while (false)
 
-#define DAREMOVE(da, i) DA_REMOVE_RANGE((a), (i), (i) + 1)
+#define DAPOP(da) ((da)->buf[--(da)->len])
+
+#define DAREMOVE(da, i) DA_REMOVE_RANGE((da), (i), (i) + 1)
 
 #define DA_REMOVE_RANGE(da, i, j) \
 	do { \
