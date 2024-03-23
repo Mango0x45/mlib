@@ -79,6 +79,8 @@ main(int argc, char **argv)
 
 		if (glob("lib/*/*.c", 0, globerr, &g))
 			die("glob");
+		if (glob("lib/unicode/*/*.c", GLOB_APPEND, globerr, &g))
+			die("glob");
 
 		if (procs == -1 && (procs = nproc()) == -1) {
 			if (errno)

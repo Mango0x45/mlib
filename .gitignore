@@ -1,4 +1,5 @@
 .cache/
+data/
 *.[ao]
 *.so
 compile_commands.json

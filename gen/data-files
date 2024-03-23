@@ -1,0 +1,18 @@
+#!/bin/sh
+
+cd "${0%/*}/.."
+
+mkdir -p data
+
+readonly URLS='
+https://www.unicode.org/Public/UCD/latest/ucd/auxiliary/GraphemeBreakProperty.txt
+https://www.unicode.org/Public/UCD/latest/ucd/DerivedCoreProperties.txt
+https://www.unicode.org/Public/UCD/latest/ucd/emoji/emoji-data.txt
+'
+
+for url in $URLS
+do
+	name="data/${url##*/}"
+	test -f "$name" || wget -q "$url" -O "$name" &
+done
+wait
