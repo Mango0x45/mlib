@@ -5,6 +5,8 @@
 
 #include "alloc.h"
 
+#define dynarr(T) struct { T *buf; size_t len, cap; }
+
 #define DAGROW(da, n) \
 	do { \
 		if ((n) > (a)->cap) { \
