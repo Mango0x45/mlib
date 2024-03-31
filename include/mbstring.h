@@ -13,19 +13,19 @@
 #define U8_ARGSP(s) (&(s).p), (&(s).len)
 
 /* clang-format off */
-#define U8_BYTE_1(x) (((x) & 0x80) == 0x00)
-#define U8_BYTE_2(x) (((x) & 0xE0) == 0xC0)
-#define U8_BYTE_3(x) (((x) & 0xF0) == 0xE0)
-#define U8_BYTE_4(x) (((x) & 0xF8) == 0xF0)
-#define U8_BYTE_C(x) (((x) & 0xC0) == 0x80)
+#define u8byte1(x) (((x) & 0x80) == 0x00)
+#define u8byte2(x) (((x) & 0xE0) == 0xC0)
+#define u8byte3(x) (((x) & 0xF0) == 0xE0)
+#define u8byte4(x) (((x) & 0xF8) == 0xF0)
+#define u8bytec(x) (((x) & 0xC0) == 0x80)
 /* clang-format on */
 
-#define U8_1B_MAX RUNE_C(0x00007FL)
-#define U8_2B_MAX RUNE_C(0x0007FFL)
-#define U8_3B_MAX RUNE_C(0x00FFFFL)
-#define U8_4B_MAX RUNE_C(0x10FFFFL)
+constexpr rune U8_1B_MAX = 0x00007F;
+constexpr rune U8_2B_MAX = 0x0007FF;
+constexpr rune U8_3B_MAX = 0x00FFFF;
+constexpr rune U8_4B_MAX = 0x10FFFF;
 
-#define U8_LEN_MAX 4
+constexpr int U8_LEN_MAX = 4;
 
 #define PRIsU8          ".*s"
 #define U8_PRI_ARGS(sv) ((int)(sv).len), ((sv).p)

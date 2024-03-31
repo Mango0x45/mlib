@@ -4,17 +4,17 @@
 int
 u8tor(rune *ch, const char8_t *s)
 {
-	if (U8_BYTE_1(s[0])) {
+	if (u8byte1(s[0])) {
 		*ch = s[0];
 		return 1;
-	} else if (U8_BYTE_2(s[0]) && U8_BYTE_C(s[1])) {
+	} else if (u8byte2(s[0]) && u8bytec(s[1])) {
 		*ch = ((s[0] & 0x1F) << 6) | (s[1] & 0x3F);
 		return 2;
-	} else if (U8_BYTE_3(s[0]) && U8_BYTE_C(s[1]) && U8_BYTE_C(s[2])) {
+	} else if (u8byte3(s[0]) && u8bytec(s[1]) && u8bytec(s[2])) {
 		*ch = ((s[0] & 0x0F) << 12) | ((s[1] & 0x3F) << 6) | (s[2] & 0x3F);
 		return 3;
-	} else if (U8_BYTE_4(s[0]) && U8_BYTE_C(s[1]) && U8_BYTE_C(s[2])
-				&& U8_BYTE_C(s[3])) {
+	} else if (u8byte4(s[0]) && u8bytec(s[1]) && u8bytec(s[2])
+			&& u8bytec(s[3])) {
 		*ch = ((s[0] & 0x07) << 18) | ((s[1] & 0x3F) << 12)
 		    | ((s[2] & 0x3F) << 6) | (s[3] & 0x3F);
 		return 4;
