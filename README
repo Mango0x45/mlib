@@ -14,6 +14,7 @@ The headers as of now are:
  • dynarr.h — dynamic array implementation
  • errors.h — err.h-inspired diagnostics functions
  • macros.h — miscellaneous utility macros (MIN/MAX/lengthof/etc.)
+ • mbio.h — multibyte file I/O
  • mbstring.h — multibyte-strings
  • optparse.h — option parsing functions
  • rune.h — inttypes.h but for runes
