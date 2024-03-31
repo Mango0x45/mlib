@@ -6,11 +6,9 @@
 #include "__charN_t.h"
 #include "__rune.h"
 
-typedef struct {
-	char8_t _buf[4];
-	int _fill;
-} u8_io_state;
+int freadrune(rune *, FILE *);
 
-int freadrune(rune *, u8_io_state *, FILE *);
+constexpr rune MBEOF = 0x110000;
+constexpr rune MBERR = 0x110001;
 
 #endif /* !MLIB_MBIOO_H */

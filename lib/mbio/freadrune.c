@@ -1,23 +1,49 @@
-#include <macros.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "macros.h"
 #include "mbio.h"
 #include "mbstring.h"
+#include "rune.h"
+
+#define RETURN_INVAL \
+	do { \
+		*ch = RUNE_ERROR; \
+		return 3; \
+	} while (false)
 
 int
-freadrune(rune *ch, u8_io_state *st, FILE *stream)
+freadrune(rune *ch, FILE *stream)
 {
-	size_t n, need;
-	need = lengthof(st->_buf) - st->_fill;
-	st->_fill += n = fread(st->_buf + st->_fill, 1, need, stream);
-	if (n < need && ferror(stream))
-		return -1;
-	if (st->_fill == 0)
-		return 0;
+	int c, n = 0;
+	char8_t buf[U8_LEN_MAX];
 
-	int w = u8tor(ch, st->_buf);
-	memmove(st->_buf, st->_buf + w, lengthof(st->_buf) - w);
-	st->_fill -= w;
-	return w;
+	if ((c = fgetc(stream)) == EOF)
+		goto eof_or_err;
+
+	buf[0] = (char8_t)c;
+	n = u8byte1(c) ? 0 : u8byte2(c) ? 1 : u8byte3(c) ? 2 : u8byte4(c) ? 3 : 4;
+
+	if (n == 0) {
+		*ch = buf[0];
+		return 1;
+	} else if (n == 4)
+		RETURN_INVAL;
+
+	for (int i = 0; i < n; i++) {
+		if ((c = fgetc(stream)) == EOF)
+			goto eof_or_err;
+		if (!u8bytec(c))
+			RETURN_INVAL;
+		buf[i + 1] = c;
+	}
+
+	return u8tor(ch, buf);
+
+eof_or_err:
+	if (ferror(stream))
+		return MBERR;
+	if (n == 0)
+		return MBEOF;
+	RETURN_INVAL;
 }
