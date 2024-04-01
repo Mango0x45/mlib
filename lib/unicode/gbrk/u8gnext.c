@@ -2,7 +2,7 @@
 
 #include "__bsearch.h"
 #include "mbstring.h"
-#include "unicode/__gbrk_lookup.h"
+#include "unicode/__gbrk.h"
 #include "unicode/gbrk.h"
 
 struct gbrk_state {
