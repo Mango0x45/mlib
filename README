@@ -19,10 +19,10 @@ The headers as of now are:
  • optparse.h — option parsing functions
  • rune.h — inttypes.h but for runes
  • unicode/gbrk.h — grapheme breaking
+ • unicode/prop.h — unicode character properties
 
 The headers planned for inclusion are:
  • unicode/norm.h — text normalization
- • unicode/props.h — unicode character properties
  • unicode/sbrk.h — sentence breaking
  • unicode/wbrk.h — word breaking
 
