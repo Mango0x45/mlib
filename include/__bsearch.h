@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 #include "macros.h"
 
 #define __MLIB_DEFINE_BSEARCH(TYPE, TABLE, DEFAULT) \
