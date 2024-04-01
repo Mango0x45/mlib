@@ -6,18 +6,17 @@
 	static TYPE mlib_lookup(rune ch) \
 	{ \
 		ptrdiff_t i, lo, hi; \
-		if (ch >= lengthof(TABLE)) \
-			return DEFAULT; \
 		lo = 0; \
 		hi = lengthof(TABLE) - 1; \
 		i = (lo + hi) / 2; \
 		do { \
 			if (ch < TABLE[i].lo) \
 				hi = i - 1; \
-			else if (ch >= TABLE[i].hi) \
+			else if (ch > TABLE[i].hi) \
 				lo = i + 1; \
 			else \
 				return TABLE[i].val; \
+			i = (lo + hi) / 2; \
 		} while (lo <= hi); \
 		return DEFAULT; \
 	}
