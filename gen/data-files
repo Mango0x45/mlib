@@ -4,15 +4,18 @@ cd "${0%/*}/.."
 
 mkdir -p data
 
+readonly BASE=https://www.unicode.org/Public/UCD/latest/ucd
+
 readonly URLS='
-https://www.unicode.org/Public/UCD/latest/ucd/auxiliary/GraphemeBreakProperty.txt
-https://www.unicode.org/Public/UCD/latest/ucd/DerivedCoreProperties.txt
-https://www.unicode.org/Public/UCD/latest/ucd/emoji/emoji-data.txt
+auxiliary/GraphemeBreakProperty.txt
+DerivedCoreProperties.txt
+emoji/emoji-data.txt
+UnicodeData.txt
 '
 
 for url in $URLS
 do
 	name="data/${url##*/}"
-	test -f "$name" || wget -q "$url" -O "$name" &
+	test -f "$name" || wget -q "$BASE/$url" -O "$name" &
 done
 wait
