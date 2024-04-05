@@ -1,0 +1,114 @@
+#!/bin/sh
+
+set -e
+cd "${0%/*}/../.."
+
+props1='
+ahex=ASCII_Hex_Digit
+bidi_c=Bidi_Control
+dash=Dash
+dep=Deprecated
+dia=Diacritic
+ext=Extender
+hex=Hex_Digit
+idbo=IDS_Binary_Operator
+id_compat_math_continue=ID_Compat_Math_Continue
+id_compat_math_start=ID_Compat_Math_Start
+ideo=Ideographic
+loe=Logical_Order_Exception
+pat_syn=Pattern_Syntax
+pcm=Prepended_Concatenation_Mark
+qmark=Quotation_Mark
+radical=Radical
+sd=Soft_Dotted
+sterm=Sentence_Terminal
+term=Terminal_Punctuation
+uideo=Unified_Ideograph
+vs=Variation_Selector
+wspace=White_Space
+'
+
+props2='
+alpha=Alphabetic
+cased=Cased
+ci=Case_Ignorable
+cwcf=Changes_When_Casefolded
+cwcm=Changes_When_Casemapped
+cwl=Changes_When_Lowercased
+cwt=Changes_When_Titlecased
+cwu=Changes_When_Uppercased
+di=Default_Ignorable_Code_Point
+gr_base=Grapheme_Base
+gr_ext=Grapheme_Extend
+idc=ID_Continue
+ids=ID_Start
+incb=Indic_Conjunct_Break
+lower=Lowercase
+math=Math
+upper=Uppercase
+xidc=XID_Continue
+xids=XID_Start
+'
+
+props3='
+ebase=Emoji_Modifier_Base
+ecomp=Emoji_Component
+emod=Emoji_Modifier
+emoji=Emoji
+epres=Emoji_Presentation
+extpic=Extended_Pictographic
+'
+
+props4='
+cwkcf=Changes_When_NFKC_Casefolded
+'
+
+props5='
+bidi_m=Bidi_Mirrored
+'
+
+manual='
+idst=IDS_Trinary_Operator
+idsu=IDS_Unary_Operator
+join_c=Join_Control
+nchar=Noncharacter_Code_Point
+pat_ws=Pattern_White_Space
+ri=Regional_Indicator
+'
+
+gen()
+{
+	local p=${1%%=*}
+	gawk -M -v prop=${1#*=} -v short=$p \
+		-f gen/prop/bool-props.awk data/$2 \
+		>lib/unicode/prop/uprop_is_${p}.c
+	printf 'DONE uprop_is_%s()\n' $p >&2
+}
+
+for prop in $props1; do gen $prop PropList.txt & done
+for prop in $props2; do gen $prop DerivedCoreProperties.txt & done
+for prop in $props3; do gen $prop emoji-data.txt & done
+for prop in $props4; do gen $prop DerivedNormalizationProps.txt & done
+for prop in $props5; do gen $prop DerivedBinaryProperties.txt & done
+
+printf '[[__nodiscard__, __unsequenced__]] bool uprop_is_%s(rune);\n' \
+	$(printf '%s\n' $props1 $props2 $props3 $props4 $props5 | cut -d= -f1) \
+| gawk '
+	/PROP PREDICATES END/ { no = 0 }
+	FILENAME != "-" && !no { print }
+	FILENAME == "-" { funcs[++i] = $0 }
+
+	/PROP PREDICATES START/ {
+		no = 1
+		asort(funcs)
+		for (i = 1; i <= length(funcs); i++)
+			print funcs[i]
+	}
+' - include/unicode/prop.h | sponge include/unicode/prop.h
+
+wait
+for prop in $manual
+do
+	shrt=${prop%%=*}
+	printf 'Function uprop_is_%s() implemented manually\n' $shrt >&2
+done

@@ -48,6 +48,58 @@ enum [[clang::flag_enum]] uprop_gc : uint_fast32_t {
 	GC_Z = GC_ZL | GC_ZP | GC_ZS,                 /* Separator */
 };
 
-enum uprop_gc uprop_get_gc(rune);
+[[__nodiscard__, __unsequenced__]] enum uprop_gc uprop_get_gc(rune);
+
+/* PROP PREDICATES START */
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ahex(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_alpha(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_bidi_c(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_bidi_m(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_cased(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ci(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_cwcf(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_cwcm(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_cwkcf(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_cwl(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_cwt(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_cwu(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_dash(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_dep(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_di(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_dia(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ebase(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ecomp(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_emod(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_emoji(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_epres(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ext(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_extpic(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_gr_base(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_gr_ext(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_hex(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_id_compat_math_continue(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_id_compat_math_start(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_idbo(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_idc(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ideo(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ids(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_incb(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_loe(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_lower(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_math(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_pat_syn(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_pcm(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_qmark(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_radical(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_sd(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_sterm(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_term(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_uideo(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_upper(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_vs(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_wspace(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_xidc(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_xids(rune);
+/* PROP PREDICATES END */
 
 #endif /* !MLIB_UNICODE_PROP_H */
