@@ -9,7 +9,10 @@ readonly BASE=https://www.unicode.org/Public/UCD/latest/ucd
 readonly URLS='
 auxiliary/GraphemeBreakProperty.txt
 DerivedCoreProperties.txt
+DerivedNormalizationProps.txt
 emoji/emoji-data.txt
+extracted/DerivedBinaryProperties.txt
+PropList.txt
 UnicodeData.txt
 '
 
