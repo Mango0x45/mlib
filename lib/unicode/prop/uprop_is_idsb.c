@@ -18,7 +18,7 @@ static const struct {
 __MLIB_DEFINE_BSEARCH_CONTAINS(lookup)
 
 bool
-uprop_is_idbo(rune ch)
+uprop_is_idsb(rune ch)
 {
 	return mlib_lookup_contains(ch);
 }

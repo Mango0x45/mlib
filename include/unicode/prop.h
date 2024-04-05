@@ -79,10 +79,10 @@ enum [[clang::flag_enum]] uprop_gc : uint_fast32_t {
 [[__nodiscard__, __unsequenced__]] bool uprop_is_hex(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_id_compat_math_continue(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_id_compat_math_start(rune);
-[[__nodiscard__, __unsequenced__]] bool uprop_is_idbo(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_idc(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_ideo(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_ids(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_idsb(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_incb(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_loe(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_lower(rune);
