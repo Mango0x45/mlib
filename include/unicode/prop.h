@@ -88,6 +88,7 @@ enum [[clang::flag_enum]] uprop_gc : uint_fast32_t {
 [[__nodiscard__, __unsequenced__]] bool uprop_is_lower(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_math(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_pat_syn(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_pat_ws(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_pcm(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_qmark(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_radical(rune);
@@ -101,5 +102,12 @@ enum [[clang::flag_enum]] uprop_gc : uint_fast32_t {
 [[__nodiscard__, __unsequenced__]] bool uprop_is_xidc(rune);
 [[__nodiscard__, __unsequenced__]] bool uprop_is_xids(rune);
 /* PROP PREDICATES END */
+
+/* Manually implemented predicates */
+[[__nodiscard__, __unsequenced__]] bool uprop_is_idst(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_idsu(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_join_c(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_nchar(rune);
+[[__nodiscard__, __unsequenced__]] bool uprop_is_ri(rune);
 
 #endif /* !MLIB_UNICODE_PROP_H */

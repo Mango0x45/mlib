@@ -11,12 +11,13 @@ dep=Deprecated
 dia=Diacritic
 ext=Extender
 hex=Hex_Digit
-idsb=IDS_Binary_Operator
 id_compat_math_continue=ID_Compat_Math_Continue
 id_compat_math_start=ID_Compat_Math_Start
 ideo=Ideographic
+idsb=IDS_Binary_Operator
 loe=Logical_Order_Exception
 pat_syn=Pattern_Syntax
+pat_ws=Pattern_White_Space
 pcm=Prepended_Concatenation_Mark
 qmark=Quotation_Mark
 radical=Radical
@@ -72,7 +73,6 @@ idst=IDS_Trinary_Operator
 idsu=IDS_Unary_Operator
 join_c=Join_Control
 nchar=Noncharacter_Code_Point
-pat_ws=Pattern_White_Space
 ri=Regional_Indicator
 '
 
