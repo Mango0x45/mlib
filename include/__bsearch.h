@@ -21,6 +21,25 @@
 		return DEFAULT; \
 	}
 
+#define __MLIB_DEFINE_BSEARCH_CONTAINS(TABLE) \
+	static bool mlib_lookup_contains(rune ch) \
+	{ \
+		ptrdiff_t i, lo, hi; \
+		lo = 0; \
+		hi = lengthof(TABLE) - 1; \
+		i = (lo + hi) / 2; \
+		do { \
+			if (ch < TABLE[i].lo) \
+				hi = i - 1; \
+			else if (ch > TABLE[i].hi) \
+				lo = i + 1; \
+			else \
+				return true; \
+			i = (lo + hi) / 2; \
+		} while (lo <= hi); \
+		return false; \
+	}
+
 // [[gnu::always_inline]] static TYPE
 // lookup(rune ch)
 // {
