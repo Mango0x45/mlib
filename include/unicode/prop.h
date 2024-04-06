@@ -48,6 +48,7 @@ enum [[clang::flag_enum]] uprop_gc : uint_fast32_t {
 	GC_Z = GC_ZL | GC_ZP | GC_ZS,                 /* Separator */
 };
 
+[[__nodiscard__, __unsequenced__]] double uprop_get_nv(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_gc uprop_get_gc(rune);
 
 /* PROP PREDICATES START */
