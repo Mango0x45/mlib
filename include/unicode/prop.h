@@ -5,7 +5,7 @@
 
 #include "__rune.h"
 
-enum [[clang::flag_enum]] uprop_gc : uint_fast32_t {
+enum [[clang::__flag_enum__]] uprop_gc : uint_fast32_t {
 	GC_CN = UINT32_C(1) << 0,  /* Not Assigned */
 	GC_CC = UINT32_C(1) << 1,  /* Control */
 	GC_CF = UINT32_C(1) << 2,  /* Format */
