@@ -26,6 +26,8 @@ BEGIN {
 
 	for (i = lo; i <= hi; i++) {
 		gsub(/^; /, "", $3)
+		if ($3 ~ /\//)
+			sub(/\//, "./", $3)
 		props[i] = $3
 	}
 }
@@ -35,7 +37,7 @@ END {
 	for (i = 0; i < 0x100; i++) {
 		if (i % 8 == 0)
 			printf "\t"
-		printf "%3s,%s", props[i] ? props[i] : "NAN", i % 8 == 7 ? "\n" : " "
+		printf "%4s,%s", props[i] ? props[i] : "NAN", i % 8 == 7 ? "\n" : " "
 	}
 	print "};"
 	print ""
