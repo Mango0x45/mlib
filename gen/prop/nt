@@ -37,7 +37,8 @@ END {
 	for (i = 0; i < 0x100; i++) {
 		if (i % 8 == 0)
 			printf "\t"
-		printf "%7s,%s", props[i] ? props[i] : "NT_NONE", i % 8 == 7 ? "\n" : " "
+		printf "%-8s%s", (props[i] ? props[i] : "NT_NONE") ",", \
+			i % 8 == 7 ? "\n" : " "
 	}
 	print "};"
 	print ""
@@ -65,4 +66,4 @@ END {
 	print "\treturn ch < lengthof(lookup_lat1) ? lookup_lat1[ch] : mlib_lookup(ch);"
 	print "}"
 }
-' data/DerivedNumericType.txt
+' data/DerivedNumericType.txt | sed 's/\s*$//'

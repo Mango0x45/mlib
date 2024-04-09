@@ -33,7 +33,8 @@ END {
 	for (i = 0; i < 0x100; i++) {
 		if (i % 8 == 0)
 			printf "\t"
-		printf "%5s,%s", props[i] ? props[i] : "EA_NA", i % 8 == 7 ? "\n" : " "
+		printf "%-6s%s", (props[i] ? props[i] : "EA_NA") ",", \
+			i % 8 == 7 ? "\n" : " "
 	}
 	print "};"
 	print ""
@@ -61,4 +62,4 @@ END {
 	print "\treturn ch < lengthof(lookup_lat1) ? lookup_lat1[ch] : mlib_lookup(ch);"
 	print "}"
 }
-' data/DerivedEastAsianWidth.txt
+' data/DerivedEastAsianWidth.txt | sed 's/\s*$//'
