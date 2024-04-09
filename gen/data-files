@@ -8,6 +8,7 @@ readonly BASE=https://www.unicode.org/Public/UCD/latest/ucd
 
 readonly URLS='
 auxiliary/GraphemeBreakProperty.txt
+BidiBrackets.txt
 DerivedCoreProperties.txt
 DerivedNormalizationProps.txt
 emoji/emoji-data.txt

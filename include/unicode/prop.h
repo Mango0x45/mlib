@@ -5,6 +5,21 @@
 
 #include "__rune.h"
 
+enum uprop_bpt {
+	BPT_N, /* None */
+	BPT_C, /* Close */
+	BPT_O, /* Open */
+};
+
+enum uprop_ea {
+	EA_A,  /* Ambiguous */
+	EA_F,  /* Fullwidth */
+	EA_H,  /* Halfwidth */
+	EA_NA, /* Wide */
+	EA_N,  /* Neutral */
+	EA_W,  /* Narrow */
+};
+
 enum [[clang::__flag_enum__]] uprop_gc : uint_fast32_t {
 	GC_CN = UINT32_C(1) << 0,  /* Not Assigned */
 	GC_CC = UINT32_C(1) << 1,  /* Control */
@@ -55,19 +70,12 @@ enum uprop_nt {
 	NT_NU,   /* Numeric */
 };
 
-enum uprop_ea {
-	EA_A,  /* Ambiguous */
-	EA_F,  /* Fullwidth */
-	EA_H,  /* Halfwidth */
-	EA_NA, /* Wide */
-	EA_N,  /* Neutral */
-	EA_W,  /* Narrow */
-};
-
 [[__nodiscard__, __unsequenced__]] double uprop_get_nv(rune);
+[[__nodiscard__, __unsequenced__]] enum uprop_bpt uprop_get_bpt(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_ea uprop_get_ea(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_gc uprop_get_gc(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_nt uprop_get_nt(rune);
+[[__nodiscard__, __unsequenced__]] rune uprop_get_bpb(rune);
 
 /* PROP PREDICATES START */
 [[__nodiscard__, __unsequenced__]] bool uprop_is_ahex(rune);
