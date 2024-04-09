@@ -1,9 +1,8 @@
 #include "rune.h"
-#define __MLIB_NO_MACRO_WRAPPER 1
 #include "mbstring.h"
 
 char8_t *
-u8chk(const char8_t *s, size_t n)
+(u8chk)(const char8_t *s, size_t n)
 {
 	while (n) {
 		rune ch;

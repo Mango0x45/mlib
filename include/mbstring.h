@@ -53,10 +53,8 @@ int u8prev(rune *, const char8_t **, const char8_t *);
 
 [[__nodiscard__]] size_t u8len(const char8_t *, size_t);
 
-#if !__MLIB_NO_MACRO_WRAPPER
-#	define u8chk(s, n)      __MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))
-#	define u8chr(s, n, ch)  __MLIB_Q_PTR(char8_t, u8chr, (s), (s), (n), (ch))
-#	define u8rchr(s, n, ch) __MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (n), (ch))
-#endif
+#define u8chk(s, n)      __MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))
+#define u8chr(s, n, ch)  __MLIB_Q_PTR(char8_t, u8chr, (s), (s), (n), (ch))
+#define u8rchr(s, n, ch) __MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (n), (ch))
 
 #endif /* !MLIB_MBSTRING_H */

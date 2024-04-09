@@ -2,7 +2,6 @@
 #include <stdint.h>
 #include <string.h>
 
-#define __MLIB_NO_MACRO_WRAPPER 1
 #include "mbstring.h"
 
 /* NOTE: The memmem*() functions were taken directly from the memmem()
@@ -75,7 +74,7 @@ memmem4(const char8_t *h, size_t k, const char8_t *n)
 }
 
 char8_t *
-u8chr(const char8_t *s, size_t n, rune ch)
+(u8chr)(const char8_t *s, size_t n, rune ch)
 {
 	char8_t buf[U8_LEN_MAX];
 	int m = rtou8(buf, sizeof(buf), ch);

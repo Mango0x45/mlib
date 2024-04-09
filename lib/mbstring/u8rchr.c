@@ -1,7 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define __MLIB_NO_MACRO_WRAPPER 1
 #include "mbstring.h"
 
 static char8_t *
@@ -65,7 +64,7 @@ memrchr4(const char8_t *h, size_t k, const char8_t *n)
 }
 
 char8_t *
-u8rchr(const char8_t *s, size_t n, rune ch)
+(u8rchr)(const char8_t *s, size_t n, rune ch)
 {
 	char8_t buf[U8_LEN_MAX];
 	int m = rtou8(buf, ch, sizeof(buf));
