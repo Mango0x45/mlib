@@ -1,9 +1,10 @@
 #ifndef MLIB___QMACROS_H
 #define MLIB___QMACROS_H
 
-/* Macros for qualifier-preserving functions.  These are wrappers around some
-   functions declared above which will return a const-qualified pointer if the
-   input string is const-qualified, and a non-const-qualified pointer otherwise.
+/* Macros for qualifier-preserving functions.  These are used to create wrappers
+   around some functions which will return a const-qualified pointer if the
+   input pointer is const-qualified, and a non-const-qualified pointer
+   otherwise.
 
    The macros are taken from the N3020 proposal for C23. */
 
