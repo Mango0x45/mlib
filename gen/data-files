@@ -12,6 +12,7 @@ DerivedCoreProperties.txt
 DerivedNormalizationProps.txt
 emoji/emoji-data.txt
 extracted/DerivedBinaryProperties.txt
+extracted/DerivedNumericType.txt
 extracted/DerivedNumericValues.txt
 PropList.txt
 UnicodeData.txt

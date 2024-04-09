@@ -48,8 +48,16 @@ enum [[clang::__flag_enum__]] uprop_gc : uint_fast32_t {
 	GC_Z = GC_ZL | GC_ZP | GC_ZS,                 /* Separator */
 };
 
+enum uprop_nt {
+	NT_DE,   /* Decimal */
+	NT_DI,   /* Digit */
+	NT_NONE, /* None */
+	NT_NU,   /* Numeric */
+};
+
 [[__nodiscard__, __unsequenced__]] double uprop_get_nv(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_gc uprop_get_gc(rune);
+[[__nodiscard__, __unsequenced__]] enum uprop_nt uprop_get_nt(rune);
 
 /* PROP PREDICATES START */
 [[__nodiscard__, __unsequenced__]] bool uprop_is_ahex(rune);
