@@ -29,3 +29,9 @@ DISCLAIMER:
     warned that I do not care about whether or not you think the API is
     well-designed or human-friendly.  If you have an issue with the code here,
     fix it — you are a programmer are you not?
+
+Planned Features:
+ • Arena Allocators           (alloc.h)
+ • Unicode Normalization      (unicode/string.h)
+ • String Case Conversions    (unicode/string.h)
+ • Missing Unicode Properties (unicode/prop.h)
