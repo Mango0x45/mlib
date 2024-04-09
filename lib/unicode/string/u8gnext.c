@@ -3,7 +3,7 @@
 #include "__bsearch.h"
 #include "mbstring.h"
 #include "unicode/__gbrk.h"
-#include "unicode/gbrk.h"
+#include "unicode/string.h"
 
 struct gbrk_state {
 	enum {

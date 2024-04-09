@@ -1,5 +1,5 @@
-#ifndef MLIB_UNICODE_GBRK_H
-#define MLIB_UNICODE_GBRK_H
+#ifndef MLIB_UNICODE_STRING_H
+#define MLIB_UNICODE_STRING_H
 
 #include <stddef.h>
 
@@ -9,4 +9,4 @@
 size_t u8glen(const char8_t *, size_t);
 size_t u8gnext(struct u8view *, const char8_t **, size_t *);
 
-#endif /* !MLIB_UNICODE_GBRK_H */
+#endif /* !MLIB_UNICODE_STRING_H */

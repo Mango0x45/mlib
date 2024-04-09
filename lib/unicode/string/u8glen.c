@@ -1,4 +1,4 @@
-#include "unicode/gbrk.h"
+#include "unicode/string.h"
 
 size_t
 u8glen(const char8_t *s, size_t n)
