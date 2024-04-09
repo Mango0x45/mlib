@@ -49,13 +49,23 @@ enum [[clang::__flag_enum__]] uprop_gc : uint_fast32_t {
 };
 
 enum uprop_nt {
+	NT_NONE, /* None */
 	NT_DE,   /* Decimal */
 	NT_DI,   /* Digit */
-	NT_NONE, /* None */
 	NT_NU,   /* Numeric */
 };
 
+enum uprop_ea {
+	EA_A,  /* Ambiguous */
+	EA_F,  /* Fullwidth */
+	EA_H,  /* Halfwidth */
+	EA_NA, /* Wide */
+	EA_N,  /* Neutral */
+	EA_W,  /* Narrow */
+};
+
 [[__nodiscard__, __unsequenced__]] double uprop_get_nv(rune);
+[[__nodiscard__, __unsequenced__]] enum uprop_ea uprop_get_ea(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_gc uprop_get_gc(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_nt uprop_get_nt(rune);
 
