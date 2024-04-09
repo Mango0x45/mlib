@@ -11,6 +11,27 @@ enum uprop_bpt {
 	BPT_O, /* Open */
 };
 
+enum uprop_dt {
+	DT_NONE, /* None */
+	DT_CAN,  /* Canonical */
+	DT_COM,  /* Compat */
+	DT_ENC,  /* Circle */
+	DT_FIN,  /* Final */
+	DT_FONT, /* Font */
+	DT_FRA,  /* Fraction */
+	DT_INIT, /* Initial */
+	DT_ISO,  /* Isolated */
+	DT_MED,  /* Medial */
+	DT_NAR,  /* Narrow */
+	DT_NB,   /* Nobreak */
+	DT_SML,  /* Small */
+	DT_SQR,  /* Square */
+	DT_SUB,  /* Sub */
+	DT_SUP,  /* Super */
+	DT_VERT, /* Vertical */
+	DT_WIDE, /* Wide */
+};
+
 enum uprop_ea {
 	EA_A,  /* Ambiguous */
 	EA_F,  /* Fullwidth */
@@ -72,6 +93,7 @@ enum uprop_nt {
 
 [[__nodiscard__, __unsequenced__]] double uprop_get_nv(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_bpt uprop_get_bpt(rune);
+[[__nodiscard__, __unsequenced__]] enum uprop_dt uprop_get_dt(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_ea uprop_get_ea(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_gc uprop_get_gc(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_nt uprop_get_nt(rune);

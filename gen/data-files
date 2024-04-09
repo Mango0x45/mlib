@@ -13,6 +13,7 @@ DerivedCoreProperties.txt
 DerivedNormalizationProps.txt
 emoji/emoji-data.txt
 extracted/DerivedBinaryProperties.txt
+extracted/DerivedDecompositionType.txt
 extracted/DerivedEastAsianWidth.txt
 extracted/DerivedNumericType.txt
 extracted/DerivedNumericValues.txt
