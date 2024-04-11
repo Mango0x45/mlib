@@ -151,6 +151,9 @@ enum uprop_nt {
 [[__nodiscard__, __unsequenced__]] enum uprop_lb uprop_get_lb(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_nt uprop_get_nt(rune);
 [[__nodiscard__, __unsequenced__]] rune uprop_get_bpb(rune);
+[[__nodiscard__, __unsequenced__]] rune uprop_get_slc(rune);
+[[__nodiscard__, __unsequenced__]] rune uprop_get_stc(rune);
+[[__nodiscard__, __unsequenced__]] rune uprop_get_suc(rune);
 [[__nodiscard__, __unsequenced__]] struct u8view uprop_get_na1(rune);
 [[__nodiscard__, __unsequenced__]] struct u8view uprop_get_na(rune);
 
