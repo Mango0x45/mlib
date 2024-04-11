@@ -6,25 +6,25 @@ mkdir -p data
 
 readonly BASE=https://www.unicode.org/Public/UCD/latest/ucd
 
-readonly URLS='
-auxiliary/GraphemeBreakProperty.txt
-BidiBrackets.txt
-DerivedCoreProperties.txt
-DerivedNormalizationProps.txt
-emoji/emoji-data.txt
-extracted/DerivedBinaryProperties.txt
-extracted/DerivedDecompositionType.txt
-extracted/DerivedEastAsianWidth.txt
-extracted/DerivedLineBreak.txt
-extracted/DerivedNumericType.txt
-extracted/DerivedNumericValues.txt
-PropList.txt
-UnicodeData.txt
+readonly PATHS='
+auxiliary/GraphemeBreakProperty
+BidiBrackets
+DerivedCoreProperties
+DerivedNormalizationProps
+emoji/emoji-data
+extracted/DerivedBinaryProperties
+extracted/DerivedDecompositionType
+extracted/DerivedEastAsianWidth
+extracted/DerivedLineBreak
+extracted/DerivedNumericType
+extracted/DerivedNumericValues
+PropList
+UnicodeData
 '
 
-for url in $URLS
+for path in $PATHS
 do
-	name="data/${url##*/}"
-	test -f "$name" || wget -q "$BASE/$url" -O "$name" &
+	name="data/${path##*/}"
+	test -f "$name" || wget -q "$BASE/$path.txt" -O "$name" &
 done
 wait

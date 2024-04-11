@@ -35,4 +35,4 @@ END {
 	print "\treturn ch < lengthof(lookup) ? lookup[ch] : (struct u8view){};"
 	print "}"
 }
-' data/UnicodeData.txt
+' data/UnicodeData

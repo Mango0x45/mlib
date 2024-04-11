@@ -81,4 +81,4 @@ END {
 	print "\treturn ch < lengthof(lookup_lat1) ? lookup_lat1[ch] : mlib_lookup(ch);"
 	print "}"
 }
-' data/DerivedDecompositionType.txt | sed 's/\s*$//'
+' data/DerivedDecompositionType | sed 's/\s*$//'

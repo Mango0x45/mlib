@@ -42,4 +42,4 @@ END {
 	print "\treturn mlib_lookup_kv(ch);"
 	print "}"
 }
-' data/UnicodeData.txt
+' data/UnicodeData

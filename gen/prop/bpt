@@ -50,4 +50,4 @@ END {
 	print "\treturn ch < lengthof(lookup_lat1) ? lookup_lat1[ch] : mlib_lookup_kv(ch);"
 	print "}"
 }
-' data/BidiBrackets.txt
+' data/BidiBrackets

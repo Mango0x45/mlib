@@ -65,4 +65,4 @@ END {
 	print "\treturn ch < lengthof(lookup_lat1) ? lookup_lat1[ch] : mlib_lookup(ch);"
 	print "}"
 }
-' data/UnicodeData.txt
+' data/UnicodeData

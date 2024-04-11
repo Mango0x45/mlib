@@ -85,11 +85,11 @@ gen()
 	printf 'DONE uprop_is_%s()\n' $p >&2
 }
 
-for prop in $props1; do gen $prop PropList.txt & done
-for prop in $props2; do gen $prop DerivedCoreProperties.txt & done
-for prop in $props3; do gen $prop emoji-data.txt & done
-for prop in $props4; do gen $prop DerivedNormalizationProps.txt & done
-for prop in $props5; do gen $prop DerivedBinaryProperties.txt & done
+for prop in $props1; do gen $prop PropList & done
+for prop in $props2; do gen $prop DerivedCoreProperties & done
+for prop in $props3; do gen $prop emoji-data & done
+for prop in $props4; do gen $prop DerivedNormalizationProps & done
+for prop in $props5; do gen $prop DerivedBinaryProperties & done
 
 printf '[[__nodiscard__, __unsequenced__]] bool uprop_is_%s(rune);\n' \
 	$(printf '%s\n' $props1 $props2 $props3 $props4 $props5 | cut -d= -f1) \
