@@ -84,6 +84,57 @@ enum [[clang::__flag_enum__]] uprop_gc : uint_fast32_t {
 	GC_Z = GC_ZL | GC_ZP | GC_ZS,                 /* Separator */
 };
 
+enum uprop_lb {
+	LB_XX,  /* Unknown */
+	LB_AI,  /* Ambiguous */
+	LB_AK,  /* Aksara */
+	LB_AL,  /* Alphabetic */
+	LB_AP,  /* Aksara Prebase */
+	LB_AS,  /* Aksara Start */
+	LB_B2,  /* Break Both */
+	LB_BA,  /* Break After */
+	LB_BB,  /* Break Before */
+	LB_BK,  /* Mandatory Break */
+	LB_CB,  /* Contingent Break */
+	LB_CJ,  /* Conditional Japanese_Starter */
+	LB_CL,  /* Close Punctuation */
+	LB_CM,  /* Combining Mark */
+	LB_CP,  /* Close Parenthesis */
+	LB_CR,  /* Carriage Return */
+	LB_EB,  /* E Base */
+	LB_EM,  /* E Modifier */
+	LB_EX,  /* Exclamation */
+	LB_GL,  /* Glue */
+	LB_H2,  /* H2 */
+	LB_H3,  /* H3 */
+	LB_HL,  /* Hebrew Letter */
+	LB_HY,  /* Hyphen */
+	LB_ID,  /* Ideographic */
+	LB_IN,  /* Inseparable */
+	LB_IS,  /* Infix Numeric */
+	LB_JL,  /* JL */
+	LB_JT,  /* JT */
+	LB_JV,  /* JV */
+	LB_LF,  /* Line Feed */
+	LB_NL,  /* Next Line */
+	LB_NS,  /* Nonstarter */
+	LB_NU,  /* Numeric */
+	LB_OP,  /* Open Punctuation */
+	LB_PO,  /* Postfix Numeric */
+	LB_PR,  /* Prefix Numeric */
+	LB_QU,  /* Quotation */
+	LB_RI,  /* Regional Indicator */
+	LB_SA,  /* Complex Context */
+	LB_SG,  /* Surrogate */
+	LB_SP,  /* Space */
+	LB_SY,  /* Break Symbols */
+	LB_VF,  /* Virama Final */
+	LB_VI,  /* Virama */
+	LB_WJ,  /* Word Joiner */
+	LB_ZWJ, /* ZWJ */
+	LB_ZW,  /* ZWSpace */
+};
+
 enum uprop_nt {
 	NT_NONE, /* None */
 	NT_DE,   /* Decimal */
@@ -96,6 +147,7 @@ enum uprop_nt {
 [[__nodiscard__, __unsequenced__]] enum uprop_dt uprop_get_dt(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_ea uprop_get_ea(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_gc uprop_get_gc(rune);
+[[__nodiscard__, __unsequenced__]] enum uprop_lb uprop_get_lb(rune);
 [[__nodiscard__, __unsequenced__]] enum uprop_nt uprop_get_nt(rune);
 [[__nodiscard__, __unsequenced__]] rune uprop_get_bpb(rune);
 

@@ -15,6 +15,7 @@ emoji/emoji-data.txt
 extracted/DerivedBinaryProperties.txt
 extracted/DerivedDecompositionType.txt
 extracted/DerivedEastAsianWidth.txt
+extracted/DerivedLineBreak.txt
 extracted/DerivedNumericType.txt
 extracted/DerivedNumericValues.txt
 PropList.txt
