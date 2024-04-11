@@ -152,6 +152,7 @@ enum uprop_nt {
 [[__nodiscard__, __unsequenced__]] enum uprop_nt uprop_get_nt(rune);
 [[__nodiscard__, __unsequenced__]] rune uprop_get_bpb(rune);
 [[__nodiscard__, __unsequenced__]] struct u8view uprop_get_na(rune);
+[[__nodiscard__, __unsequenced__]] struct u8view uprop_get_na1(rune);
 
 /* PROP PREDICATES START */
 [[__nodiscard__, __unsequenced__]] bool uprop_is_ahex(rune);
