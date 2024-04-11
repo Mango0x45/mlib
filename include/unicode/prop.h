@@ -2,9 +2,21 @@
 #define MLIB_UNICODE_PROP_H
 
 #include <inttypes.h>
+#include <stddef.h>
 
 #include "__rune.h"
 #include "__u8view.h"
+
+struct rview {
+	const rune *p;
+	size_t len;
+};
+
+struct ucctx {
+	bool az_or_tr   : 1; /* Azeri or Turkish */
+	bool cap_eszett : 1; /* Use capital eszett */
+	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
+};
 
 enum uprop_bpt {
 	BPT_N, /* None */
@@ -156,6 +168,7 @@ enum uprop_nt {
 [[__mlib_uprop_attrs]] rune uprop_get_slc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_stc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_suc(rune);
+[[__mlib_uprop_attrs]] struct rview uprop_get_uc(rune, struct ucctx);
 [[__mlib_uprop_attrs]] struct u8view uprop_get_na1(rune);
 [[__mlib_uprop_attrs]] struct u8view uprop_get_na(rune);
 
