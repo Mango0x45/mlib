@@ -12,6 +12,15 @@ struct rview {
 	size_t len;
 };
 
+struct lcctx {
+	bool az_or_tr             : 1; /* Azeri or Turkish */
+	bool az_tr_after_I        : 1; /* After ‘I’ in Azeri or Turkish */
+	bool az_tr_not_before_dot : 1; /* Not before a dot in Azeri or Turkish */
+	bool eow                  : 1; /* End of word */
+	bool lt                   : 1; /* Lithuanian */
+	bool lt_acc_after         : 1; /* Accent after ‘i’ or ‘j’ in Lithuanian */
+};
+
 struct tcctx {
 	bool az_or_tr   : 1; /* Azeri or Turkish */
 	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
@@ -173,6 +182,7 @@ enum uprop_nt {
 [[__mlib_uprop_attrs]] rune uprop_get_slc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_stc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_suc(rune);
+[[__mlib_uprop_attrs]] struct rview uprop_get_lc(rune, struct lcctx);
 [[__mlib_uprop_attrs]] struct rview uprop_get_tc(rune, struct tcctx);
 [[__mlib_uprop_attrs]] struct rview uprop_get_uc(rune, struct ucctx);
 [[__mlib_uprop_attrs]] struct u8view uprop_get_na1(rune);
