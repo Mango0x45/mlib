@@ -1,0 +1,7 @@
+Developer Implementation Details
+
+ • uprop_get_lc(), uprop_get_tc(), uprop_get_uc()
+
+	These properties are not auto-generated via a script, and no build script
+	informs the user of this.  Extra care should be taken to ensure these are
+	kept up-to-date across Unicode versions.
