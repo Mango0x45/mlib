@@ -127,8 +127,5 @@ uprop_get_uc(rune ch, struct ucctx ctx)
 		return M();
 
 	rune CH = uprop_get_suc(ch);
-	if (ch != CH)
-		return M(CH);
-
-	return mlib_lookup_kv(ch);
+	return ch != CH ? M(CH) : mlib_lookup_kv(ch);
 }

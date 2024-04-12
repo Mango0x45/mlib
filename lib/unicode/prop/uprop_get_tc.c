@@ -70,8 +70,5 @@ uprop_get_tc(rune ch, struct tcctx ctx)
 		return M();
 
 	rune CH = uprop_get_stc(ch);
-	if (ch != CH)
-		return M(CH);
-
-	return mlib_lookup_kv(ch);
+	return ch != CH ? M(CH) : mlib_lookup_kv(ch);
 }
