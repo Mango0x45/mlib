@@ -12,15 +12,15 @@ struct rview {
 	size_t len;
 };
 
+struct tcctx {
+	bool az_or_tr   : 1; /* Azeri or Turkish */
+	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
+};
+
 struct ucctx {
 	bool az_or_tr   : 1; /* Azeri or Turkish */
 	bool cap_eszett : 1; /* Use capital eszett */
 	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
-};
-
-struct tcctx {
-	bool az_or_tr   : 1; /* Azeri or Turkish */
-	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
 };
 
 enum uprop_bpt {
