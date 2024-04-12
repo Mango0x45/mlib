@@ -18,6 +18,11 @@ struct ucctx {
 	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
 };
 
+struct tcctx {
+	bool az_or_tr   : 1; /* Azeri or Turkish */
+	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
+};
+
 enum uprop_bpt {
 	BPT_N, /* None */
 	BPT_C, /* Close */
@@ -168,6 +173,7 @@ enum uprop_nt {
 [[__mlib_uprop_attrs]] rune uprop_get_slc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_stc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_suc(rune);
+[[__mlib_uprop_attrs]] struct rview uprop_get_tc(rune, struct tcctx);
 [[__mlib_uprop_attrs]] struct rview uprop_get_uc(rune, struct ucctx);
 [[__mlib_uprop_attrs]] struct u8view uprop_get_na1(rune);
 [[__mlib_uprop_attrs]] struct u8view uprop_get_na(rune);
