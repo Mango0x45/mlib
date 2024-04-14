@@ -16,12 +16,12 @@ uprop_get_lc(rune ch, struct lcctx ctx)
 	if (ctx.lt) {
 		if (ctx.before_acc) {
 			switch (ch) {
-				case 'I':
-					return M('i', 0x307);
-				case 'J':
-					return M('j', 0x307);
-				case U'Į':
-					return M(U'į', 0x307);
+			case 'I':
+				return M('i', 0x307);
+			case 'J':
+				return M('j', 0x307);
+			case U'Į':
+				return M(U'į', 0x307);
 			}
 		}
 
