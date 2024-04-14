@@ -7,10 +7,10 @@
 #include "__u8view.h"
 
 enum [[clang::__flag_enum__]] caseflags {
-	UF_LANG_AZ = 1 << 0, /* Azeri; alias for UF_LANG_TR */
-	UF_LANG_TR = 1 << 0, /* Turkish; alias for UF_LANG_AZ */
-	UF_LANG_LT = 1 << 1, /* Lithuanian */
-	UF_ẞ       = 1 << 2, /* Use ‘ẞ’ as the uppercase of ‘ß’ */
+	CF_LANG_AZ = 1 << 0, /* Azeri; alias for UF_LANG_TR */
+	CF_LANG_TR = 1 << 0, /* Turkish; alias for UF_LANG_AZ */
+	CF_LANG_LT = 1 << 1, /* Lithuanian */
+	CF_ẞ       = 1 << 2, /* Use ‘ẞ’ as the uppercase of ‘ß’ */
 };
 
 size_t u8glen(const char8_t *, size_t);

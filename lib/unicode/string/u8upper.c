@@ -7,8 +7,8 @@ u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
         enum caseflags flags)
 {
 	struct ucctx ctx = {
-		.az_or_tr = flags & UF_LANG_AZ,
-		.cap_eszett = flags & UF_ẞ,
+		.az_or_tr = flags & CF_LANG_AZ,
+		.cap_eszett = flags & CF_ẞ,
 	};
 
 	rune ch;
@@ -16,7 +16,7 @@ u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 	bool prev_was_i = false;
 
 	while (u8next(&ch, &src, &srcn)) {
-		if (ch == 0x307 && prev_was_i && (flags & UF_LANG_LT))
+		if (ch == 0x307 && prev_was_i && (flags & CF_LANG_LT))
 			ctx.lt_after_i = true;
 
 		struct rview rv = uprop_get_uc(ch, ctx);
