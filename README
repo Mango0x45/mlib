@@ -23,24 +23,25 @@ The headers as of now are:
 
 BUILD INSTRUCTIONS:
 
-	To build Mlib you need to have a C23 conforming C compiler.  Simply
-	bootstrap the build system and run it:
+    To build Mlib you need to have a C23 conforming C compiler.  Simply
+    bootstrap the build system and run it:
 
-	    $ cc -o make make.c
-		$ ./make
+        $ cc -o make make.c
+        $ ./make
 
-	To build with optimizations enabled, use the -r flag:
+    To build with optimizations enabled, use the -r flag:
 
-	    $ ./make -r
+        $ ./make -r
 
 DISCLAIMER:
 
-    This library is developed for use by me (the author).  You are free to use
-    this code for whatever you’d like, but do be warned that breaking changes
-    may (and will) occur at any moment with no prior warning.  Additionally, be
-    warned that I do not care about whether or not you think the API is
-    well-designed or human-friendly.  If you have an issue with the code here,
-    fix it — you are a programmer are you not?
+    This library is developed for use by me (the author).  You are free
+    to use this code for whatever you’d like, but do be warned that
+    breaking changes may (and will) occur at any moment with no prior
+    warning.  Additionally, be warned that I do not care about whether or
+    not you think the API is well-designed or human-friendly.  If you
+    have an issue with the code here, fix it — you are a programmer are
+    you not?
 
 Planned Features:
  • Arena Allocators           (alloc.h)
