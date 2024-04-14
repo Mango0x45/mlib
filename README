@@ -44,7 +44,8 @@ DISCLAIMER:
     you not?
 
 Planned Features:
- • Arena Allocators           (alloc.h)
- • Unicode Normalization      (unicode/string.h)
- • String Case Conversions    (unicode/string.h)
- • Missing Unicode Properties (unicode/prop.h)
+ • Arena Allocators            (alloc.h)
+ • Missing Unicode Properties  (unicode/prop.h)
+ • String Case Conversions     (unicode/string.h)
+ • Unicode Normalization       (unicode/string.h)
+ • Word- and Line Segmentation (unicode/string.h)
