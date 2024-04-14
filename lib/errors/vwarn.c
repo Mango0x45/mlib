@@ -11,5 +11,7 @@ vwarn(const char *fmt, va_list ap)
 	int save = errno;
 	fprintf(stderr, "%s: ", mlib_progname());
 	vfprintf(stderr, fmt, ap);
-	fprintf(stderr, ": %s\n", strerror(save));
+	if (fmt[strlen(fmt) - 1] == ':')
+		fprintf(stderr, " %s", strerror(save));
+	fputc('\n', stderr);
 }

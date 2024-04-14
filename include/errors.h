@@ -4,16 +4,11 @@
 #include <stdarg.h>
 
 [[gnu::__format__(printf, 1, 2)]] void warn(const char *, ...);
-[[gnu::__format__(printf, 1, 2)]] void warnx(const char *, ...);
 void vwarn(const char *, va_list);
-void vwarnx(const char *, va_list);
 
 [[__noreturn__, gnu::__format__(printf, 1, 2)]] void err(const char *, ...);
-[[__noreturn__, gnu::__format__(printf, 1, 2)]] void errx(const char *, ...);
 [[__noreturn__, gnu::__format__(printf, 2, 3)]] void cerr(int, const char *,
                                                           ...);
-[[__noreturn__, gnu::__format__(printf, 2, 3)]] void cerrx(int, const char *,
-                                                           ...);
 
 extern const char *__mlib_errors_progname;
 
