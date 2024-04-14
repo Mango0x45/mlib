@@ -3,8 +3,8 @@
 #include "unicode/string.h"
 
 size_t
-u8upper(char8_t *dst, size_t dstn, const char8_t *src, size_t srcn,
-        enum upper_flags flags)
+u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
+        enum caseflags flags)
 {
 	struct ucctx ctx = {
 		.az_or_tr = flags & UF_LANG_AZ,
