@@ -120,10 +120,10 @@ struct rview
 uprop_get_uc(rune ch, struct ucctx ctx)
 {
 	if (ch == U'ß')
-		return ctx.cap_eszett ? M(U'ẞ') : M('S', 'S');
+		return ctx.ẞ ? M(U'ẞ') : M('S', 'S');
 	if (ch == 'i' && ctx.az_or_tr)
 		return M(U'İ');
-	if (ch == 0x307 && ctx.lt_after_i)
+	if (ch == 0x307 && ctx.lt && ctx.after_i)
 		return M();
 
 	rune CH = uprop_get_suc(ch);

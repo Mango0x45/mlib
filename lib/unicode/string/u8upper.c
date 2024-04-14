@@ -8,17 +8,14 @@ u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 {
 	struct ucctx ctx = {
 		.az_or_tr = flags & CF_LANG_AZ,
-		.cap_eszett = flags & CF_ẞ,
+		.lt = flags & CF_LANG_LT,
+		.ẞ = flags & CF_ẞ,
 	};
 
 	rune ch;
 	size_t n = 0;
-	bool prev_was_i = false;
 
 	while (u8next(&ch, &src, &srcn)) {
-		if (ch == 0x307 && prev_was_i && (flags & CF_LANG_LT))
-			ctx.lt_after_i = true;
-
 		struct rview rv = uprop_get_uc(ch, ctx);
 		for (size_t i = 0; i < rv.len; i++) {
 			if (n >= dstn) {
@@ -27,9 +24,7 @@ u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 			} else
 				n += rtou8(dst + n, dstn - n, rv.p[i]);
 		}
-
-		prev_was_i = ch == 'i';
-		ctx.lt_after_i = false;
+		ctx.after_i = ch == 'i';
 	}
 
 	return n;

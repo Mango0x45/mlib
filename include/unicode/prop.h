@@ -13,23 +13,28 @@ struct rview {
 };
 
 struct lcctx {
-	bool az_or_tr             : 1; /* Azeri or Turkish */
-	bool az_tr_after_I        : 1; /* After ‘I’ in Azeri or Turkish */
-	bool az_tr_not_before_dot : 1; /* Not before a dot in Azeri or Turkish */
-	bool eow                  : 1; /* End of word */
-	bool lt                   : 1; /* Lithuanian */
-	bool lt_acc_after         : 1; /* Accent after ‘i’ or ‘j’ in Lithuanian */
+	bool az_or_tr : 1; /* Azeri or Turkish */
+	bool lt       : 1; /* Lithuanian */
+
+	bool after_I    : 1; /* After ‘I’ */
+	bool before_acc : 1; /* Before accent on ‘i’ or ‘j’ in Lithuanian */
+	bool before_dot : 1; /* Before U+0307 */
+	bool eow        : 1; /* End of word */
 };
 
 struct tcctx {
-	bool az_or_tr   : 1; /* Azeri or Turkish */
-	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
+	bool az_or_tr : 1; /* Azeri or Turkish */
+	bool lt       : 1; /* Lithuanian */
+
+	bool after_i  : 1; /* After ‘i’ */
 };
 
 struct ucctx {
-	bool az_or_tr   : 1; /* Azeri or Turkish */
-	bool cap_eszett : 1; /* Use capital eszett */
-	bool lt_after_i : 1; /* After ‘i’ in Lithuanian */
+	bool az_or_tr : 1; /* Azeri or Turkish */
+	bool lt       : 1; /* Lithuanian */
+
+	bool ẞ       : 1; /* Uppercase ‘ß’ into ‘ẞ’ (instead of ‘SS’) */
+	bool after_i : 1; /* After ‘i’ */
 };
 
 enum uprop_bpt {

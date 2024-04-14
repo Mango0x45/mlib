@@ -66,7 +66,7 @@ uprop_get_tc(rune ch, struct tcctx ctx)
 {
 	if (ch == 'i' && ctx.az_or_tr)
 		return M(U'İ');
-	if (ch == 0x307 && ctx.lt_after_i)
+	if (ch == 0x307 && ctx.lt && ctx.after_i)
 		return M();
 
 	rune CH = uprop_get_stc(ch);

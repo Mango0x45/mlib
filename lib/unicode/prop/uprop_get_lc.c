@@ -13,18 +13,18 @@ uprop_get_lc(rune ch, struct lcctx ctx)
 	if (ch == U'İ')
 		return ctx.az_or_tr ? M('i') : M('i', 0x307);
 
-	if (ctx.lt_acc_after) {
-		switch (ch) {
-		case 'I':
-			return M('i', 0x307);
-		case 'J':
-			return M('j', 0x307);
-		case U'Į':
-			return M(U'į', 0x307);
-		}
-	}
-
 	if (ctx.lt) {
+		if (ctx.before_acc) {
+			switch (ch) {
+				case 'I':
+					return M('i', 0x307);
+				case 'J':
+					return M('j', 0x307);
+				case U'Į':
+					return M(U'į', 0x307);
+			}
+		}
+
 		switch (ch) {
 		case U'Ì':
 			return M('i', 0x307, 0x300);
@@ -35,10 +35,12 @@ uprop_get_lc(rune ch, struct lcctx ctx)
 		}
 	}
 
-	if (ch == 0x307 && ctx.az_tr_after_I)
-		return M();
-	if (ch == 'I' && ctx.az_tr_not_before_dot)
-		return M(U'ı');
+	if (ctx.az_or_tr) {
+		if (ch == 0x307 && ctx.after_I)
+			return M();
+		if (ch == 'I' && !ctx.before_dot)
+			return M(U'ı');
+	}
 
 	ch = uprop_get_slc(ch);
 	return M(ch);
