@@ -16,6 +16,8 @@ enum [[clang::__flag_enum__]] caseflags {
 size_t u8glen(const char8_t *, size_t);
 size_t u8gnext(struct u8view *, const char8_t **, size_t *);
 
+size_t u8lower(char8_t *restrict, size_t, const char8_t *, size_t,
+               enum caseflags);
 size_t u8upper(char8_t *restrict, size_t, const char8_t *, size_t,
                enum caseflags);
 
