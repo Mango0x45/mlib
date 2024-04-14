@@ -21,6 +21,18 @@ The headers as of now are:
  • unicode/prop.h — unicode character properties
  • unicode/string.h — unicode string functions
 
+BUILD INSTRUCTIONS:
+
+	To build Mlib you need to have a C23 conforming C compiler.  Simply
+	bootstrap the build system and run it:
+
+	    $ cc -o make make.c
+		$ ./make
+
+	To build with optimizations enabled, use the -r flag:
+
+	    $ ./make -r
+
 DISCLAIMER:
 
     This library is developed for use by me (the author).  You are free to use
