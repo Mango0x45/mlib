@@ -14,6 +14,8 @@ struct rview {
 	size_t len;
 };
 
+/* clang-format off */
+
 struct lcctx {
 	bool az_or_tr : 1; /* Azeri or Turkish */
 	bool lt       : 1; /* Lithuanian */
@@ -35,9 +37,11 @@ struct ucctx {
 	bool az_or_tr : 1; /* Azeri or Turkish */
 	bool lt       : 1; /* Lithuanian */
 
-	bool ẞ : 1; /* Uppercase ‘ß’ into ‘ẞ’ (instead of ‘SS’) */
+	bool ẞ       : 1; /* Uppercase ‘ß’ into ‘ẞ’ (instead of ‘SS’) */
 	bool after_i : 1; /* After ‘i’ */
 };
+
+/* clang-format off */
 
 enum uprop_age : uint_least16_t {
 	AGE_NA = 0, /* Not Assigned */
