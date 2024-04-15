@@ -18,8 +18,8 @@
 #	include "errors.h"
 #	define ASSUME(p) \
 		((p) ? (void)0 \
-		     : errx("%s:%s:%d: assumption ‘%s’ failed", __FILE__, __func__, \
-		            __LINE__, #p))
+		     : err("%s:%s:%d: assumption ‘%s’ failed", __FILE__, __func__, \
+		           __LINE__, #p))
 #endif
 
 #endif /* !MLIB_MACROS_H */
