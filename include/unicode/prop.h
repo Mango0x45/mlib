@@ -554,6 +554,174 @@ enum uprop_nt {
 	NT_NU,   /* Numeric */
 };
 
+enum uprop_sc {
+	SC_ZZZZ = 0, /* Unknown */
+	SC_ADLM,     /* Adlam */
+	SC_AGHB,     /* Caucasian Albanian */
+	SC_AHOM,     /* Ahom */
+	SC_ARAB,     /* Arabic */
+	SC_ARMI,     /* Imperial Aramaic */
+	SC_ARMN,     /* Armenian */
+	SC_AVST,     /* Avestan */
+	SC_BALI,     /* Balinese */
+	SC_BAMU,     /* Bamum */
+	SC_BASS,     /* Bassa Vah */
+	SC_BATK,     /* Batak */
+	SC_BENG,     /* Bengali */
+	SC_BHKS,     /* Bhaiksuki */
+	SC_BOPO,     /* Bopomofo */
+	SC_BRAH,     /* Brahmi */
+	SC_BRAI,     /* Braille */
+	SC_BUGI,     /* Buginese */
+	SC_BUHD,     /* Buhid */
+	SC_CAKM,     /* Chakma */
+	SC_CANS,     /* Canadian Aboriginal */
+	SC_CARI,     /* Carian */
+	SC_CHAM,     /* Cham */
+	SC_CHER,     /* Cherokee */
+	SC_CHRS,     /* Chorasmian */
+	SC_COPT,     /* Coptic */
+	SC_CPMN,     /* Cypro Minoan */
+	SC_CPRT,     /* Cypriot */
+	SC_CYRL,     /* Cyrillic */
+	SC_DEVA,     /* Devanagari */
+	SC_DIAK,     /* Dives Akuru */
+	SC_DOGR,     /* Dogra */
+	SC_DSRT,     /* Deseret */
+	SC_DUPL,     /* Duployan */
+	SC_EGYP,     /* Egyptian Hieroglyphs */
+	SC_ELBA,     /* Elbasan */
+	SC_ELYM,     /* Elymaic */
+	SC_ETHI,     /* Ethiopic */
+	SC_GEOR,     /* Georgian */
+	SC_GLAG,     /* Glagolitic */
+	SC_GONG,     /* Gunjala Gondi */
+	SC_GONM,     /* Masaram Gondi */
+	SC_GOTH,     /* Gothic */
+	SC_GRAN,     /* Grantha */
+	SC_GREK,     /* Greek */
+	SC_GUJR,     /* Gujarati */
+	SC_GURU,     /* Gurmukhi */
+	SC_HANG,     /* Hangul */
+	SC_HANI,     /* Han */
+	SC_HANO,     /* Hanunoo */
+	SC_HATR,     /* Hatran */
+	SC_HEBR,     /* Hebrew */
+	SC_HIRA,     /* Hiragana */
+	SC_HLUW,     /* Anatolian Hieroglyphs */
+	SC_HMNG,     /* Pahawh Hmong */
+	SC_HMNP,     /* Nyiakeng Puachue Hmong */
+	SC_HRKT,     /* Katakana or Hiragana */
+	SC_HUNG,     /* Old Hungarian */
+	SC_ITAL,     /* Old Italic */
+	SC_JAVA,     /* Javanese */
+	SC_KALI,     /* Kayah Li */
+	SC_KANA,     /* Katakana */
+	SC_KAWI,     /* Kawi */
+	SC_KHAR,     /* Kharoshthi */
+	SC_KHMR,     /* Khmer */
+	SC_KHOJ,     /* Khojki */
+	SC_KITS,     /* Khitan Small Script */
+	SC_KNDA,     /* Kannada */
+	SC_KTHI,     /* Kaithi */
+	SC_LANA,     /* Tai Tham */
+	SC_LAOO,     /* Lao */
+	SC_LATN,     /* Latin */
+	SC_LEPC,     /* Lepcha */
+	SC_LIMB,     /* Limbu */
+	SC_LINA,     /* Linear-A */
+	SC_LINB,     /* Linear-B */
+	SC_LISU,     /* Lisu */
+	SC_LYCI,     /* Lycian */
+	SC_LYDI,     /* Lydian */
+	SC_MAHJ,     /* Mahajani */
+	SC_MAKA,     /* Makasar */
+	SC_MAND,     /* Mandaic */
+	SC_MANI,     /* Manichaean */
+	SC_MARC,     /* Marchen */
+	SC_MEDF,     /* Medefaidrin */
+	SC_MEND,     /* Mende Kikakui */
+	SC_MERC,     /* Meroitic Cursive */
+	SC_MERO,     /* Meroitic Hieroglyphs */
+	SC_MLYM,     /* Malayalam */
+	SC_MODI,     /* Modi */
+	SC_MONG,     /* Mongolian */
+	SC_MROO,     /* Mro */
+	SC_MTEI,     /* Meetei Mayek */
+	SC_MULT,     /* Multani */
+	SC_MYMR,     /* Myanmar */
+	SC_NAGM,     /* Nag Mundari */
+	SC_NAND,     /* Nandinagari */
+	SC_NARB,     /* Old North Arabian */
+	SC_NBAT,     /* Nabataean */
+	SC_NEWA,     /* Newa */
+	SC_NKOO,     /* Nko */
+	SC_NSHU,     /* Nushu */
+	SC_OGAM,     /* Ogham */
+	SC_OLCK,     /* Ol Chiki */
+	SC_ORKH,     /* Old Turkic */
+	SC_ORYA,     /* Oriya */
+	SC_OSGE,     /* Osage */
+	SC_OSMA,     /* Osmanya */
+	SC_OUGR,     /* Old Uyghur */
+	SC_PALM,     /* Palmyrene */
+	SC_PAUC,     /* Pau Cin Hau */
+	SC_PERM,     /* Old Permic */
+	SC_PHAG,     /* Phags Pa */
+	SC_PHLI,     /* Inscriptional Pahlavi */
+	SC_PHLP,     /* Psalter Pahlavi */
+	SC_PHNX,     /* Phoenician */
+	SC_PLRD,     /* Miao */
+	SC_PRTI,     /* Inscriptional Parthian */
+	SC_RJNG,     /* Rejang */
+	SC_ROHG,     /* Hanifi Rohingya */
+	SC_RUNR,     /* Runic */
+	SC_SAMR,     /* Samaritan */
+	SC_SARB,     /* Old South Arabian */
+	SC_SAUR,     /* Saurashtra */
+	SC_SGNW,     /* SignWriting */
+	SC_SHAW,     /* Shavian */
+	SC_SHRD,     /* Sharada */
+	SC_SIDD,     /* Siddham */
+	SC_SIND,     /* Khudawadi */
+	SC_SINH,     /* Sinhala */
+	SC_SOGD,     /* Sogdian */
+	SC_SOGO,     /* Old Sogdian */
+	SC_SORA,     /* Sora Sompeng */
+	SC_SOYO,     /* Soyombo */
+	SC_SUND,     /* Sundanese */
+	SC_SYLO,     /* Syloti Nagri */
+	SC_SYRC,     /* Syriac */
+	SC_TAGB,     /* Tagbanwa */
+	SC_TAKR,     /* Takri */
+	SC_TALE,     /* Tai Le */
+	SC_TALU,     /* New Tai Lue */
+	SC_TAML,     /* Tamil */
+	SC_TANG,     /* Tangut */
+	SC_TAVT,     /* Tai Viet */
+	SC_TELU,     /* Telugu */
+	SC_TFNG,     /* Tifinagh */
+	SC_TGLG,     /* Tagalog */
+	SC_THAA,     /* Thaana */
+	SC_THAI,     /* Thai */
+	SC_TIBT,     /* Tibetan */
+	SC_TIRH,     /* Tirhuta */
+	SC_TNSA,     /* Tangsa */
+	SC_TOTO,     /* Toto */
+	SC_UGAR,     /* Ugaritic */
+	SC_VAII,     /* Vai */
+	SC_VITH,     /* Vithkuqi */
+	SC_WARA,     /* Warang Citi */
+	SC_WCHO,     /* Wancho */
+	SC_XPEO,     /* Old Persian */
+	SC_XSUX,     /* Cuneiform */
+	SC_YEZI,     /* Yezidi */
+	SC_YIII,     /* Yi */
+	SC_ZANB,     /* Zanabazar Square */
+	SC_ZINH,     /* Inherited */
+	SC_ZYYY,     /* Common */
+};
+
 /* Not a Unicode property; but a nice-to-have */
 [[__mlib_uprop_attrs]] struct u8view uprop_blkname(enum uprop_blk);
 
@@ -566,6 +734,7 @@ enum uprop_nt {
 [[__mlib_uprop_attrs]] enum uprop_gc uprop_get_gc(rune);
 [[__mlib_uprop_attrs]] enum uprop_lb uprop_get_lb(rune);
 [[__mlib_uprop_attrs]] enum uprop_nt uprop_get_nt(rune);
+[[__mlib_uprop_attrs]] enum uprop_sc uprop_get_sc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_bpb(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_slc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_stc(rune);
