@@ -95,12 +95,12 @@ enum uprop_blk {
 	BLK_ANCIENT_GREEK_NUMBERS,     /* Ancient Greek Numbers */
 	BLK_ANCIENT_SYMBOLS,           /* Ancient Symbols */
 	BLK_ARABIC,                    /* Arabic */
-	BLK_ARABIC_EXT_A,              /* Arabic Extended A */
-	BLK_ARABIC_EXT_B,              /* Arabic Extended B */
-	BLK_ARABIC_EXT_C,              /* Arabic Extended C */
+	BLK_ARABIC_EXT_A,              /* Arabic Extended-A */
+	BLK_ARABIC_EXT_B,              /* Arabic Extended-B */
+	BLK_ARABIC_EXT_C,              /* Arabic Extended-C */
 	BLK_ARABIC_MATH,               /* Arabic Mathematical Alphabetic Symbols */
-	BLK_ARABIC_PF_A,               /* Arabic Presentation Forms_A */
-	BLK_ARABIC_PF_B,               /* Arabic Presentation Forms_B */
+	BLK_ARABIC_PF_A,               /* Arabic Presentation Forms-A */
+	BLK_ARABIC_PF_B,               /* Arabic Presentation Forms-B */
 	BLK_ARABIC_SUP,                /* Arabic Supplement */
 	BLK_ARMENIAN,                  /* Armenian */
 	BLK_ARROWS,                    /* Arrows */
@@ -135,18 +135,18 @@ enum uprop_blk {
 	BLK_CJK_COMPAT_FORMS,          /* CJK Compatibility Forms */
 	BLK_CJK_COMPAT_IDEOGRAPHS,     /* CJK Compatibility Ideographs */
 	BLK_CJK_COMPAT_IDEOGRAPHS_SUP, /* CJK Compatibility Ideographs Supplement */
-	BLK_CJK_EXT_A,                 /* CJK Unified Ideographs Extension A */
-	BLK_CJK_EXT_B,                 /* CJK Unified Ideographs Extension B */
-	BLK_CJK_EXT_C,                 /* CJK Unified Ideographs Extension C */
-	BLK_CJK_EXT_D,                 /* CJK Unified Ideographs Extension D */
-	BLK_CJK_EXT_E,                 /* CJK Unified Ideographs Extension E */
-	BLK_CJK_EXT_F,                 /* CJK Unified Ideographs Extension F */
-	BLK_CJK_EXT_G,                 /* CJK Unified Ideographs Extension G */
-	BLK_CJK_EXT_H,                 /* CJK Unified Ideographs Extension H */
-	BLK_CJK_EXT_I,                 /* CJK Unified Ideographs Extension I */
+	BLK_CJK_EXT_A,                 /* CJK Unified Ideographs Extension-A */
+	BLK_CJK_EXT_B,                 /* CJK Unified Ideographs Extension-B */
+	BLK_CJK_EXT_C,                 /* CJK Unified Ideographs Extension-C */
+	BLK_CJK_EXT_D,                 /* CJK Unified Ideographs Extension-D */
+	BLK_CJK_EXT_E,                 /* CJK Unified Ideographs Extension-E */
+	BLK_CJK_EXT_F,                 /* CJK Unified Ideographs Extension-F */
+	BLK_CJK_EXT_G,                 /* CJK Unified Ideographs Extension-G */
+	BLK_CJK_EXT_H,                 /* CJK Unified Ideographs Extension-H */
+	BLK_CJK_EXT_I,                 /* CJK Unified Ideographs Extension-I */
 	BLK_CJK_RADICALS_SUP,          /* CJK Radicals Supplement */
 	BLK_CJK_STROKES,               /* CJK Strokes */
-	BLK_CJK_SYMBOLS,               /* CJK Symbols And Punctuation */
+	BLK_CJK_SYMBOLS,               /* CJK Symbols and Punctuation */
 	BLK_COMPAT_JAMO,               /* Hangul Compatibility Jamo */
 	BLK_CONTROL_PICTURES,          /* Control Pictures */
 	BLK_COPTIC,                    /* Coptic */
@@ -158,18 +158,18 @@ enum uprop_blk {
 	BLK_CYPRIOT_SYLLABARY,         /* Cypriot Syllabary */
 	BLK_CYPRO_MINOAN,              /* Cypro Minoan */
 	BLK_CYRILLIC,                  /* Cyrillic */
-	BLK_CYRILLIC_EXT_A,            /* Cyrillic Extended A */
-	BLK_CYRILLIC_EXT_B,            /* Cyrillic Extended B */
-	BLK_CYRILLIC_EXT_C,            /* Cyrillic Extended C */
-	BLK_CYRILLIC_EXT_D,            /* Cyrillic Extended D */
+	BLK_CYRILLIC_EXT_A,            /* Cyrillic Extended-A */
+	BLK_CYRILLIC_EXT_B,            /* Cyrillic Extended-B */
+	BLK_CYRILLIC_EXT_C,            /* Cyrillic Extended-C */
+	BLK_CYRILLIC_EXT_D,            /* Cyrillic Extended-D */
 	BLK_CYRILLIC_SUP,              /* Cyrillic Supplement */
 	BLK_DESERET,                   /* Deseret */
 	BLK_DEVANAGARI,                /* Devanagari */
 	BLK_DEVANAGARI_EXT,            /* Devanagari Extended */
-	BLK_DEVANAGARI_EXT_A,          /* Devanagari Extended A */
+	BLK_DEVANAGARI_EXT_A,          /* Devanagari Extended-A */
 	BLK_DIACRITICALS,              /* Combining Diacritical Marks */
 	BLK_DIACRITICALS_EXT,          /* Combining Diacritical Marks Extended */
-	BLK_DIACRITICALS_FOR_SYMBOLS,  /* Combining Diacritical Marks For Symbols */
+	BLK_DIACRITICALS_FOR_SYMBOLS,  /* Combining Diacritical Marks for Symbols */
 	BLK_DIACRITICALS_SUP,          /* Combining Diacritical Marks Supplement */
 	BLK_DINGBATS,                  /* Dingbats */
 	BLK_DIVES_AKURU,               /* Dives Akuru */
@@ -186,12 +186,12 @@ enum uprop_blk {
 	BLK_EMOTICONS,                           /* Emoticons */
 	BLK_ENCLOSED_ALPHANUM,                   /* Enclosed Alphanumerics */
 	BLK_ENCLOSED_ALPHANUM_SUP,       /* Enclosed Alphanumeric Supplement */
-	BLK_ENCLOSED_CJK,                /* Enclosed CJK_Letters And Months */
+	BLK_ENCLOSED_CJK,                /* Enclosed CJK Letters and Months */
 	BLK_ENCLOSED_IDEOGRAPHIC_SUP,    /* Enclosed Ideographic Supplement */
 	BLK_ETHIOPIC,                    /* Ethiopic */
 	BLK_ETHIOPIC_EXT,                /* Ethiopic Extended */
-	BLK_ETHIOPIC_EXT_A,              /* Ethiopic Extended A */
-	BLK_ETHIOPIC_EXT_B,              /* Ethiopic Extended B */
+	BLK_ETHIOPIC_EXT_A,              /* Ethiopic Extended-A */
+	BLK_ETHIOPIC_EXT_B,              /* Ethiopic Extended-B */
 	BLK_ETHIOPIC_SUP,                /* Ethiopic Supplement */
 	BLK_GEOMETRIC_SHAPES,            /* Geometric Shapes */
 	BLK_GEOMETRIC_SHAPES_EXT,        /* Geometric Shapes Extended */
@@ -202,12 +202,12 @@ enum uprop_blk {
 	BLK_GLAGOLITIC_SUP,              /* Glagolitic Supplement */
 	BLK_GOTHIC,                      /* Gothic */
 	BLK_GRANTHA,                     /* Grantha */
-	BLK_GREEK,                       /* Greek And Coptic */
+	BLK_GREEK,                       /* Greek and Coptic */
 	BLK_GREEK_EXT,                   /* Greek Extended */
 	BLK_GUJARATI,                    /* Gujarati */
 	BLK_GUNJALA_GONDI,               /* Gunjala Gondi */
 	BLK_GURMUKHI,                    /* Gurmukhi */
-	BLK_HALF_AND_FULL_FORMS,         /* Halfwidth And Fullwidth Forms */
+	BLK_HALF_AND_FULL_FORMS,         /* Halfwidth and Fullwidth Forms */
 	BLK_HALF_MARKS,                  /* Combining Half Marks */
 	BLK_HANGUL,                      /* Hangul Syllables */
 	BLK_HANIFI_ROHINGYA,             /* Hanifi Rohingya */
@@ -218,7 +218,7 @@ enum uprop_blk {
 	BLK_HIGH_SURROGATES,             /* High Surrogates */
 	BLK_HIRAGANA,                    /* Hiragana */
 	BLK_IDC,                         /* Ideographic Description Characters */
-	BLK_IDEOGRAPHIC_SYMBOLS,         /* Ideographic Symbols And Punctuation */
+	BLK_IDEOGRAPHIC_SYMBOLS,         /* Ideographic Symbols and Punctuation */
 	BLK_IMPERIAL_ARAMAIC,            /* Imperial Aramaic */
 	BLK_INDIC_NUMBER_FORMS,          /* Common Indic Number Forms */
 	BLK_INDIC_SIYAQ_NUMBERS,         /* Indic Siyaq Numbers */
@@ -226,13 +226,13 @@ enum uprop_blk {
 	BLK_INSCRIPTIONAL_PARTHIAN,      /* Inscriptional Parthian */
 	BLK_IPA_EXT,                     /* IPA Extensions */
 	BLK_JAMO,                        /* Hangul Jamo */
-	BLK_JAMO_EXT_A,                  /* Hangul Jamo Extended A */
-	BLK_JAMO_EXT_B,                  /* Hangul Jamo Extended B */
+	BLK_JAMO_EXT_A,                  /* Hangul Jamo Extended-A */
+	BLK_JAMO_EXT_B,                  /* Hangul Jamo Extended-B */
 	BLK_JAVANESE,                    /* Javanese */
 	BLK_KAITHI,                      /* Kaithi */
 	BLK_KAKTOVIK_NUMERALS,           /* Kaktovik Numerals */
-	BLK_KANA_EXT_A,                  /* Kana Extended A */
-	BLK_KANA_EXT_B,                  /* Kana Extended B */
+	BLK_KANA_EXT_A,                  /* Kana Extended-A */
+	BLK_KANA_EXT_B,                  /* Kana Extended-B */
 	BLK_KANA_SUP,                    /* Kana Supplement */
 	BLK_KANBUN,                      /* Kanbun */
 	BLK_KANGXI,                      /* Kangxi Radicals */
@@ -248,15 +248,15 @@ enum uprop_blk {
 	BLK_KHOJKI,                      /* Khojki */
 	BLK_KHUDAWADI,                   /* Khudawadi */
 	BLK_LAO,                         /* Lao */
-	BLK_LATIN_1_SUP,                 /* Latin 1 Supplement */
-	BLK_LATIN_EXT_A,                 /* Latin Extended A */
+	BLK_LATIN_1_SUP,                 /* Latin-1 Supplement */
+	BLK_LATIN_EXT_A,                 /* Latin Extended-A */
 	BLK_LATIN_EXT_ADDITIONAL,        /* Latin Extended Additional */
-	BLK_LATIN_EXT_B,                 /* Latin Extended B */
-	BLK_LATIN_EXT_C,                 /* Latin Extended C */
-	BLK_LATIN_EXT_D,                 /* Latin Extended D */
-	BLK_LATIN_EXT_E,                 /* Latin Extended E */
-	BLK_LATIN_EXT_F,                 /* Latin Extended F */
-	BLK_LATIN_EXT_G,                 /* Latin Extended G */
+	BLK_LATIN_EXT_B,                 /* Latin Extended-B */
+	BLK_LATIN_EXT_C,                 /* Latin Extended-C */
+	BLK_LATIN_EXT_D,                 /* Latin Extended-D */
+	BLK_LATIN_EXT_E,                 /* Latin Extended-E */
+	BLK_LATIN_EXT_F,                 /* Latin Extended-F */
+	BLK_LATIN_EXT_G,                 /* Latin Extended-G */
 	BLK_LEPCHA,                      /* Lepcha */
 	BLK_LETTERLIKE_SYMBOLS,          /* Letterlike Symbols */
 	BLK_LIMBU,                       /* Limbu */
@@ -287,8 +287,8 @@ enum uprop_blk {
 	BLK_MEROITIC_HIEROGLYPHS,        /* Meroitic Hieroglyphs */
 	BLK_MIAO,                        /* Miao */
 	BLK_MISC_ARROWS,                 /* Miscellaneous Symbols And Arrows */
-	BLK_MISC_MATH_SYMBOLS_A,         /* Miscellaneous Mathematical Symbols A */
-	BLK_MISC_MATH_SYMBOLS_B,         /* Miscellaneous Mathematical Symbols B */
+	BLK_MISC_MATH_SYMBOLS_A,         /* Miscellaneous Mathematical Symbols-A */
+	BLK_MISC_MATH_SYMBOLS_B,         /* Miscellaneous Mathematical Symbols-B */
 	BLK_MISC_PICTOGRAPHS,            /* Miscellaneous Symbols And Pictographs */
 	BLK_MISC_SYMBOLS,                /* Miscellaneous Symbols */
 	BLK_MISC_TECHNICAL,              /* Miscellaneous Technical */
@@ -301,8 +301,8 @@ enum uprop_blk {
 	BLK_MULTANI,                     /* Multani */
 	BLK_MUSIC,                       /* Musical Symbols */
 	BLK_MYANMAR,                     /* Myanmar */
-	BLK_MYANMAR_EXT_A,               /* Myanmar Extended A */
-	BLK_MYANMAR_EXT_B,               /* Myanmar Extended B */
+	BLK_MYANMAR_EXT_A,               /* Myanmar Extended-A */
+	BLK_MYANMAR_EXT_B,               /* Myanmar Extended-B */
 	BLK_NABATAEAN,                   /* Nabataean */
 	BLK_NAG_MUNDARI,                 /* Nag Mundari */
 	BLK_NANDINAGARI,                 /* Nandinagari */
@@ -359,19 +359,19 @@ enum uprop_blk {
 	BLK_SOYOMBO,                     /* Soyombo */
 	BLK_SPECIALS,                    /* Specials */
 	BLK_SUNDANESE,                   /* Sundanese */
-	BLK_SUNDANESE_SUP,               /* Sundanese_Supplement */
-	BLK_SUP_ARROWS_A,                /* Supplemental Arrows A */
-	BLK_SUP_ARROWS_B,                /* Supplemental Arrows B */
-	BLK_SUP_ARROWS_C,                /* Supplemental Arrows C */
+	BLK_SUNDANESE_SUP,               /* Sundanese Supplement */
+	BLK_SUP_ARROWS_A,                /* Supplemental Arrows-A */
+	BLK_SUP_ARROWS_B,                /* Supplemental Arrows-B */
+	BLK_SUP_ARROWS_C,                /* Supplemental Arrows-C */
 	BLK_SUP_MATH_OPERATORS,          /* Supplemental Mathematical Operators */
-	BLK_SUP_PUA_A,                   /* Supplementary Private Use Area A */
-	BLK_SUP_PUA_B,                   /* Supplementary Private Use Area B */
+	BLK_SUP_PUA_A,                   /* Supplementary Private Use Area-A */
+	BLK_SUP_PUA_B,                   /* Supplementary Private Use Area-B */
 	BLK_SUP_PUNCTUATION,             /* Supplemental Punctuation */
 	BLK_SUP_SYMBOLS_AND_PICTOGRAPHS, /* Supplemental Symbols And Pictographs */
 	BLK_SUPER_AND_SUB,               /* Superscripts And Subscripts */
 	BLK_SUTTON_SIGNWRITING,          /* Sutton SignWriting */
 	BLK_SYLOTI_NAGRI,                /* Syloti Nagri */
-	BLK_SYMBOLS_AND_PICTOGRAPHS_EXT_A, /* Symbols And Pictographs Extended A */
+	BLK_SYMBOLS_AND_PICTOGRAPHS_EXT_A, /* Symbols And Pictographs Extended-A */
 	BLK_SYMBOLS_FOR_LEGACY_COMPUTING,  /* Symbols For Legacy Computing */
 	BLK_SYRIAC,                        /* Syriac */
 	BLK_SYRIAC_SUP,                    /* Syriac Supplement */
@@ -399,7 +399,7 @@ enum uprop_blk {
 	BLK_TRANSPORT_AND_MAP,             /* Transport And Map Symbols */
 	BLK_UCAS,             /* Unified Canadian Aboriginal Syllabics */
 	BLK_UCAS_EXT,         /* Unified Canadian Aboriginal Syllabics Extended */
-	BLK_UCAS_EXT_A,       /* Unified Canadian Aboriginal Syllabics Extended A */
+	BLK_UCAS_EXT_A,       /* Unified Canadian Aboriginal Syllabics Extended-A */
 	BLK_UGARITIC,         /* Ugaritic */
 	BLK_VAI,              /* Vai */
 	BLK_VEDIC_EXT,        /* Vedic Extensions */
@@ -553,6 +553,9 @@ enum uprop_nt {
 	NT_DI,   /* Digit */
 	NT_NU,   /* Numeric */
 };
+
+/* Not a Unicode property; but a nice-to-have */
+[[__mlib_uprop_attrs]] struct u8view uprop_blkname(enum uprop_blk);
 
 [[__mlib_uprop_attrs]] double uprop_get_nv(rune);
 [[__mlib_uprop_attrs]] enum uprop_age uprop_get_age(rune);
