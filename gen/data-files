@@ -15,6 +15,7 @@ DerivedAge
 DerivedCoreProperties
 DerivedNormalizationProps
 emoji/emoji-data
+extracted/DerivedBidiClass
 extracted/DerivedBinaryProperties
 extracted/DerivedDecompositionType
 extracted/DerivedEastAsianWidth

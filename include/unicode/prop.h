@@ -41,7 +41,7 @@ struct ucctx {
 	bool after_i : 1; /* After ‘i’ */
 };
 
-/* clang-format off */
+/* clang-format on */
 
 enum uprop_age : uint_least16_t {
 	AGE_NA = 0, /* Not Assigned */
@@ -86,6 +86,32 @@ uprop_age_minor(enum uprop_age a)
 {
 	return a & 0xFF;
 }
+
+enum uprop_bc {
+	BC_AL,  /* Arabic Letter */
+	BC_AN,  /* Arabic Number */
+	BC_B,   /* Paragraph Separator */
+	BC_BN,  /* Boundary Neutral */
+	BC_CS,  /* Common Separator */
+	BC_EN,  /* European Number */
+	BC_ES,  /* European Separator */
+	BC_ET,  /* European Terminator */
+	BC_FSI, /* First Strong Isolate */
+	BC_L,   /* Left To Right */
+	BC_LRE, /* Left To Right Embedding */
+	BC_LRI, /* Left To Right Isolate */
+	BC_LRO, /* Left To Right Override */
+	BC_NSM, /* Nonspacing Mark */
+	BC_ON,  /* Other Neutral */
+	BC_PDF, /* Pop Directional Format */
+	BC_PDI, /* Pop Directional Isolate */
+	BC_R,   /* Right To Left */
+	BC_RLE, /* Right To Left Embedding */
+	BC_RLI, /* Right To Left Isolate */
+	BC_RLO, /* Right To Left Override */
+	BC_S,   /* Segment Separator */
+	BC_WS,  /* White Space */
+};
 
 enum uprop_blk {
 	BLK_NB = 0,                    /* No Block */
@@ -731,6 +757,7 @@ enum uprop_sc {
 
 [[__mlib_uprop_attrs]] double uprop_get_nv(rune);
 [[__mlib_uprop_attrs]] enum uprop_age uprop_get_age(rune);
+[[__mlib_uprop_attrs]] enum uprop_bc uprop_get_bc(rune);
 [[__mlib_uprop_attrs]] enum uprop_blk uprop_get_blk(rune);
 [[__mlib_uprop_attrs]] enum uprop_bpt uprop_get_bpt(rune);
 [[__mlib_uprop_attrs]] enum uprop_dt uprop_get_dt(rune);
