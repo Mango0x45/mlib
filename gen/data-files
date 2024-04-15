@@ -9,6 +9,7 @@ readonly BASE=https://www.unicode.org/Public/UCD/latest/ucd
 readonly PATHS='
 auxiliary/GraphemeBreakProperty
 BidiBrackets
+DerivedAge
 DerivedCoreProperties
 DerivedNormalizationProps
 emoji/emoji-data

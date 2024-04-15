@@ -7,6 +7,8 @@
 #include "__rune.h"
 #include "__u8view.h"
 
+#define __mlib_uprop_attrs __nodiscard__, __unsequenced__
+
 struct rview {
 	const rune *p;
 	size_t len;
@@ -26,16 +28,60 @@ struct tcctx {
 	bool az_or_tr : 1; /* Azeri or Turkish */
 	bool lt       : 1; /* Lithuanian */
 
-	bool after_i  : 1; /* After ‘i’ */
+	bool after_i : 1; /* After ‘i’ */
 };
 
 struct ucctx {
 	bool az_or_tr : 1; /* Azeri or Turkish */
 	bool lt       : 1; /* Lithuanian */
 
-	bool ẞ       : 1; /* Uppercase ‘ß’ into ‘ẞ’ (instead of ‘SS’) */
+	bool ẞ : 1; /* Uppercase ‘ß’ into ‘ẞ’ (instead of ‘SS’) */
 	bool after_i : 1; /* After ‘i’ */
 };
+
+enum uprop_age : uint_least16_t {
+	AGE_NA = 0, /* Not Assigned */
+	AGE_V1_1 = (1 << 8) | 1,
+	AGE_V2_0 = (2 << 8) | 0,
+	AGE_V2_1 = (2 << 8) | 1,
+	AGE_V3_0 = (3 << 8) | 0,
+	AGE_V3_1 = (3 << 8) | 1,
+	AGE_V3_2 = (3 << 8) | 2,
+	AGE_V4_0 = (4 << 8) | 0,
+	AGE_V4_1 = (4 << 8) | 1,
+	AGE_V5_0 = (5 << 8) | 0,
+	AGE_V5_1 = (5 << 8) | 1,
+	AGE_V5_2 = (5 << 8) | 2,
+	AGE_V6_0 = (6 << 8) | 0,
+	AGE_V6_1 = (6 << 8) | 1,
+	AGE_V6_2 = (6 << 8) | 2,
+	AGE_V6_3 = (6 << 8) | 3,
+	AGE_V7_0 = (7 << 8) | 0,
+	AGE_V8_0 = (8 << 8) | 0,
+	AGE_V9_0 = (9 << 8) | 0,
+	AGE_V10_0 = (10 << 8) | 0,
+	AGE_V11_0 = (11 << 8) | 0,
+	AGE_V12_0 = (12 << 8) | 0,
+	AGE_V12_1 = (12 << 8) | 1,
+	AGE_V13_0 = (13 << 8) | 0,
+	AGE_V14_0 = (14 << 8) | 0,
+	AGE_V15_0 = (15 << 8) | 0,
+	AGE_V15_1 = (15 << 8) | 1,
+};
+
+[[__mlib_uprop_attrs, gnu::__always_inline__]]
+static inline int
+uprop_age_major(enum uprop_age a)
+{
+	return a >> 8;
+}
+
+[[__mlib_uprop_attrs, gnu::__always_inline__]]
+static inline int
+uprop_age_minor(enum uprop_age a)
+{
+	return a & 0xFF;
+}
 
 enum uprop_bpt {
 	BPT_N, /* None */
@@ -174,9 +220,8 @@ enum uprop_nt {
 	NT_NU,   /* Numeric */
 };
 
-#define __mlib_uprop_attrs __nodiscard__, __unsequenced__
-
 [[__mlib_uprop_attrs]] double uprop_get_nv(rune);
+[[__mlib_uprop_attrs]] enum uprop_age uprop_get_age(rune);
 [[__mlib_uprop_attrs]] enum uprop_bpt uprop_get_bpt(rune);
 [[__mlib_uprop_attrs]] enum uprop_dt uprop_get_dt(rune);
 [[__mlib_uprop_attrs]] enum uprop_ea uprop_get_ea(rune);
