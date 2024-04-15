@@ -744,6 +744,7 @@ enum uprop_sc {
 [[__mlib_uprop_attrs]] rune uprop_get_slc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_stc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_suc(rune);
+[[__mlib_uprop_attrs]] struct rview uprop_get_cf(rune, bool);
 [[__mlib_uprop_attrs]] struct rview uprop_get_lc(rune, struct lcctx);
 [[__mlib_uprop_attrs]] struct rview uprop_get_tc(rune, struct tcctx);
 [[__mlib_uprop_attrs]] struct rview uprop_get_uc(rune, struct ucctx);
