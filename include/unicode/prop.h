@@ -740,6 +740,7 @@ enum uprop_sc {
 [[__mlib_uprop_attrs]] enum uprop_nt uprop_get_nt(rune);
 [[__mlib_uprop_attrs]] enum uprop_sc uprop_get_sc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_bpb(rune);
+[[__mlib_uprop_attrs]] rune uprop_get_scf(rune, bool);
 [[__mlib_uprop_attrs]] rune uprop_get_slc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_stc(rune);
 [[__mlib_uprop_attrs]] rune uprop_get_suc(rune);
