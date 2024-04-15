@@ -83,6 +83,340 @@ uprop_age_minor(enum uprop_age a)
 	return a & 0xFF;
 }
 
+enum uprop_blk {
+	BLK_NB = 0,                    /* No Block */
+	BLK_ADLAM,                     /* Adlam */
+	BLK_AEGEAN_NUMBERS,            /* Aegean Numbers */
+	BLK_AHOM,                      /* Ahom */
+	BLK_ALCHEMICAL,                /* Alchemical Symbols */
+	BLK_ALPHABETIC_PF,             /* Alphabetic Presentation Forms */
+	BLK_ANATOLIAN_HIEROGLYPHS,     /* Anatolian Hieroglyphs */
+	BLK_ANCIENT_GREEK_MUSIC,       /* Ancient Greek Musical Notation */
+	BLK_ANCIENT_GREEK_NUMBERS,     /* Ancient Greek Numbers */
+	BLK_ANCIENT_SYMBOLS,           /* Ancient Symbols */
+	BLK_ARABIC,                    /* Arabic */
+	BLK_ARABIC_EXT_A,              /* Arabic Extended A */
+	BLK_ARABIC_EXT_B,              /* Arabic Extended B */
+	BLK_ARABIC_EXT_C,              /* Arabic Extended C */
+	BLK_ARABIC_MATH,               /* Arabic Mathematical Alphabetic Symbols */
+	BLK_ARABIC_PF_A,               /* Arabic Presentation Forms_A */
+	BLK_ARABIC_PF_B,               /* Arabic Presentation Forms_B */
+	BLK_ARABIC_SUP,                /* Arabic Supplement */
+	BLK_ARMENIAN,                  /* Armenian */
+	BLK_ARROWS,                    /* Arrows */
+	BLK_ASCII,                     /* Basic Latin */
+	BLK_AVESTAN,                   /* Avestan */
+	BLK_BALINESE,                  /* Balinese */
+	BLK_BAMUM,                     /* Bamum */
+	BLK_BAMUM_SUP,                 /* Bamum Supplement */
+	BLK_BASSA_VAH,                 /* Bassa Vah */
+	BLK_BATAK,                     /* Batak */
+	BLK_BENGALI,                   /* Bengali */
+	BLK_BHAIKSUKI,                 /* Bhaiksuki */
+	BLK_BLOCK_ELEMENTS,            /* Block Elements */
+	BLK_BOPOMOFO,                  /* Bopomofo */
+	BLK_BOPOMOFO_EXT,              /* Bopomofo Extended */
+	BLK_BOX_DRAWING,               /* Box Drawing */
+	BLK_BRAHMI,                    /* Brahmi */
+	BLK_BRAILLE,                   /* Braille Patterns */
+	BLK_BUGINESE,                  /* Buginese */
+	BLK_BUHID,                     /* Buhid */
+	BLK_BYZANTINE_MUSIC,           /* Byzantine Musical Symbols */
+	BLK_CARIAN,                    /* Carian */
+	BLK_CAUCASIAN_ALBANIAN,        /* Caucasian Albanian */
+	BLK_CHAKMA,                    /* Chakma */
+	BLK_CHAM,                      /* Cham */
+	BLK_CHEROKEE,                  /* Cherokee */
+	BLK_CHEROKEE_SUP,              /* Cherokee Supplement */
+	BLK_CHESS_SYMBOLS,             /* Chess Symbols */
+	BLK_CHORASMIAN,                /* Chorasmian */
+	BLK_CJK,                       /* CJK Unified Ideographs */
+	BLK_CJK_COMPAT,                /* CJK Compatibility */
+	BLK_CJK_COMPAT_FORMS,          /* CJK Compatibility Forms */
+	BLK_CJK_COMPAT_IDEOGRAPHS,     /* CJK Compatibility Ideographs */
+	BLK_CJK_COMPAT_IDEOGRAPHS_SUP, /* CJK Compatibility Ideographs Supplement */
+	BLK_CJK_EXT_A,                 /* CJK Unified Ideographs Extension A */
+	BLK_CJK_EXT_B,                 /* CJK Unified Ideographs Extension B */
+	BLK_CJK_EXT_C,                 /* CJK Unified Ideographs Extension C */
+	BLK_CJK_EXT_D,                 /* CJK Unified Ideographs Extension D */
+	BLK_CJK_EXT_E,                 /* CJK Unified Ideographs Extension E */
+	BLK_CJK_EXT_F,                 /* CJK Unified Ideographs Extension F */
+	BLK_CJK_EXT_G,                 /* CJK Unified Ideographs Extension G */
+	BLK_CJK_EXT_H,                 /* CJK Unified Ideographs Extension H */
+	BLK_CJK_EXT_I,                 /* CJK Unified Ideographs Extension I */
+	BLK_CJK_RADICALS_SUP,          /* CJK Radicals Supplement */
+	BLK_CJK_STROKES,               /* CJK Strokes */
+	BLK_CJK_SYMBOLS,               /* CJK Symbols And Punctuation */
+	BLK_COMPAT_JAMO,               /* Hangul Compatibility Jamo */
+	BLK_CONTROL_PICTURES,          /* Control Pictures */
+	BLK_COPTIC,                    /* Coptic */
+	BLK_COPTIC_EPACT_NUMBERS,      /* Coptic Epact Numbers */
+	BLK_COUNTING_ROD,              /* Counting Rod Numerals */
+	BLK_CUNEIFORM,                 /* Cuneiform */
+	BLK_CUNEIFORM_NUMBERS,         /* Cuneiform Numbers And Punctuation */
+	BLK_CURRENCY_SYMBOLS,          /* Currency Symbols */
+	BLK_CYPRIOT_SYLLABARY,         /* Cypriot Syllabary */
+	BLK_CYPRO_MINOAN,              /* Cypro Minoan */
+	BLK_CYRILLIC,                  /* Cyrillic */
+	BLK_CYRILLIC_EXT_A,            /* Cyrillic Extended A */
+	BLK_CYRILLIC_EXT_B,            /* Cyrillic Extended B */
+	BLK_CYRILLIC_EXT_C,            /* Cyrillic Extended C */
+	BLK_CYRILLIC_EXT_D,            /* Cyrillic Extended D */
+	BLK_CYRILLIC_SUP,              /* Cyrillic Supplement */
+	BLK_DESERET,                   /* Deseret */
+	BLK_DEVANAGARI,                /* Devanagari */
+	BLK_DEVANAGARI_EXT,            /* Devanagari Extended */
+	BLK_DEVANAGARI_EXT_A,          /* Devanagari Extended A */
+	BLK_DIACRITICALS,              /* Combining Diacritical Marks */
+	BLK_DIACRITICALS_EXT,          /* Combining Diacritical Marks Extended */
+	BLK_DIACRITICALS_FOR_SYMBOLS,  /* Combining Diacritical Marks For Symbols */
+	BLK_DIACRITICALS_SUP,          /* Combining Diacritical Marks Supplement */
+	BLK_DINGBATS,                  /* Dingbats */
+	BLK_DIVES_AKURU,               /* Dives Akuru */
+	BLK_DOGRA,                     /* Dogra */
+	BLK_DOMINO,                    /* Domino Tiles */
+	BLK_DUPLOYAN,                  /* Duployan */
+	BLK_EARLY_DYNASTIC_CUNEIFORM,  /* Early Dynastic Cuneiform */
+	BLK_EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS, /* Egyptian Hieroglyph Format
+	                                          * Controls
+	                                          */
+	BLK_EGYPTIAN_HIEROGLYPHS,                /* Egyptian Hieroglyphs */
+	BLK_ELBASAN,                             /* Elbasan */
+	BLK_ELYMAIC,                             /* Elymaic */
+	BLK_EMOTICONS,                           /* Emoticons */
+	BLK_ENCLOSED_ALPHANUM,                   /* Enclosed Alphanumerics */
+	BLK_ENCLOSED_ALPHANUM_SUP,       /* Enclosed Alphanumeric Supplement */
+	BLK_ENCLOSED_CJK,                /* Enclosed CJK_Letters And Months */
+	BLK_ENCLOSED_IDEOGRAPHIC_SUP,    /* Enclosed Ideographic Supplement */
+	BLK_ETHIOPIC,                    /* Ethiopic */
+	BLK_ETHIOPIC_EXT,                /* Ethiopic Extended */
+	BLK_ETHIOPIC_EXT_A,              /* Ethiopic Extended A */
+	BLK_ETHIOPIC_EXT_B,              /* Ethiopic Extended B */
+	BLK_ETHIOPIC_SUP,                /* Ethiopic Supplement */
+	BLK_GEOMETRIC_SHAPES,            /* Geometric Shapes */
+	BLK_GEOMETRIC_SHAPES_EXT,        /* Geometric Shapes Extended */
+	BLK_GEORGIAN,                    /* Georgian */
+	BLK_GEORGIAN_EXT,                /* Georgian Extended */
+	BLK_GEORGIAN_SUP,                /* Georgian Supplement */
+	BLK_GLAGOLITIC,                  /* Glagolitic */
+	BLK_GLAGOLITIC_SUP,              /* Glagolitic Supplement */
+	BLK_GOTHIC,                      /* Gothic */
+	BLK_GRANTHA,                     /* Grantha */
+	BLK_GREEK,                       /* Greek And Coptic */
+	BLK_GREEK_EXT,                   /* Greek Extended */
+	BLK_GUJARATI,                    /* Gujarati */
+	BLK_GUNJALA_GONDI,               /* Gunjala Gondi */
+	BLK_GURMUKHI,                    /* Gurmukhi */
+	BLK_HALF_AND_FULL_FORMS,         /* Halfwidth And Fullwidth Forms */
+	BLK_HALF_MARKS,                  /* Combining Half Marks */
+	BLK_HANGUL,                      /* Hangul Syllables */
+	BLK_HANIFI_ROHINGYA,             /* Hanifi Rohingya */
+	BLK_HANUNOO,                     /* Hanunoo */
+	BLK_HATRAN,                      /* Hatran */
+	BLK_HEBREW,                      /* Hebrew */
+	BLK_HIGH_PU_SURROGATES,          /* High Private Use Surrogates */
+	BLK_HIGH_SURROGATES,             /* High Surrogates */
+	BLK_HIRAGANA,                    /* Hiragana */
+	BLK_IDC,                         /* Ideographic Description Characters */
+	BLK_IDEOGRAPHIC_SYMBOLS,         /* Ideographic Symbols And Punctuation */
+	BLK_IMPERIAL_ARAMAIC,            /* Imperial Aramaic */
+	BLK_INDIC_NUMBER_FORMS,          /* Common Indic Number Forms */
+	BLK_INDIC_SIYAQ_NUMBERS,         /* Indic Siyaq Numbers */
+	BLK_INSCRIPTIONAL_PAHLAVI,       /* Inscriptional Pahlavi */
+	BLK_INSCRIPTIONAL_PARTHIAN,      /* Inscriptional Parthian */
+	BLK_IPA_EXT,                     /* IPA Extensions */
+	BLK_JAMO,                        /* Hangul Jamo */
+	BLK_JAMO_EXT_A,                  /* Hangul Jamo Extended A */
+	BLK_JAMO_EXT_B,                  /* Hangul Jamo Extended B */
+	BLK_JAVANESE,                    /* Javanese */
+	BLK_KAITHI,                      /* Kaithi */
+	BLK_KAKTOVIK_NUMERALS,           /* Kaktovik Numerals */
+	BLK_KANA_EXT_A,                  /* Kana Extended A */
+	BLK_KANA_EXT_B,                  /* Kana Extended B */
+	BLK_KANA_SUP,                    /* Kana Supplement */
+	BLK_KANBUN,                      /* Kanbun */
+	BLK_KANGXI,                      /* Kangxi Radicals */
+	BLK_KANNADA,                     /* Kannada */
+	BLK_KATAKANA,                    /* Katakana */
+	BLK_KATAKANA_EXT,                /* Katakana Phonetic Extensions */
+	BLK_KAWI,                        /* Kawi */
+	BLK_KAYAH_LI,                    /* Kayah Li */
+	BLK_KHAROSHTHI,                  /* Kharoshthi */
+	BLK_KHITAN_SMALL_SCRIPT,         /* Khitan Small Script */
+	BLK_KHMER,                       /* Khmer */
+	BLK_KHMER_SYMBOLS,               /* Khmer Symbols */
+	BLK_KHOJKI,                      /* Khojki */
+	BLK_KHUDAWADI,                   /* Khudawadi */
+	BLK_LAO,                         /* Lao */
+	BLK_LATIN_1_SUP,                 /* Latin 1 Supplement */
+	BLK_LATIN_EXT_A,                 /* Latin Extended A */
+	BLK_LATIN_EXT_ADDITIONAL,        /* Latin Extended Additional */
+	BLK_LATIN_EXT_B,                 /* Latin Extended B */
+	BLK_LATIN_EXT_C,                 /* Latin Extended C */
+	BLK_LATIN_EXT_D,                 /* Latin Extended D */
+	BLK_LATIN_EXT_E,                 /* Latin Extended E */
+	BLK_LATIN_EXT_F,                 /* Latin Extended F */
+	BLK_LATIN_EXT_G,                 /* Latin Extended G */
+	BLK_LEPCHA,                      /* Lepcha */
+	BLK_LETTERLIKE_SYMBOLS,          /* Letterlike Symbols */
+	BLK_LIMBU,                       /* Limbu */
+	BLK_LINEAR_A,                    /* Linear A */
+	BLK_LINEAR_B_IDEOGRAMS,          /* Linear B Ideograms */
+	BLK_LINEAR_B_SYLLABARY,          /* Linear B Syllabary */
+	BLK_LISU,                        /* Lisu */
+	BLK_LISU_SUP,                    /* Lisu Supplement */
+	BLK_LOW_SURROGATES,              /* Low Surrogates */
+	BLK_LYCIAN,                      /* Lycian */
+	BLK_LYDIAN,                      /* Lydian */
+	BLK_MAHAJANI,                    /* Mahajani */
+	BLK_MAHJONG,                     /* Mahjong Tiles */
+	BLK_MAKASAR,                     /* Makasar */
+	BLK_MALAYALAM,                   /* Malayalam */
+	BLK_MANDAIC,                     /* Mandaic */
+	BLK_MANICHAEAN,                  /* Manichaean */
+	BLK_MARCHEN,                     /* Marchen */
+	BLK_MASARAM_GONDI,               /* Masaram Gondi */
+	BLK_MATH_ALPHANUM,               /* Mathematical Alphanumeric Symbols */
+	BLK_MATH_OPERATORS,              /* Mathematical Operators */
+	BLK_MAYAN_NUMERALS,              /* Mayan Numerals */
+	BLK_MEDEFAIDRIN,                 /* Medefaidrin */
+	BLK_MEETEI_MAYEK,                /* Meetei Mayek */
+	BLK_MEETEI_MAYEK_EXT,            /* Meetei Mayek Extensions */
+	BLK_MENDE_KIKAKUI,               /* Mende Kikakui */
+	BLK_MEROITIC_CURSIVE,            /* Meroitic Cursive */
+	BLK_MEROITIC_HIEROGLYPHS,        /* Meroitic Hieroglyphs */
+	BLK_MIAO,                        /* Miao */
+	BLK_MISC_ARROWS,                 /* Miscellaneous Symbols And Arrows */
+	BLK_MISC_MATH_SYMBOLS_A,         /* Miscellaneous Mathematical Symbols A */
+	BLK_MISC_MATH_SYMBOLS_B,         /* Miscellaneous Mathematical Symbols B */
+	BLK_MISC_PICTOGRAPHS,            /* Miscellaneous Symbols And Pictographs */
+	BLK_MISC_SYMBOLS,                /* Miscellaneous Symbols */
+	BLK_MISC_TECHNICAL,              /* Miscellaneous Technical */
+	BLK_MODI,                        /* Modi */
+	BLK_MODIFIER_LETTERS,            /* Spacing Modifier Letters */
+	BLK_MODIFIER_TONE_LETTERS,       /* Modifier Tone Letters */
+	BLK_MONGOLIAN,                   /* Mongolian */
+	BLK_MONGOLIAN_SUP,               /* Mongolian Supplement */
+	BLK_MRO,                         /* Mro */
+	BLK_MULTANI,                     /* Multani */
+	BLK_MUSIC,                       /* Musical Symbols */
+	BLK_MYANMAR,                     /* Myanmar */
+	BLK_MYANMAR_EXT_A,               /* Myanmar Extended A */
+	BLK_MYANMAR_EXT_B,               /* Myanmar Extended B */
+	BLK_NABATAEAN,                   /* Nabataean */
+	BLK_NAG_MUNDARI,                 /* Nag Mundari */
+	BLK_NANDINAGARI,                 /* Nandinagari */
+	BLK_NEW_TAI_LUE,                 /* New Tai Lue */
+	BLK_NEWA,                        /* Newa */
+	BLK_NKO,                         /* NKo */
+	BLK_NUMBER_FORMS,                /* Number Forms */
+	BLK_NUSHU,                       /* Nushu */
+	BLK_NYIAKENG_PUACHUE_HMONG,      /* Nyiakeng Puachue Hmong */
+	BLK_OCR,                         /* Optical Character Recognition */
+	BLK_OGHAM,                       /* Ogham */
+	BLK_OL_CHIKI,                    /* Ol Chiki */
+	BLK_OLD_HUNGARIAN,               /* Old Hungarian */
+	BLK_OLD_ITALIC,                  /* Old Italic */
+	BLK_OLD_NORTH_ARABIAN,           /* Old North Arabian */
+	BLK_OLD_PERMIC,                  /* Old Permic */
+	BLK_OLD_PERSIAN,                 /* Old Persian */
+	BLK_OLD_SOGDIAN,                 /* Old Sogdian */
+	BLK_OLD_SOUTH_ARABIAN,           /* Old South Arabian */
+	BLK_OLD_TURKIC,                  /* Old Turkic */
+	BLK_OLD_UYGHUR,                  /* Old Uyghur */
+	BLK_ORIYA,                       /* Oriya */
+	BLK_ORNAMENTAL_DINGBATS,         /* Ornamental Dingbats */
+	BLK_OSAGE,                       /* Osage */
+	BLK_OSMANYA,                     /* Osmanya */
+	BLK_OTTOMAN_SIYAQ_NUMBERS,       /* Ottoman Siyaq Numbers */
+	BLK_PAHAWH_HMONG,                /* Pahawh Hmong */
+	BLK_PALMYRENE,                   /* Palmyrene */
+	BLK_PAU_CIN_HAU,                 /* Pau Cin Hau */
+	BLK_PHAGS_PA,                    /* Phags Pa */
+	BLK_PHAISTOS,                    /* Phaistos Disc */
+	BLK_PHOENICIAN,                  /* Phoenician */
+	BLK_PHONETIC_EXT,                /* Phonetic Extensions */
+	BLK_PHONETIC_EXT_SUP,            /* Phonetic Extensions Supplement */
+	BLK_PLAYING_CARDS,               /* Playing Cards */
+	BLK_PSALTER_PAHLAVI,             /* Psalter Pahlavi */
+	BLK_PUA,                         /* Private Use Area */
+	BLK_PUNCTUATION,                 /* General Punctuation */
+	BLK_REJANG,                      /* Rejang */
+	BLK_RUMI,                        /* Rumi Numeral Symbols */
+	BLK_RUNIC,                       /* Runic */
+	BLK_SAMARITAN,                   /* Samaritan */
+	BLK_SAURASHTRA,                  /* Saurashtra */
+	BLK_SHARADA,                     /* Sharada */
+	BLK_SHAVIAN,                     /* Shavian */
+	BLK_SHORTHAND_FORMAT_CONTROLS,   /* Shorthand Format Controls */
+	BLK_SIDDHAM,                     /* Siddham */
+	BLK_SINHALA,                     /* Sinhala */
+	BLK_SINHALA_ARCHAIC_NUMBERS,     /* Sinhala Archaic Numbers */
+	BLK_SMALL_FORMS,                 /* Small Form Variants */
+	BLK_SMALL_KANA_EXT,              /* Small Kana Extension */
+	BLK_SOGDIAN,                     /* Sogdian */
+	BLK_SORA_SOMPENG,                /* Sora_Sompeng */
+	BLK_SOYOMBO,                     /* Soyombo */
+	BLK_SPECIALS,                    /* Specials */
+	BLK_SUNDANESE,                   /* Sundanese */
+	BLK_SUNDANESE_SUP,               /* Sundanese_Supplement */
+	BLK_SUP_ARROWS_A,                /* Supplemental Arrows A */
+	BLK_SUP_ARROWS_B,                /* Supplemental Arrows B */
+	BLK_SUP_ARROWS_C,                /* Supplemental Arrows C */
+	BLK_SUP_MATH_OPERATORS,          /* Supplemental Mathematical Operators */
+	BLK_SUP_PUA_A,                   /* Supplementary Private Use Area A */
+	BLK_SUP_PUA_B,                   /* Supplementary Private Use Area B */
+	BLK_SUP_PUNCTUATION,             /* Supplemental Punctuation */
+	BLK_SUP_SYMBOLS_AND_PICTOGRAPHS, /* Supplemental Symbols And Pictographs */
+	BLK_SUPER_AND_SUB,               /* Superscripts And Subscripts */
+	BLK_SUTTON_SIGNWRITING,          /* Sutton SignWriting */
+	BLK_SYLOTI_NAGRI,                /* Syloti Nagri */
+	BLK_SYMBOLS_AND_PICTOGRAPHS_EXT_A, /* Symbols And Pictographs Extended A */
+	BLK_SYMBOLS_FOR_LEGACY_COMPUTING,  /* Symbols For Legacy Computing */
+	BLK_SYRIAC,                        /* Syriac */
+	BLK_SYRIAC_SUP,                    /* Syriac Supplement */
+	BLK_TAGALOG,                       /* Tagalog */
+	BLK_TAGBANWA,                      /* Tagbanwa */
+	BLK_TAGS,                          /* Tags */
+	BLK_TAI_LE,                        /* Tai Le */
+	BLK_TAI_THAM,                      /* Tai Tham */
+	BLK_TAI_VIET,                      /* Tai Viet */
+	BLK_TAI_XUAN_JING,                 /* Tai Xuan Jing Symbols */
+	BLK_TAKRI,                         /* Takri */
+	BLK_TAMIL,                         /* Tamil */
+	BLK_TAMIL_SUP,                     /* Tamil Supplement */
+	BLK_TANGSA,                        /* Tangsa */
+	BLK_TANGUT,                        /* Tangut */
+	BLK_TANGUT_COMPONENTS,             /* Tangut Components */
+	BLK_TANGUT_SUP,                    /* Tangut Supplement */
+	BLK_TELUGU,                        /* Telugu */
+	BLK_THAANA,                        /* Thaana */
+	BLK_THAI,                          /* Thai */
+	BLK_TIBETAN,                       /* Tibetan */
+	BLK_TIFINAGH,                      /* Tifinagh */
+	BLK_TIRHUTA,                       /* Tirhuta */
+	BLK_TOTO,                          /* Toto */
+	BLK_TRANSPORT_AND_MAP,             /* Transport And Map Symbols */
+	BLK_UCAS,             /* Unified Canadian Aboriginal Syllabics */
+	BLK_UCAS_EXT,         /* Unified Canadian Aboriginal Syllabics Extended */
+	BLK_UCAS_EXT_A,       /* Unified Canadian Aboriginal Syllabics Extended A */
+	BLK_UGARITIC,         /* Ugaritic */
+	BLK_VAI,              /* Vai */
+	BLK_VEDIC_EXT,        /* Vedic Extensions */
+	BLK_VERTICAL_FORMS,   /* Vertical_Forms */
+	BLK_VITHKUQI,         /* Vithkuqi */
+	BLK_VS,               /* Variation Selectors */
+	BLK_VS_SUP,           /* Variation Selectors Supplement */
+	BLK_WANCHO,           /* Wancho */
+	BLK_WARANG_CITI,      /* Warang Citi */
+	BLK_YEZIDI,           /* Yezidi */
+	BLK_YI_RADICALS,      /* Yi Radicals */
+	BLK_YI_SYLLABLES,     /* Yi Syllables */
+	BLK_YIJING,           /* Yijing Hexagram Symbols */
+	BLK_ZANABAZAR_SQUARE, /* Zanabazar Square */
+	BLK_ZNAMENNY_MUSIC,   /* Znamenny Musical Notation */
+};
+
 enum uprop_bpt {
 	BPT_N, /* None */
 	BPT_C, /* Close */
@@ -222,6 +556,7 @@ enum uprop_nt {
 
 [[__mlib_uprop_attrs]] double uprop_get_nv(rune);
 [[__mlib_uprop_attrs]] enum uprop_age uprop_get_age(rune);
+[[__mlib_uprop_attrs]] enum uprop_blk uprop_get_blk(rune);
 [[__mlib_uprop_attrs]] enum uprop_bpt uprop_get_bpt(rune);
 [[__mlib_uprop_attrs]] enum uprop_dt uprop_get_dt(rune);
 [[__mlib_uprop_attrs]] enum uprop_ea uprop_get_ea(rune);
