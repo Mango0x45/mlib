@@ -452,6 +452,67 @@ enum uprop_bpt {
 	BPT_O, /* Open */
 };
 
+enum uprop_ccc : int {
+	CCC_NR = 0,       /* Not Reordered */
+	CCC_OV = 1,       /* Overlay */
+	CCC_HANR = 6,     /* Han Reading */
+	CCC_NK = 7,       /* Nukta */
+	CCC_KV = 8,       /* Kana Voicing */
+	CCC_VR = 9,       /* Virama */
+	CCC_CCC10 = 10,   /* CCC10 */
+	CCC_CCC11 = 11,   /* CCC11 */
+	CCC_CCC12 = 12,   /* CCC12 */
+	CCC_CCC13 = 13,   /* CCC13 */
+	CCC_CCC14 = 14,   /* CCC14 */
+	CCC_CCC15 = 15,   /* CCC15 */
+	CCC_CCC16 = 16,   /* CCC16 */
+	CCC_CCC17 = 17,   /* CCC17 */
+	CCC_CCC18 = 18,   /* CCC18 */
+	CCC_CCC19 = 19,   /* CCC19 */
+	CCC_CCC20 = 20,   /* CCC20 */
+	CCC_CCC21 = 21,   /* CCC21 */
+	CCC_CCC22 = 22,   /* CCC22 */
+	CCC_CCC23 = 23,   /* CCC23 */
+	CCC_CCC24 = 24,   /* CCC24 */
+	CCC_CCC25 = 25,   /* CCC25 */
+	CCC_CCC26 = 26,   /* CCC26 */
+	CCC_CCC27 = 27,   /* CCC27 */
+	CCC_CCC28 = 28,   /* CCC28 */
+	CCC_CCC29 = 29,   /* CCC29 */
+	CCC_CCC30 = 30,   /* CCC30 */
+	CCC_CCC31 = 31,   /* CCC31 */
+	CCC_CCC32 = 32,   /* CCC32 */
+	CCC_CCC33 = 33,   /* CCC33 */
+	CCC_CCC34 = 34,   /* CCC34 */
+	CCC_CCC35 = 35,   /* CCC35 */
+	CCC_CCC36 = 36,   /* CCC36 */
+	CCC_CCC84 = 84,   /* CCC84 */
+	CCC_CCC91 = 91,   /* CCC91 */
+	CCC_CCC103 = 103, /* CCC103 */
+	CCC_CCC107 = 107, /* CCC107 */
+	CCC_CCC118 = 118, /* CCC118 */
+	CCC_CCC122 = 122, /* CCC122 */
+	CCC_CCC129 = 129, /* CCC129 */
+	CCC_CCC130 = 130, /* CCC130 */
+	CCC_CCC132 = 132, /* CCC132 */
+	CCC_CCC133 = 133, /* CCC133 */
+	CCC_ATBL = 200,   /* Attached Below Left */
+	CCC_ATB = 202,    /* Attached Below */
+	CCC_ATA = 214,    /* Attached Above */
+	CCC_ATAR = 216,   /* Attached Above Right */
+	CCC_BL = 218,     /* Below Left */
+	CCC_B = 220,      /* Below */
+	CCC_BR = 222,     /* Below Right */
+	CCC_L = 224,      /* Left */
+	CCC_R = 226,      /* Right */
+	CCC_AL = 228,     /* Above Left */
+	CCC_A = 230,      /* Above */
+	CCC_AR = 232,     /* Above Right */
+	CCC_DB = 233,     /* Double Below */
+	CCC_DA = 234,     /* Double Above */
+	CCC_IS = 240,     /* Iota Subscript */
+};
+
 enum uprop_dt {
 	DT_NONE, /* None */
 	DT_CAN,  /* Canonical */
@@ -833,6 +894,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_bc uprop_get_bc(rune);
 [[_mlib_pure]] enum uprop_blk uprop_get_blk(rune);
 [[_mlib_pure]] enum uprop_bpt uprop_get_bpt(rune);
+[[_mlib_pure]] enum uprop_ccc uprop_get_ccc(rune);
 [[_mlib_pure]] enum uprop_dt uprop_get_dt(rune);
 [[_mlib_pure]] enum uprop_ea uprop_get_ea(rune);
 [[_mlib_pure]] enum uprop_gc uprop_get_gc(rune);
