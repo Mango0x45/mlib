@@ -49,19 +49,18 @@ arena_alloc(arena *a, size_t sz, size_t n, size_t align)
 	}
 
 	for (struct _region *r = a->_head; r != nullptr; r = r->next) {
-		size_t off = pad(r->len, align);
+		size_t nlen, off = pad(r->len, align);
 
 		/* Technically there are other ways to solve this… but at this point you
 		   might as well just fail */
-		size_t padded_sz;
-		if (ckd_add(&padded_sz, off, sz)) {
+		if (ckd_add(&nlen, off, sz)) {
 			errno = EOVERFLOW;
 			return nullptr;
 		}
 
-		if (padded_sz <= r->cap) {
+		if (nlen <= r->cap) {
 			void *ret = (char *)r->data + off;
-			r->len = off + sz;
+			r->len = nlen;
 			return ret;
 		}
 	}
