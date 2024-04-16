@@ -4,7 +4,7 @@ cd "${0%/*}/.."
 
 mkdir -p data
 
-readonly BASE=https://www.unicode.org/Public/UCD/latest/ucd
+readonly BASE='https://www.unicode.org/Public/15.1.0/ucd'
 
 readonly PATHS='
 auxiliary/GraphemeBreakProperty
@@ -33,6 +33,6 @@ VerticalOrientation
 for path in $PATHS
 do
 	name="data/${path##*/}"
-	test -f "$name" || wget -q "$BASE/$path.txt" -O "$name" &
+	wget -q "$BASE/$path.txt" -O "$name" &
 done
 wait
