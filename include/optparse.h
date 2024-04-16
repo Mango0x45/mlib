@@ -30,8 +30,8 @@ struct op_option {
 	enum op_argkind argtype;
 };
 
-[[__nodiscard__]] rune optparse(struct optparse *, const struct op_option *,
-                                size_t);
+[[nodiscard]] rune optparse(struct optparse *, const struct op_option *,
+                            size_t);
 
 [[_mlib_inline]]
 static inline struct optparse

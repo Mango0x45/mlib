@@ -20,7 +20,7 @@ typedef struct {
 	size_t _init;
 } arena;
 
-[[gnu::__returns_nonnull__]] void *bufalloc(void *, size_t, size_t);
+[[gnu::returns_nonnull]] void *bufalloc(void *, size_t, size_t);
 void *bufalloc_noterm(void *, size_t, size_t);
 
 [[_mlib_pure, _mlib_inline]]
@@ -30,8 +30,9 @@ mkarena(size_t n)
 	return (arena){._init = n ? n : MLIB_ARENA_BLKSIZE};
 }
 
-[[gnu::__malloc__, gnu::__alloc_size__(2, 3), gnu::__alloc_align__(4)]]
+[[gnu::malloc, gnu::alloc_size(2, 3), gnu::alloc_align(4)]]
 void *arena_alloc(arena *, size_t, size_t, size_t);
+
 void arena_zero(arena *);
 void arena_free(arena *);
 
