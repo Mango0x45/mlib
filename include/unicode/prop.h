@@ -751,6 +751,13 @@ enum uprop_sc {
 	SC_ZYYY,     /* Common */
 };
 
+enum uprop_vo {
+	VO_R,  /* Rotated */
+	VO_TR, /* Transformed Rotated */
+	VO_TU, /* Transformed Upright */
+	VO_U,  /* Upright */
+};
+
 /* Not a Unicode property; but a nice-to-have */
 [[_mlib_pure]] struct u8view uprop_blkname(enum uprop_blk);
 
@@ -765,6 +772,7 @@ enum uprop_sc {
 [[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
+[[_mlib_pure]] enum uprop_vo uprop_get_vo(rune);
 [[_mlib_pure]] rune uprop_get_bmg(rune);
 [[_mlib_pure]] rune uprop_get_bpb(rune);
 [[_mlib_pure]] rune uprop_get_scf(rune, bool);

@@ -27,6 +27,7 @@ PropList
 Scripts
 SpecialCasing
 UnicodeData
+VerticalOrientation
 '
 
 for path in $PATHS
