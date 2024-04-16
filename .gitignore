@@ -4,4 +4,4 @@
 compile_commands.json
 make
 out
-test.c
+test*.c
