@@ -22,10 +22,9 @@
 	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", "-Wvla", \
 		"-Wno-pointer-sign"
 
-#define CMDPRC(c) \
+#define CMDRC(c) \
 	do { \
 		int ec; \
-		cmdput(c); \
 		if ((ec = cmdexec(c)) != EXIT_SUCCESS) \
 			diex("%s terminated with exit-code %d", *(c)._argv, ec); \
 		cmdclr(&(c)); \
@@ -71,7 +70,8 @@ main(int argc, char **argv)
 		cmd_t c = {};
 		cmdadd(&c, "find", ".", "(", "-name", "*.[ao]", "-or", "-name", "*.so",
 		       ")", "-delete");
-		CMDPRC(c);
+		cmdput(c);
+		CMDRC(c);
 	} else {
 		cmd_t c = {};
 		glob_t g;
@@ -102,7 +102,8 @@ main(int argc, char **argv)
 		{
 			cmdadd(&c, "ar", "rcs", LIBNAME ".a");
 			cmdaddv(&c, g.gl_pathv, g.gl_pathc);
-			CMDPRC(c);
+			fprintf(stderr, "AR\t%s\n", LIBNAME ".a");
+			CMDRC(c);
 		}
 
 		if (flagset('f')
@@ -113,7 +114,8 @@ main(int argc, char **argv)
 			cmdaddv(&c, sv.buf, sv.len);
 			cmdadd(&c, "-shared", "-o", LIBNAME ".so");
 			cmdaddv(&c, g.gl_pathv, g.gl_pathc);
-			CMDPRC(c);
+			fprintf(stderr, "CC\t%s\n", LIBNAME ".so");
+			CMDRC(c);
 		}
 
 		globfree(&g);
@@ -141,7 +143,8 @@ work(void *p)
 			env_or_default(&sv, "CFLAGS", CFLAGS_DBG);
 		cmdaddv(&c, sv.buf, sv.len);
 		cmdadd(&c, "-Iinclude", "-fPIC", "-o", dst, "-c", src);
-		CMDPRC(c);
+		fprintf(stderr, "CC\t%s\n", dst);
+		CMDRC(c);
 	}
 
 	free(dst);
