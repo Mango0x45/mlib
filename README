@@ -9,7 +9,7 @@ This does not aim to be a LibC replacement, but rather a supplimentary
 library.  It is a C23 library with no plans to support older standards.
 
 The headers as of now are:
- • alloc.h — memory allocation functions
+ • alloc.h — allocators and memory allocation functions
  • bitset.h — bitset implementation
  • dynarr.h — dynamic array implementation
  • errors.h — err.h-inspired diagnostics functions
@@ -44,7 +44,6 @@ DISCLAIMER:
     you not?
 
 Planned Features:
- • Arena Allocators            (alloc.h)
  • Missing Unicode Properties  (unicode/prop.h)
  • String Case Conversions     (unicode/string.h)
  • Unicode Normalization       (unicode/string.h)
