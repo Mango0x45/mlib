@@ -5,6 +5,6 @@ void *
 bufalloc(void *p, size_t n, size_t m)
 {
 	if ((p = bufalloc_noterm(p, n, m)) == nullptr)
-		err(__func__);
+		err("%s:", __func__);
 	return p;
 }
