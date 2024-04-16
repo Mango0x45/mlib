@@ -44,7 +44,6 @@ static const struct {
 	rune lo, hi;
 	enum uprop_gc val;
 } lookup[] = {
-
 	{RUNE_C(0x000100), RUNE_C(0x000100), GC_LU},
 	{RUNE_C(0x000101), RUNE_C(0x000101), GC_LL},
 	{RUNE_C(0x000102), RUNE_C(0x000102), GC_LU},
