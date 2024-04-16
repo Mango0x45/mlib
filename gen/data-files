@@ -23,6 +23,7 @@ extracted/DerivedEastAsianWidth
 extracted/DerivedLineBreak
 extracted/DerivedNumericType
 extracted/DerivedNumericValues
+HangulSyllableType
 PropList
 Scripts
 SpecialCasing

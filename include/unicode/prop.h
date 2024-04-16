@@ -525,6 +525,15 @@ enum [[clang::flag_enum]] uprop_gc : uint_least32_t {
 	GC_Z = GC_ZL | GC_ZP | GC_ZS,                 /* Separator */
 };
 
+enum uprop_hst {
+	HST_NA = 0, /* Not Applicable */
+	HST_L,      /* Leading Jamo */
+	HST_LV,     /* LV Syllable */
+	HST_LVT,    /* LVT Syllable */
+	HST_T,      /* Trailing Jamo */
+	HST_V,      /* Vowel Jamo */
+};
+
 enum uprop_lb {
 	LB_XX,  /* Unknown */
 	LB_AI,  /* Ambiguous */
@@ -769,6 +778,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_dt uprop_get_dt(rune);
 [[_mlib_pure]] enum uprop_ea uprop_get_ea(rune);
 [[_mlib_pure]] enum uprop_gc uprop_get_gc(rune);
+[[_mlib_pure]] enum uprop_hst uprop_get_hst(rune);
 [[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
