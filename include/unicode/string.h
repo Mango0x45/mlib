@@ -17,14 +17,16 @@ enum [[clang::__flag_enum__]] caseflags {
 
 /* clang-format on */
 
-size_t u8glen(const char8_t *, size_t);
+[[__nodiscard__]] size_t u8glen(const char8_t *, size_t);
 size_t u8gnext(struct u8view *, const char8_t **, size_t *);
 
-size_t u8casefold(char8_t *restrict, size_t, const char8_t *, size_t,
-                  enum caseflags);
-size_t u8lower(char8_t *restrict, size_t, const char8_t *, size_t,
-               enum caseflags);
-size_t u8upper(char8_t *restrict, size_t, const char8_t *, size_t,
-               enum caseflags);
+#define _mlib_warn_trunc __nodiscard__("don’t forget to check for truncation")
+
+[[_mlib_warn_trunc]] size_t u8casefold(char8_t *restrict, size_t,
+                                       const char8_t *, size_t, enum caseflags);
+[[_mlib_warn_trunc]] size_t u8lower(char8_t *restrict, size_t, const char8_t *,
+                                    size_t, enum caseflags);
+[[_mlib_warn_trunc]] size_t u8upper(char8_t *restrict, size_t, const char8_t *,
+                                    size_t, enum caseflags);
 
 #endif /* !MLIB_UNICODE_STRING_H */

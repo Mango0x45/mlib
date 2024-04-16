@@ -6,6 +6,7 @@
 #include "__charN_t.h"
 #include "__rune.h"
 #include "__u8view.h"
+#include "_attrs.h"
 
 struct optparse {
 	bool _b;
@@ -32,7 +33,7 @@ struct op_option {
 [[__nodiscard__]] rune optparse(struct optparse *, const struct op_option *,
                                 size_t);
 
-[[gnu::__always_inline__]]
+[[_mlib_inline]]
 static inline struct optparse
 mkoptparser(char **argv)
 {

@@ -6,8 +6,7 @@
 
 #include "__rune.h"
 #include "__u8view.h"
-
-#define __mlib_uprop_attrs __nodiscard__, __unsequenced__
+#include "_attrs.h"
 
 struct rview {
 	const rune *p;
@@ -73,14 +72,14 @@ enum uprop_age : uint_least16_t {
 	AGE_V15_1 = (15 << 8) | 1,
 };
 
-[[__mlib_uprop_attrs, gnu::__always_inline__]]
+[[_mlib_pure, _mlib_inline]]
 static inline int
 uprop_age_major(enum uprop_age a)
 {
 	return a >> 8;
 }
 
-[[__mlib_uprop_attrs, gnu::__always_inline__]]
+[[_mlib_pure, _mlib_inline]]
 static inline int
 uprop_age_minor(enum uprop_age a)
 {
@@ -753,90 +752,90 @@ enum uprop_sc {
 };
 
 /* Not a Unicode property; but a nice-to-have */
-[[__mlib_uprop_attrs]] struct u8view uprop_blkname(enum uprop_blk);
+[[_mlib_pure]] struct u8view uprop_blkname(enum uprop_blk);
 
-[[__mlib_uprop_attrs]] double uprop_get_nv(rune);
-[[__mlib_uprop_attrs]] enum uprop_age uprop_get_age(rune);
-[[__mlib_uprop_attrs]] enum uprop_bc uprop_get_bc(rune);
-[[__mlib_uprop_attrs]] enum uprop_blk uprop_get_blk(rune);
-[[__mlib_uprop_attrs]] enum uprop_bpt uprop_get_bpt(rune);
-[[__mlib_uprop_attrs]] enum uprop_dt uprop_get_dt(rune);
-[[__mlib_uprop_attrs]] enum uprop_ea uprop_get_ea(rune);
-[[__mlib_uprop_attrs]] enum uprop_gc uprop_get_gc(rune);
-[[__mlib_uprop_attrs]] enum uprop_lb uprop_get_lb(rune);
-[[__mlib_uprop_attrs]] enum uprop_nt uprop_get_nt(rune);
-[[__mlib_uprop_attrs]] enum uprop_sc uprop_get_sc(rune);
-[[__mlib_uprop_attrs]] rune uprop_get_bmg(rune);
-[[__mlib_uprop_attrs]] rune uprop_get_bpb(rune);
-[[__mlib_uprop_attrs]] rune uprop_get_scf(rune, bool);
-[[__mlib_uprop_attrs]] rune uprop_get_slc(rune);
-[[__mlib_uprop_attrs]] rune uprop_get_stc(rune);
-[[__mlib_uprop_attrs]] rune uprop_get_suc(rune);
-[[__mlib_uprop_attrs]] struct rview uprop_get_cf(rune, bool);
-[[__mlib_uprop_attrs]] struct rview uprop_get_lc(rune, struct lcctx);
-[[__mlib_uprop_attrs]] struct rview uprop_get_tc(rune, struct tcctx);
-[[__mlib_uprop_attrs]] struct rview uprop_get_uc(rune, struct ucctx);
-[[__mlib_uprop_attrs]] struct u8view uprop_get_na1(rune);
-[[__mlib_uprop_attrs]] struct u8view uprop_get_na(rune);
+[[_mlib_pure]] double uprop_get_nv(rune);
+[[_mlib_pure]] enum uprop_age uprop_get_age(rune);
+[[_mlib_pure]] enum uprop_bc uprop_get_bc(rune);
+[[_mlib_pure]] enum uprop_blk uprop_get_blk(rune);
+[[_mlib_pure]] enum uprop_bpt uprop_get_bpt(rune);
+[[_mlib_pure]] enum uprop_dt uprop_get_dt(rune);
+[[_mlib_pure]] enum uprop_ea uprop_get_ea(rune);
+[[_mlib_pure]] enum uprop_gc uprop_get_gc(rune);
+[[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
+[[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
+[[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
+[[_mlib_pure]] rune uprop_get_bmg(rune);
+[[_mlib_pure]] rune uprop_get_bpb(rune);
+[[_mlib_pure]] rune uprop_get_scf(rune, bool);
+[[_mlib_pure]] rune uprop_get_slc(rune);
+[[_mlib_pure]] rune uprop_get_stc(rune);
+[[_mlib_pure]] rune uprop_get_suc(rune);
+[[_mlib_pure]] struct rview uprop_get_cf(rune, bool);
+[[_mlib_pure]] struct rview uprop_get_lc(rune, struct lcctx);
+[[_mlib_pure]] struct rview uprop_get_tc(rune, struct tcctx);
+[[_mlib_pure]] struct rview uprop_get_uc(rune, struct ucctx);
+[[_mlib_pure]] struct u8view uprop_get_na1(rune);
+[[_mlib_pure]] struct u8view uprop_get_na(rune);
 
 /* PROP PREDICATES START */
-[[__mlib_uprop_attrs]] bool uprop_is_ahex(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_alpha(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_bidi_c(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_bidi_m(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_cased(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_ci(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_cwcf(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_cwcm(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_cwkcf(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_cwl(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_cwt(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_cwu(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_dash(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_dep(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_di(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_dia(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_ebase(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_ecomp(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_emod(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_emoji(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_epres(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_ext(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_extpic(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_gr_base(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_gr_ext(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_hex(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_id_compat_math_continue(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_id_compat_math_start(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_idc(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_ideo(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_ids(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_idsb(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_incb(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_loe(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_lower(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_math(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_pat_syn(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_pat_ws(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_pcm(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_qmark(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_radical(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_sd(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_sterm(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_term(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_uideo(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_upper(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_vs(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_wspace(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_xidc(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_xids(rune);
+[[_mlib_pure]] bool uprop_is_ahex(rune);
+[[_mlib_pure]] bool uprop_is_alpha(rune);
+[[_mlib_pure]] bool uprop_is_bidi_c(rune);
+[[_mlib_pure]] bool uprop_is_bidi_m(rune);
+[[_mlib_pure]] bool uprop_is_cased(rune);
+[[_mlib_pure]] bool uprop_is_ci(rune);
+[[_mlib_pure]] bool uprop_is_cwcf(rune);
+[[_mlib_pure]] bool uprop_is_cwcm(rune);
+[[_mlib_pure]] bool uprop_is_cwkcf(rune);
+[[_mlib_pure]] bool uprop_is_cwl(rune);
+[[_mlib_pure]] bool uprop_is_cwt(rune);
+[[_mlib_pure]] bool uprop_is_cwu(rune);
+[[_mlib_pure]] bool uprop_is_dash(rune);
+[[_mlib_pure]] bool uprop_is_dep(rune);
+[[_mlib_pure]] bool uprop_is_di(rune);
+[[_mlib_pure]] bool uprop_is_dia(rune);
+[[_mlib_pure]] bool uprop_is_ebase(rune);
+[[_mlib_pure]] bool uprop_is_ecomp(rune);
+[[_mlib_pure]] bool uprop_is_emod(rune);
+[[_mlib_pure]] bool uprop_is_emoji(rune);
+[[_mlib_pure]] bool uprop_is_epres(rune);
+[[_mlib_pure]] bool uprop_is_ext(rune);
+[[_mlib_pure]] bool uprop_is_extpic(rune);
+[[_mlib_pure]] bool uprop_is_gr_base(rune);
+[[_mlib_pure]] bool uprop_is_gr_ext(rune);
+[[_mlib_pure]] bool uprop_is_hex(rune);
+[[_mlib_pure]] bool uprop_is_id_compat_math_continue(rune);
+[[_mlib_pure]] bool uprop_is_id_compat_math_start(rune);
+[[_mlib_pure]] bool uprop_is_idc(rune);
+[[_mlib_pure]] bool uprop_is_ideo(rune);
+[[_mlib_pure]] bool uprop_is_ids(rune);
+[[_mlib_pure]] bool uprop_is_idsb(rune);
+[[_mlib_pure]] bool uprop_is_incb(rune);
+[[_mlib_pure]] bool uprop_is_loe(rune);
+[[_mlib_pure]] bool uprop_is_lower(rune);
+[[_mlib_pure]] bool uprop_is_math(rune);
+[[_mlib_pure]] bool uprop_is_pat_syn(rune);
+[[_mlib_pure]] bool uprop_is_pat_ws(rune);
+[[_mlib_pure]] bool uprop_is_pcm(rune);
+[[_mlib_pure]] bool uprop_is_qmark(rune);
+[[_mlib_pure]] bool uprop_is_radical(rune);
+[[_mlib_pure]] bool uprop_is_sd(rune);
+[[_mlib_pure]] bool uprop_is_sterm(rune);
+[[_mlib_pure]] bool uprop_is_term(rune);
+[[_mlib_pure]] bool uprop_is_uideo(rune);
+[[_mlib_pure]] bool uprop_is_upper(rune);
+[[_mlib_pure]] bool uprop_is_vs(rune);
+[[_mlib_pure]] bool uprop_is_wspace(rune);
+[[_mlib_pure]] bool uprop_is_xidc(rune);
+[[_mlib_pure]] bool uprop_is_xids(rune);
 /* PROP PREDICATES END */
 
 /* Manually implemented predicates */
-[[__mlib_uprop_attrs]] bool uprop_is_idst(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_idsu(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_join_c(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_nchar(rune);
-[[__mlib_uprop_attrs]] bool uprop_is_ri(rune);
+[[_mlib_pure]] bool uprop_is_idst(rune);
+[[_mlib_pure]] bool uprop_is_idsu(rune);
+[[_mlib_pure]] bool uprop_is_join_c(rune);
+[[_mlib_pure]] bool uprop_is_nchar(rune);
+[[_mlib_pure]] bool uprop_is_ri(rune);
 
 #endif /* !MLIB_UNICODE_PROP_H */
