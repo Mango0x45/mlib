@@ -49,7 +49,7 @@ END {
 	print "enum uprop_hst"
 	print "uprop_get_hst(rune ch)"
 	print "{"
-	print "\treturn ch < RUNE_C(0x1100) ? HST_NA : mlib_lookup(ch);"
+	print "\treturn ch < lookup[0].lo ? HST_NA : mlib_lookup(ch);"
 	print "}"
 }
 ' data/HangulSyllableType | sed 's/\s*$//'

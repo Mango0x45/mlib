@@ -819,5 +819,5 @@ _MLIB_DEFINE_BSEARCH(enum uprop_hst, lookup, HST_NA)
 enum uprop_hst
 uprop_get_hst(rune ch)
 {
-	return ch < RUNE_C(0x1100) ? HST_NA : mlib_lookup(ch);
+	return ch < lookup[0].lo ? HST_NA : mlib_lookup(ch);
 }
