@@ -36,7 +36,6 @@ readonly PATHS='
 
 for path in $PATHS
 do
-	name="data/${path##*/}"
-	wget -q "$BASE/$path.txt" -O "$name" &
+	wget -q "$BASE/$path.txt" -O "data/${path##*/}" &
 done
 wait
