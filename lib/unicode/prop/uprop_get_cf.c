@@ -1,4 +1,4 @@
-#include "__bsearch.h"
+#include "_bsearch.h"
 #include "unicode/prop.h"
 
 #define M(...) ((struct rview)_(__VA_ARGS__))
@@ -114,7 +114,7 @@ static const struct {
 	{0xFB17, /* ﬗ */ _(U'մ', U'խ')},
 };
 
-__MLIB_DEFINE_BSEARCH_KV(struct rview, lookup, M())
+_MLIB_DEFINE_BSEARCH_KV(struct rview, lookup, M())
 
 struct rview
 uprop_get_cf(rune ch, bool az_or_tr)

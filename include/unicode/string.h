@@ -3,8 +3,8 @@
 
 #include <stddef.h>
 
-#include "__charN_t.h"
-#include "__u8view.h"
+#include "_charN_t.h"
+#include "_u8view.h"
 
 /* clang-format off */
 

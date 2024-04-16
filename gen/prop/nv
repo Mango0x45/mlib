@@ -12,7 +12,7 @@ BEGIN {
 	print ""
 	print "#include <float.h>"
 	print ""
-	print "#include \"__bsearch.h\""
+	print "#include \"_bsearch.h\""
 	print "#include \"macros.h\""
 	print "#include \"rune.h\""
 	print "#include \"unicode/prop.h\""
@@ -54,7 +54,7 @@ END {
 
 	print "};"
 	print ""
-	print "__MLIB_DEFINE_BSEARCH_KV(double, lookup, NAN)"
+	print "_MLIB_DEFINE_BSEARCH_KV(double, lookup, NAN)"
 	print ""
 	print "double"
 	print "uprop_get_nv(rune ch)"

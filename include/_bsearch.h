@@ -2,7 +2,7 @@
 
 #include "macros.h"
 
-#define __MLIB_DEFINE_BSEARCH(TYPE, TABLE, DEFAULT) \
+#define _MLIB_DEFINE_BSEARCH(TYPE, TABLE, DEFAULT) \
 	static TYPE mlib_lookup(rune ch) \
 	{ \
 		ptrdiff_t i, lo, hi; \
@@ -21,7 +21,7 @@
 		return DEFAULT; \
 	}
 
-#define __MLIB_DEFINE_BSEARCH_CONTAINS(TABLE) \
+#define _MLIB_DEFINE_BSEARCH_CONTAINS(TABLE) \
 	static bool mlib_lookup_contains(rune ch) \
 	{ \
 		ptrdiff_t i, lo, hi; \
@@ -40,7 +40,7 @@
 		return false; \
 	}
 
-#define __MLIB_DEFINE_BSEARCH_KV(TYPE, TABLE, DEFAULT) \
+#define _MLIB_DEFINE_BSEARCH_KV(TYPE, TABLE, DEFAULT) \
 	static TYPE mlib_lookup_kv(rune ch) \
 	{ \
 		ptrdiff_t i, lo, hi; \

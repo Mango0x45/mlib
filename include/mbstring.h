@@ -3,10 +3,10 @@
 
 #include <stddef.h>
 
-#include "__charN_t.h"
-#include "__qmacros.h"
-#include "__rune.h"
-#include "__u8view.h"
+#include "_charN_t.h"
+#include "_qmacros.h"
+#include "_rune.h"
+#include "_u8view.h"
 
 #define U8V(s)      ((struct u8view){.p = (s), .len = sizeof(s) - 1})
 #define U8_ARGS(s)  ((s).p), ((s).len)
@@ -51,8 +51,8 @@ int u8prev(rune *, const char8_t **, const char8_t *);
 
 [[nodiscard]] size_t u8len(const char8_t *, size_t);
 
-#define u8chk(s, n)      __MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))
-#define u8chr(s, n, ch)  __MLIB_Q_PTR(char8_t, u8chr, (s), (s), (n), (ch))
-#define u8rchr(s, n, ch) __MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (n), (ch))
+#define u8chk(s, n)      _MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))
+#define u8chr(s, n, ch)  _MLIB_Q_PTR(char8_t, u8chr, (s), (s), (n), (ch))
+#define u8rchr(s, n, ch) _MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (n), (ch))
 
 #endif /* !MLIB_MBSTRING_H */

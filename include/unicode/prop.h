@@ -4,9 +4,9 @@
 #include <inttypes.h>
 #include <stddef.h>
 
-#include "__rune.h"
-#include "__u8view.h"
 #include "_attrs.h"
+#include "_rune.h"
+#include "_u8view.h"
 
 struct rview {
 	const rune *p;

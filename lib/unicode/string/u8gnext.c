@@ -1,8 +1,8 @@
 #include <stddef.h>
 
-#include "__bsearch.h"
+#include "_bsearch.h"
 #include "mbstring.h"
-#include "unicode/__gbrk.h"
+#include "unicode/_gbrk.h"
 #include "unicode/string.h"
 
 struct gbrk_state {
@@ -17,7 +17,7 @@ struct gbrk_state {
 
 static bool u8isgbrk(rune, rune, struct gbrk_state *);
 
-__MLIB_DEFINE_BSEARCH(gbrk_prop, gbrk_prop_tbl, GBP_OTHER)
+_MLIB_DEFINE_BSEARCH(gbrk_prop, gbrk_prop_tbl, GBP_OTHER)
 
 size_t
 u8gnext(struct u8view *g, const char8_t **s, size_t *n)

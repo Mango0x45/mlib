@@ -3,10 +3,10 @@
 
 #include <stddef.h>
 
-#include "__charN_t.h"
-#include "__rune.h"
-#include "__u8view.h"
 #include "_attrs.h"
+#include "_charN_t.h"
+#include "_rune.h"
+#include "_u8view.h"
 
 struct optparse {
 	bool _b;

@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-#include "__charN_t.h"
-#include "__rune.h"
+#include "_charN_t.h"
+#include "_rune.h"
 
 int freadrune(rune *, FILE *);
 

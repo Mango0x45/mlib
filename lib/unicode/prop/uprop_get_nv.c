@@ -2,7 +2,7 @@
 
 #include <float.h>
 
-#include "__bsearch.h"
+#include "_bsearch.h"
 #include "macros.h"
 #include "rune.h"
 #include "unicode/prop.h"
@@ -1954,7 +1954,7 @@ static const struct {
 	{RUNE_C(0x02F890), 9},
 };
 
-__MLIB_DEFINE_BSEARCH_KV(double, lookup, NAN)
+_MLIB_DEFINE_BSEARCH_KV(double, lookup, NAN)
 
 double
 uprop_get_nv(rune ch)
