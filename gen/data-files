@@ -16,6 +16,7 @@ readonly PATHS='
 	DerivedCoreProperties
 	DerivedNormalizationProps
 	emoji/emoji-data
+	EquivalentUnifiedIdeograph
 	extracted/DerivedBidiClass
 	extracted/DerivedBinaryProperties
 	extracted/DerivedDecompositionType

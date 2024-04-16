@@ -907,6 +907,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_vo uprop_get_vo(rune);
 [[_mlib_pure]] rune uprop_get_bmg(rune);
 [[_mlib_pure]] rune uprop_get_bpb(rune);
+[[_mlib_pure]] rune uprop_get_equideo(rune);
 [[_mlib_pure]] rune uprop_get_scf(rune, bool);
 [[_mlib_pure]] rune uprop_get_slc(rune);
 [[_mlib_pure]] rune uprop_get_stc(rune);
