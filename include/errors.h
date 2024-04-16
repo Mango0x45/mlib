@@ -15,7 +15,7 @@ extern const char *_mlib_errors_progname;
 
 void mlib_setprogname(const char *);
 
-[[_mlib_inline]]
+[[nodiscard, _mlib_inline]]
 static inline const char *
 mlib_progname(void)
 {
