@@ -1,4 +1,5 @@
 MLib — Useful Standard Library Extensions
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 MLib is a collection of various headers and libraries that I find useful
 in a large enough number of my personal C projects.  This includes for
@@ -21,6 +22,7 @@ The headers as of now are:
  • unicode/prop.h — unicode character properties
  • unicode/string.h — unicode string functions
 
+
 BUILD INSTRUCTIONS:
 
     To build Mlib you need to have a C23 conforming C compiler.  Simply
@@ -33,6 +35,7 @@ BUILD INSTRUCTIONS:
 
         $ ./make -r
 
+
 DISCLAIMER:
 
     This library is developed for use by me (the author).  You are free
@@ -43,8 +46,10 @@ DISCLAIMER:
     have an issue with the code here, fix it — you are a programmer are
     you not?
 
-Planned Features:
- • Missing Unicode Properties  (unicode/prop.h)
- • String Case Conversions     (unicode/string.h)
- • Unicode Normalization       (unicode/string.h)
- • Word- and Line Segmentation (unicode/string.h)
+
+PLANNED FEATURES:
+
+    • Missing Unicode Properties  (unicode/prop.h)
+    • String Case Conversions     (unicode/string.h)
+    • Unicode Normalization       (unicode/string.h)
+    • Word- and Line Segmentation (unicode/string.h)
