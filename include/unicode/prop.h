@@ -553,6 +553,45 @@ enum uprop_inpc {
 	INPC_VISUAL_ORDER_LEFT,
 };
 
+enum uprop_insc {
+	INSC_OTHER = 0,
+	INSC_AVAGRAHA,
+	INSC_BINDU,
+	INSC_BRAHMI_JOINING_NUMBER,
+	INSC_CANTILLATION_MARK,
+	INSC_CONSONANT,
+	INSC_CONSONANT_DEAD,
+	INSC_CONSONANT_FINAL,
+	INSC_CONSONANT_HEAD_LETTER,
+	INSC_CONSONANT_INITIAL_POSTFIXED,
+	INSC_CONSONANT_KILLER,
+	INSC_CONSONANT_MEDIAL,
+	INSC_CONSONANT_PLACEHOLDER,
+	INSC_CONSONANT_PRECEDING_REPHA,
+	INSC_CONSONANT_PREFIXED,
+	INSC_CONSONANT_SUBJOINED,
+	INSC_CONSONANT_SUCCEEDING_REPHA,
+	INSC_CONSONANT_WITH_STACKER,
+	INSC_GEMINATION_MARK,
+	INSC_INVISIBLE_STACKER,
+	INSC_JOINER,
+	INSC_MODIFYING_LETTER,
+	INSC_NON_JOINER,
+	INSC_NUKTA,
+	INSC_NUMBER,
+	INSC_NUMBER_JOINER,
+	INSC_PURE_KILLER,
+	INSC_REGISTER_SHIFTER,
+	INSC_SYLLABLE_MODIFIER,
+	INSC_TONE_LETTER,
+	INSC_TONE_MARK,
+	INSC_VIRAMA,
+	INSC_VISARGA,
+	INSC_VOWEL,
+	INSC_VOWEL_DEPENDENT,
+	INSC_VOWEL_INDEPENDENT,
+};
+
 enum uprop_lb {
 	LB_XX,  /* Unknown */
 	LB_AI,  /* Ambiguous */
@@ -799,6 +838,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_gc uprop_get_gc(rune);
 [[_mlib_pure]] enum uprop_hst uprop_get_hst(rune);
 [[_mlib_pure]] enum uprop_inpc uprop_get_inpc(rune);
+[[_mlib_pure]] enum uprop_insc uprop_get_insc(rune);
 [[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
