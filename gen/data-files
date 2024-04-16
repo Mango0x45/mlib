@@ -7,28 +7,28 @@ mkdir -p data
 readonly BASE='https://www.unicode.org/Public/15.1.0/ucd'
 
 readonly PATHS='
-auxiliary/GraphemeBreakProperty
-BidiBrackets
-BidiMirroring
-Blocks
-CaseFolding
-DerivedAge
-DerivedCoreProperties
-DerivedNormalizationProps
-emoji/emoji-data
-extracted/DerivedBidiClass
-extracted/DerivedBinaryProperties
-extracted/DerivedDecompositionType
-extracted/DerivedEastAsianWidth
-extracted/DerivedLineBreak
-extracted/DerivedNumericType
-extracted/DerivedNumericValues
-HangulSyllableType
-PropList
-Scripts
-SpecialCasing
-UnicodeData
-VerticalOrientation
+	auxiliary/GraphemeBreakProperty
+	BidiBrackets
+	BidiMirroring
+	Blocks
+	CaseFolding
+	DerivedAge
+	DerivedCoreProperties
+	DerivedNormalizationProps
+	emoji/emoji-data
+	extracted/DerivedBidiClass
+	extracted/DerivedBinaryProperties
+	extracted/DerivedDecompositionType
+	extracted/DerivedEastAsianWidth
+	extracted/DerivedLineBreak
+	extracted/DerivedNumericType
+	extracted/DerivedNumericValues
+	HangulSyllableType
+	PropList
+	Scripts
+	SpecialCasing
+	UnicodeData
+	VerticalOrientation
 '
 
 for path in $PATHS
