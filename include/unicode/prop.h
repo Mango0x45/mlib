@@ -534,6 +534,25 @@ enum uprop_hst {
 	HST_V,      /* Vowel Jamo */
 };
 
+enum uprop_inpc {
+	INPC_NA = 0, /* Not Applicable */
+	INPC_BOTTOM,
+	INPC_BOTTOM_AND_LEFT,
+	INPC_BOTTOM_AND_RIGHT,
+	INPC_LEFT,
+	INPC_LEFT_AND_RIGHT,
+	INPC_OVERSTRUCK,
+	INPC_RIGHT,
+	INPC_TOP,
+	INPC_TOP_AND_BOTTOM,
+	INPC_TOP_AND_BOTTOM_AND_LEFT,
+	INPC_TOP_AND_BOTTOM_AND_RIGHT,
+	INPC_TOP_AND_LEFT,
+	INPC_TOP_AND_LEFT_AND_RIGHT,
+	INPC_TOP_AND_RIGHT,
+	INPC_VISUAL_ORDER_LEFT,
+};
+
 enum uprop_lb {
 	LB_XX,  /* Unknown */
 	LB_AI,  /* Ambiguous */
@@ -779,6 +798,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_ea uprop_get_ea(rune);
 [[_mlib_pure]] enum uprop_gc uprop_get_gc(rune);
 [[_mlib_pure]] enum uprop_hst uprop_get_hst(rune);
+[[_mlib_pure]] enum uprop_inpc uprop_get_inpc(rune);
 [[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);

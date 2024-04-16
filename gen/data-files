@@ -24,6 +24,7 @@ readonly PATHS='
 	extracted/DerivedNumericType
 	extracted/DerivedNumericValues
 	HangulSyllableType
+	IndicPositionalCategory
 	PropList
 	Scripts
 	SpecialCasing
