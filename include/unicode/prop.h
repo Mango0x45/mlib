@@ -543,6 +543,27 @@ enum uprop_ea {
 	EA_W,  /* Narrow */
 };
 
+enum uprop_gcb {
+	GCB_XX = 0, /* Other */
+	GCB_CN,     /* Control */
+	GCB_CR,     /* CR */
+	GCB_EB,     /* E Base */
+	GCB_EBG,    /* E Base GAZ */
+	GCB_EM,     /* E Modifier */
+	GCB_EX,     /* Extend */
+	GCB_GAZ,    /* Glue After Zwj */
+	GCB_L,      /* L */
+	GCB_LF,     /* LF */
+	GCB_LV,     /* LV */
+	GCB_LVT,    /* LVT */
+	GCB_PP,     /* Prepend */
+	GCB_RI,     /* Regional Indicator */
+	GCB_SM,     /* SpacingMark */
+	GCB_T,      /* T */
+	GCB_V,      /* V */
+	GCB_ZWJ,    /* ZWJ */
+};
+
 enum [[clang::flag_enum]] uprop_gc : uint_least32_t {
 	GC_CN = UINT32_C(1) << 0,  /* Not Assigned */
 	GC_CC = UINT32_C(1) << 1,  /* Control */
@@ -897,6 +918,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_ccc uprop_get_ccc(rune);
 [[_mlib_pure]] enum uprop_dt uprop_get_dt(rune);
 [[_mlib_pure]] enum uprop_ea uprop_get_ea(rune);
+[[_mlib_pure]] enum uprop_gcb uprop_get_gcb(rune);
 [[_mlib_pure]] enum uprop_gc uprop_get_gc(rune);
 [[_mlib_pure]] enum uprop_hst uprop_get_hst(rune);
 [[_mlib_pure]] enum uprop_inpc uprop_get_inpc(rune);
