@@ -21,6 +21,7 @@ readonly PATHS='
 	extracted/DerivedBinaryProperties
 	extracted/DerivedDecompositionType
 	extracted/DerivedEastAsianWidth
+	extracted/DerivedJoiningType
 	extracted/DerivedLineBreak
 	extracted/DerivedNumericType
 	extracted/DerivedNumericValues

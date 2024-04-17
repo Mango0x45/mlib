@@ -674,6 +674,15 @@ enum uprop_insc {
 	INSC_VOWEL_INDEPENDENT,
 };
 
+enum uprop_jt {
+	JT_U = 0, /* Non Joining */
+	JT_C,     /* Join Causing */
+	JT_D,     /* Dual Joining */
+	JT_L,     /* Left Joining */
+	JT_R,     /* Right Joining */
+	JT_T,     /* Transparent */
+};
+
 enum uprop_lb {
 	LB_XX,  /* Unknown */
 	LB_AI,  /* Ambiguous */
@@ -923,6 +932,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_hst uprop_get_hst(rune);
 [[_mlib_pure]] enum uprop_inpc uprop_get_inpc(rune);
 [[_mlib_pure]] enum uprop_insc uprop_get_insc(rune);
+[[_mlib_pure]] enum uprop_jt uprop_get_jt(rune);
 [[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
