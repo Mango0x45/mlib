@@ -29,4 +29,9 @@ size_t u8gnext(struct u8view *, const char8_t **, size_t *);
                                    size_t, enum caseflags);
 #undef mlib_warn_trunc
 
+constexpr double U8LOWER_SCALE    = 1.5;
+constexpr double U8LOWER_SCALE_LT = 3;
+constexpr double U8TITLE_SCALE    = 3;
+constexpr double U8UPPER_SCALE    = 3;
+
 #endif /* !MLIB_UNICODE_STRING_H */

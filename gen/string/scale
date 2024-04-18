@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# Usage: scale -v utf=X -v mapping=X [-v az=X] [-v lt=X]
+# Example: scale -v utf=8 -v mapping=title -v lt=1
+
+set -e
+cd "${0%/*}/../.."
+
+gawk "$@" '
+function bcnt(x)
+{
+	x = strtonum("0X" x)
+	if (utf == 32)
+		return 4
+	if (utf == 16)
+		return x < 0x10000 ? 2 : 4
+	return x < 0x00080 ? 1 \
+	     : x < 0x00800 ? 2 \
+	     : x < 0x10000 ? 3 \
+	     : /* ... */     4
+}
+
+function max(x, y)
+{
+	return x > y ? x : y
+}
+
+BEGIN {
+	FS = " *; *"
+	if (mapping == "lower")
+		field = 2
+	else if (mapping == "title")
+		field = 3
+	else if (mapping == "upper")
+		field = 4
+}
+
+$5 ~ /^(az|tr)/ && !az { next }
+$5 ~ /^lt/ && !lt      { next }
+
+/^[A-F0-9]/ {
+	to = 0
+	from = bcnt($1)
+	split($field, xs, / /)
+	for (i in xs)
+		to += bcnt(xs[i])
+	results[g_i++] = to / from
+}
+
+END {
+	for (i = 1; i <= g_i; i++)
+		n = max(n, results[i])
+	print n
+}
+' data/SpecialCasing
