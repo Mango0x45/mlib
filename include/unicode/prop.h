@@ -674,6 +674,113 @@ enum uprop_insc {
 	INSC_VOWEL_INDEPENDENT,
 };
 
+enum uprop_jg {
+	JG_NO_JOINING_GROUP = 0,     /* No Joining Group */
+	JG_AFRICAN_FEH,              /* African Feh */
+	JG_AFRICAN_NOON,             /* African Noon */
+	JG_AFRICAN_QAF,              /* African Qaf */
+	JG_AIN,                      /* Ain */
+	JG_ALAPH,                    /* Alaph */
+	JG_ALEF,                     /* Alef */
+	JG_BEH,                      /* Beh */
+	JG_BETH,                     /* Beth */
+	JG_BURUSHASKI_YEH_BARREE,    /* Burushaski Yeh Barree */
+	JG_DAL,                      /* Dal */
+	JG_DALATH_RISH,              /* Dalath Rish */
+	JG_E,                        /* E */
+	JG_FARSI_YEH,                /* Farsi Yeh */
+	JG_FE,                       /* Fe */
+	JG_FEH,                      /* Feh */
+	JG_FINAL_SEMKATH,            /* Final Semkath */
+	JG_GAF,                      /* Gaf */
+	JG_GAMAL,                    /* Gamal */
+	JG_HAH,                      /* Hah */
+	JG_HANIFI_ROHINGYA_KINNA_YA, /* Hanifi Rohingya Kinna Ya */
+	JG_HANIFI_ROHINGYA_PA,       /* Hanifi Rohingya Pa */
+	JG_HE,                       /* He */
+	JG_HEH,                      /* Heh */
+	JG_HEH_GOAL,                 /* Heh Goal */
+	JG_HETH,                     /* Heth */
+	JG_KAF,                      /* Kaf */
+	JG_KAPH,                     /* Kaph */
+	JG_KHAPH,                    /* Khaph */
+	JG_KNOTTED_HEH,              /* Knotted Heh */
+	JG_LAM,                      /* Lam */
+	JG_LAMADH,                   /* Lamadh */
+	JG_MALAYALAM_BHA,            /* Malayalam Bha */
+	JG_MALAYALAM_JA,             /* Malayalam Ja */
+	JG_MALAYALAM_LLA,            /* Malayalam Lla */
+	JG_MALAYALAM_LLLA,           /* Malayalam Llla */
+	JG_MALAYALAM_NGA,            /* Malayalam Nga */
+	JG_MALAYALAM_NNA,            /* Malayalam Nna */
+	JG_MALAYALAM_NNNA,           /* Malayalam Nnna */
+	JG_MALAYALAM_NYA,            /* Malayalam Nya */
+	JG_MALAYALAM_RA,             /* Malayalam Ra */
+	JG_MALAYALAM_SSA,            /* Malayalam Ssa */
+	JG_MALAYALAM_TTA,            /* Malayalam Tta */
+	JG_MANICHAEAN_ALEPH,         /* Manichaean Aleph */
+	JG_MANICHAEAN_AYIN,          /* Manichaean Ayin */
+	JG_MANICHAEAN_BETH,          /* Manichaean Beth */
+	JG_MANICHAEAN_DALETH,        /* Manichaean Daleth */
+	JG_MANICHAEAN_DHAMEDH,       /* Manichaean Dhamedh */
+	JG_MANICHAEAN_FIVE,          /* Manichaean Five */
+	JG_MANICHAEAN_GIMEL,         /* Manichaean Gimel */
+	JG_MANICHAEAN_HETH,          /* Manichaean Heth */
+	JG_MANICHAEAN_HUNDRED,       /* Manichaean Hundred */
+	JG_MANICHAEAN_KAPH,          /* Manichaean Kaph */
+	JG_MANICHAEAN_LAMEDH,        /* Manichaean Lamedh */
+	JG_MANICHAEAN_MEM,           /* Manichaean Mem */
+	JG_MANICHAEAN_NUN,           /* Manichaean Nun */
+	JG_MANICHAEAN_ONE,           /* Manichaean One */
+	JG_MANICHAEAN_PE,            /* Manichaean Pe */
+	JG_MANICHAEAN_QOPH,          /* Manichaean Qoph */
+	JG_MANICHAEAN_RESH,          /* Manichaean Resh */
+	JG_MANICHAEAN_SADHE,         /* Manichaean Sadhe */
+	JG_MANICHAEAN_SAMEKH,        /* Manichaean Samekh */
+	JG_MANICHAEAN_TAW,           /* Manichaean Taw */
+	JG_MANICHAEAN_TEN,           /* Manichaean Ten */
+	JG_MANICHAEAN_TETH,          /* Manichaean Teth */
+	JG_MANICHAEAN_THAMEDH,       /* Manichaean Thamedh */
+	JG_MANICHAEAN_TWENTY,        /* Manichaean Twenty */
+	JG_MANICHAEAN_WAW,           /* Manichaean Waw */
+	JG_MANICHAEAN_YODH,          /* Manichaean Yodh */
+	JG_MANICHAEAN_ZAYIN,         /* Manichaean Zayin */
+	JG_MEEM,                     /* Meem */
+	JG_MIM,                      /* Mim */
+	JG_NOON,                     /* Noon */
+	JG_NUN,                      /* Nun */
+	JG_NYA,                      /* Nya */
+	JG_PE,                       /* Pe */
+	JG_QAF,                      /* Qaf */
+	JG_QAPH,                     /* Qaph */
+	JG_REH,                      /* Reh */
+	JG_REVERSED_PE,              /* Reversed Pe */
+	JG_ROHINGYA_YEH,             /* Rohingya Yeh */
+	JG_SAD,                      /* Sad */
+	JG_SADHE,                    /* Sadhe */
+	JG_SEEN,                     /* Seen */
+	JG_SEMKATH,                  /* Semkath */
+	JG_SHIN,                     /* Shin */
+	JG_STRAIGHT_WAW,             /* Straight Waw */
+	JG_SWASH_KAF,                /* Swash Kaf */
+	JG_SYRIAC_WAW,               /* Syriac Waw */
+	JG_TAH,                      /* Tah */
+	JG_TAW,                      /* Taw */
+	JG_TEH_MARBUTA,              /* Teh Marbuta */
+	JG_TEH_MARBUTA_GOAL,         /* Hamza On Heh Goal */
+	JG_TETH,                     /* Teth */
+	JG_THIN_YEH,                 /* Thin Yeh */
+	JG_VERTICAL_TAIL,            /* Vertical Tail */
+	JG_WAW,                      /* Waw */
+	JG_YEH,                      /* Yeh */
+	JG_YEH_BARREE,               /* Yeh Barree */
+	JG_YEH_WITH_TAIL,            /* Yeh With Tail */
+	JG_YUDH,                     /* Yudh */
+	JG_YUDH_HE,                  /* Yudh He */
+	JG_ZAIN,                     /* Zain */
+	JG_ZHAIN,                    /* Zhain */
+};
+
 enum uprop_jt {
 	JT_U = 0, /* Non Joining */
 	JT_C,     /* Join Causing */
@@ -932,6 +1039,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_hst uprop_get_hst(rune);
 [[_mlib_pure]] enum uprop_inpc uprop_get_inpc(rune);
 [[_mlib_pure]] enum uprop_insc uprop_get_insc(rune);
+[[_mlib_pure]] enum uprop_jg uprop_get_jg(rune);
 [[_mlib_pure]] enum uprop_jt uprop_get_jt(rune);
 [[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
