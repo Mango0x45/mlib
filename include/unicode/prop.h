@@ -841,6 +841,28 @@ enum uprop_lb {
 	LB_ZW,  /* ZWSpace */
 };
 
+enum uprop_nfc_qc {
+	NFC_QC_M, /* Maybe */
+	NFC_QC_N, /* No */
+	NFC_QC_Y, /* Yes */
+};
+
+enum uprop_nfd_qc {
+	NFD_QC_N, /* No */
+	NFD_QC_Y, /* Yes */
+};
+
+enum uprop_nfkc_qc {
+	NFKC_QC_M, /* Maybe */
+	NFKC_QC_N, /* No */
+	NFKC_QC_Y, /* Yes */
+};
+
+enum uprop_nfkd_qc {
+	NFKD_QC_N, /* No */
+	NFKD_QC_Y, /* Yes */
+};
+
 enum uprop_nt {
 	NT_NONE, /* None */
 	NT_DE,   /* Decimal */
@@ -1042,6 +1064,10 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_jg uprop_get_jg(rune);
 [[_mlib_pure]] enum uprop_jt uprop_get_jt(rune);
 [[_mlib_pure]] enum uprop_lb uprop_get_lb(rune);
+[[_mlib_pure]] enum uprop_nfc_qc uprop_get_nfc_qc(rune);
+[[_mlib_pure]] enum uprop_nfd_qc uprop_get_nfd_qc(rune);
+[[_mlib_pure]] enum uprop_nfkc_qc uprop_get_nfkc_qc(rune);
+[[_mlib_pure]] enum uprop_nfkd_qc uprop_get_nfkd_qc(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
 [[_mlib_pure]] enum uprop_vo uprop_get_vo(rune);
