@@ -63,13 +63,15 @@ main(int argc, char **argv)
 	argv += optind;
 
 	if (argc >= 1) {
-		if (!streq(*argv, "clean")) {
-			diex("invalid subcommand — ‘%s’", *argv);
-			exit(EXIT_FAILURE);
-		}
 		cmd_t c = {};
-		cmdadd(&c, "find", ".", "(", "-name", "*.[ao]", "-or", "-name", "*.so",
-		       ")", "-delete");
+		if (streq(*argv, "clean")) {
+			cmdadd(&c, "find", ".", "(", "-name", "*.[ao]", "-or", "-name",
+			       "*.so", ")", "-delete");
+		} else if (streq(*argv, "gen")) {
+			cmdadd(&c, "find", "gen", "-mindepth", "2", "-type", "f",
+			       "-executable", "-not", "-name", "scale", "-exec", "{}", ";");
+		} else
+			diex("invalid subcommand — ‘%s’", *argv);
 		cmdput(c);
 		CMDRC(c);
 	} else {
