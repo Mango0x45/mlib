@@ -85,9 +85,9 @@ END {
 		printf "\t{0x%06X, 0x%06X, %s},\n", lo, i, props[lo]
 	}
 }
-' data/GraphemeBreakProperty.txt \
-  data/DerivedCoreProperties.txt \
-  data/emoji-data.txt \
+' data/GraphemeBreakProperty \
+  data/DerivedCoreProperties \
+  data/emoji-data \
 | sort
 
 cat <<C
