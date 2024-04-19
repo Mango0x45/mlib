@@ -1080,6 +1080,7 @@ enum uprop_vo {
 [[_mlib_pure]] rune uprop_get_suc(rune);
 [[_mlib_pure]] struct rview uprop_get_cf(rune, bool);
 [[_mlib_pure]] struct rview uprop_get_lc(rune, struct lcctx);
+[[_mlib_pure]] struct rview uprop_get_nfkc_scf(rune);
 [[_mlib_pure]] struct rview uprop_get_tc(rune, struct tcctx);
 [[_mlib_pure]] struct rview uprop_get_uc(rune, struct ucctx);
 [[_mlib_pure]] struct u8view uprop_get_na1(rune);
