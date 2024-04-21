@@ -116,3 +116,8 @@ PLANNED FEATURES:
     • String Case Conversions     (unicode/string.h)
     • Unicode Normalization       (unicode/string.h)
     • Word- and Line Segmentation (unicode/string.h)
+
+
+BUGS:
+
+    • Unihan properties are not supported (e.g. Unicode_Radical_Stroke)
