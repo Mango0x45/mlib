@@ -33,7 +33,7 @@
 			(da)->buf = bufalloc((da)->buf, (da)->cap, sizeof(*(da)->buf)); \
 		} \
 		memcpy((da)->buf + (da)->len, (xs), (n)); \
-		(a)->len += (n); \
+		(da)->len += (n); \
 	} while (false)
 
 #define DAPOP(da) ((da)->buf[--(da)->len])
