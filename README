@@ -120,4 +120,5 @@ PLANNED FEATURES:
 
 BUGS:
 
+    • Unicode Name Aliases (Name_Alias property) is not supported
     • Unihan properties are not supported (e.g. Unicode_Radical_Stroke)
