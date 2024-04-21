@@ -98,7 +98,7 @@ static const struct {
 _MLIB_DEFINE_BSEARCH_CONTAINS(lookup)
 
 bool
-uprop_is_extpic(rune ch)
+uprop_is_extpict(rune ch)
 {
 	return ch <= LATIN1_MAX ? TESTBIT(bs, ch) : mlib_lookup_contains(ch);
 }

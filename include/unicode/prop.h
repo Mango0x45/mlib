@@ -1157,7 +1157,7 @@ enum uprop_wb {
 [[_mlib_pure]] bool uprop_is_emoji(rune);
 [[_mlib_pure]] bool uprop_is_epres(rune);
 [[_mlib_pure]] bool uprop_is_ext(rune);
-[[_mlib_pure]] bool uprop_is_extpic(rune);
+[[_mlib_pure]] bool uprop_is_extpict(rune);
 [[_mlib_pure]] bool uprop_is_gr_base(rune);
 [[_mlib_pure]] bool uprop_is_gr_ext(rune);
 [[_mlib_pure]] bool uprop_is_hex(rune);
