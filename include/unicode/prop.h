@@ -1048,6 +1048,7 @@ enum uprop_vo {
 /* Not a Unicode property; but a nice-to-have */
 [[_mlib_pure]] struct u8view uprop_blkname(enum uprop_blk);
 
+[[_mlib_pure]] const enum uprop_sc *uprop_get_scx(rune, size_t *);
 [[_mlib_pure]] double uprop_get_nv(rune);
 [[_mlib_pure]] enum uprop_age uprop_get_age(rune);
 [[_mlib_pure]] enum uprop_bc uprop_get_bc(rune);

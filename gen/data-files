@@ -30,6 +30,7 @@ readonly PATHS='
 	IndicPositionalCategory
 	IndicSyllabicCategory
 	PropList
+	ScriptExtensions
 	Scripts
 	SpecialCasing
 	UnicodeData
