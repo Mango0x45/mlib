@@ -1045,6 +1045,32 @@ enum uprop_vo {
 	VO_U,  /* Upright */
 };
 
+enum uprop_wb {
+	WB_XX = 0,    /* Other */
+	WB_CR,        /* CR */
+	WB_DQ,        /* Double Quote */
+	WB_EB,        /* E Base */
+	WB_EBG,       /* E Base GAZ */
+	WB_EM,        /* E Modifier */
+	WB_EX,        /* ExtendNumLet */
+	WB_EXTEND,    /* Extend */
+	WB_FO,        /* Format */
+	WB_GAZ,       /* Glue After Zwj */
+	WB_HL,        /* Hebrew Letter */
+	WB_KA,        /* Katakana */
+	WB_LE,        /* ALetter */
+	WB_LF,        /* LF */
+	WB_MB,        /* MidNumLet */
+	WB_ML,        /* MidLetter */
+	WB_MN,        /* MidNum */
+	WB_NL,        /* Newline */
+	WB_NU,        /* Numeric */
+	WB_RI,        /* Regional Indicator */
+	WB_SQ,        /* Single Quote */
+	WB_WSEGSPACE, /* WSegSpace */
+	WB_ZWJ,       /* ZWJ */
+};
+
 /* Not a Unicode property; but a nice-to-have */
 [[_mlib_pure]] struct u8view uprop_blkname(enum uprop_blk);
 
@@ -1072,6 +1098,7 @@ enum uprop_vo {
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
 [[_mlib_pure]] enum uprop_vo uprop_get_vo(rune);
+[[_mlib_pure]] enum uprop_wb uprop_get_wb(rune);
 [[_mlib_pure]] rune uprop_get_bmg(rune);
 [[_mlib_pure]] rune uprop_get_bpb(rune);
 [[_mlib_pure]] rune uprop_get_equideo(rune);
