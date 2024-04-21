@@ -870,6 +870,24 @@ enum uprop_nt {
 	NT_NU,   /* Numeric */
 };
 
+enum uprop_sb {
+	SB_XX = 0, /* Other */
+	SB_AT,     /* ATerm */
+	SB_CL,     /* Close */
+	SB_CR,     /* CR */
+	SB_EX,     /* Extend */
+	SB_FO,     /* Format */
+	SB_LE,     /* OLetter */
+	SB_LF,     /* LF */
+	SB_LO,     /* Lower */
+	SB_NU,     /* Numeric */
+	SB_SC,     /* SContinue */
+	SB_SE,     /* Sep */
+	SB_SP,     /* Sp */
+	SB_ST,     /* STerm */
+	SB_UP,     /* Upper */
+};
+
 enum uprop_sc {
 	SC_ZZZZ = 0, /* Unknown */
 	SC_ADLM,     /* Adlam */
@@ -1096,6 +1114,7 @@ enum uprop_wb {
 [[_mlib_pure]] enum uprop_nfkc_qc uprop_get_nfkc_qc(rune);
 [[_mlib_pure]] enum uprop_nfkd_qc uprop_get_nfkd_qc(rune);
 [[_mlib_pure]] enum uprop_nt uprop_get_nt(rune);
+[[_mlib_pure]] enum uprop_sb uprop_get_sb(rune);
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
 [[_mlib_pure]] enum uprop_vo uprop_get_vo(rune);
 [[_mlib_pure]] enum uprop_wb uprop_get_wb(rune);

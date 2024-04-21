@@ -8,6 +8,7 @@ readonly BASE='https://www.unicode.org/Public/15.1.0/ucd'
 
 readonly PATHS='
 	auxiliary/GraphemeBreakProperty
+	auxiliary/SentenceBreakProperty
 	auxiliary/WordBreakProperty
 	BidiBrackets
 	BidiMirroring
