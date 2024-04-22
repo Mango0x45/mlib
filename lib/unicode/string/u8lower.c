@@ -18,13 +18,16 @@ u8lower(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 
 	rune ch;
 	size_t n = 0;
+	struct u8view word = {}, cpy = {src, srcn};
 
 	while (u8next(&ch, &src, &srcn)) {
-		/* TODO: Set ‘eow’ once word-segmentation is implemented */
-
 		rune next = 0;
 		if (srcn > 0)
 			u8tor(&next, src);
+		if (src > word.p + word.len)
+			u8wnext(&word, U8_ARGSP(cpy));
+
+		ctx.eow = src == word.p + word.len;
 		ctx.before_dot = next == COMB_DOT_ABOVE;
 		ctx.before_acc = next == COMB_GRAVE
 		              || next == COMB_ACUTE
