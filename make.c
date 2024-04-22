@@ -20,7 +20,7 @@
 #define LIBNAME "libmlib"
 #define WARNINGS \
 	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", "-Wvla", \
-		"-Wno-pointer-sign"
+		"-Wno-pointer-sign", "-Wno-parentheses"
 
 #define CMDRC(c) \
 	do { \
