@@ -78,6 +78,7 @@ FEATURES:
         • Functions for printing diagnostics and optionally crashing with
           strerror() support
     • macros.h
+        • TODO()
         • MIN()/MAX()/CLAMP()
         • Better assertion macro
         • More readable strcmp()/memcmp()/etc. wrappers for equality checking
