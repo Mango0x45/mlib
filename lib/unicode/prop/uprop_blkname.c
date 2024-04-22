@@ -339,6 +339,6 @@ static const struct u8view lookup[] = {
 struct u8view
 uprop_blkname(enum uprop_blk blk)
 {
-	ASSUME(blk >= 0 && blk < lengthof(lookup));
+	ASSUME(blk < lengthof(lookup));
 	return lookup[blk];
 }

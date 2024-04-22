@@ -86,7 +86,7 @@ uprop_age_minor(enum uprop_age a)
 	return a & 0xFF;
 }
 
-enum uprop_bc {
+enum uprop_bc : uint_least8_t {
 	BC_AL,  /* Arabic Letter */
 	BC_AN,  /* Arabic Number */
 	BC_B,   /* Paragraph Separator */
@@ -112,7 +112,7 @@ enum uprop_bc {
 	BC_WS,  /* White Space */
 };
 
-enum uprop_blk {
+enum uprop_blk : uint_least16_t {
 	BLK_NB = 0,                    /* No Block */
 	BLK_ADLAM,                     /* Adlam */
 	BLK_AEGEAN_NUMBERS,            /* Aegean Numbers */
@@ -446,13 +446,13 @@ enum uprop_blk {
 	BLK_ZNAMENNY_MUSIC,   /* Znamenny Musical Notation */
 };
 
-enum uprop_bpt {
+enum uprop_bpt : uint_least8_t {
 	BPT_N, /* None */
 	BPT_C, /* Close */
 	BPT_O, /* Open */
 };
 
-enum uprop_ccc : int {
+enum uprop_ccc : uint_least16_t {
 	CCC_NR = 0,       /* Not Reordered */
 	CCC_OV = 1,       /* Overlay */
 	CCC_HANR = 6,     /* Han Reading */
@@ -513,7 +513,7 @@ enum uprop_ccc : int {
 	CCC_IS = 240,     /* Iota Subscript */
 };
 
-enum uprop_dt {
+enum uprop_dt : uint_least8_t {
 	DT_NONE, /* None */
 	DT_CAN,  /* Canonical */
 	DT_COM,  /* Compat */
@@ -534,7 +534,7 @@ enum uprop_dt {
 	DT_WIDE, /* Wide */
 };
 
-enum uprop_ea {
+enum uprop_ea : uint_least8_t {
 	EA_A,  /* Ambiguous */
 	EA_F,  /* Fullwidth */
 	EA_H,  /* Halfwidth */
@@ -543,7 +543,7 @@ enum uprop_ea {
 	EA_W,  /* Narrow */
 };
 
-enum uprop_gcb {
+enum uprop_gcb : uint_least8_t {
 	GCB_XX = 0, /* Other */
 	GCB_CN,     /* Control */
 	GCB_CR,     /* CR */
@@ -607,7 +607,7 @@ enum [[clang::flag_enum]] uprop_gc : uint_least32_t {
 	GC_Z = GC_ZL | GC_ZP | GC_ZS,                 /* Separator */
 };
 
-enum uprop_hst {
+enum uprop_hst : uint_least8_t {
 	HST_NA = 0, /* Not Applicable */
 	HST_L,      /* Leading Jamo */
 	HST_LV,     /* LV Syllable */
@@ -616,7 +616,7 @@ enum uprop_hst {
 	HST_V,      /* Vowel Jamo */
 };
 
-enum uprop_inpc {
+enum uprop_inpc : uint_least8_t {
 	INPC_NA = 0, /* Not Applicable */
 	INPC_BOTTOM,
 	INPC_BOTTOM_AND_LEFT,
@@ -635,7 +635,7 @@ enum uprop_inpc {
 	INPC_VISUAL_ORDER_LEFT,
 };
 
-enum uprop_insc {
+enum uprop_insc : uint_least8_t {
 	INSC_OTHER = 0,
 	INSC_AVAGRAHA,
 	INSC_BINDU,
@@ -674,7 +674,7 @@ enum uprop_insc {
 	INSC_VOWEL_INDEPENDENT,
 };
 
-enum uprop_jg {
+enum uprop_jg : uint_least8_t {
 	JG_NO_JOINING_GROUP = 0,     /* No Joining Group */
 	JG_AFRICAN_FEH,              /* African Feh */
 	JG_AFRICAN_NOON,             /* African Noon */
@@ -781,7 +781,7 @@ enum uprop_jg {
 	JG_ZHAIN,                    /* Zhain */
 };
 
-enum uprop_jt {
+enum uprop_jt : uint_least8_t {
 	JT_U = 0, /* Non Joining */
 	JT_C,     /* Join Causing */
 	JT_D,     /* Dual Joining */
@@ -790,7 +790,7 @@ enum uprop_jt {
 	JT_T,     /* Transparent */
 };
 
-enum uprop_lb {
+enum uprop_lb : uint_least8_t {
 	LB_XX,  /* Unknown */
 	LB_AI,  /* Ambiguous */
 	LB_AK,  /* Aksara */
@@ -841,36 +841,36 @@ enum uprop_lb {
 	LB_ZW,  /* ZWSpace */
 };
 
-enum uprop_nfc_qc {
+enum uprop_nfc_qc : uint_least8_t {
 	NFC_QC_M, /* Maybe */
 	NFC_QC_N, /* No */
 	NFC_QC_Y, /* Yes */
 };
 
-enum uprop_nfd_qc {
+enum uprop_nfd_qc : uint_least8_t {
 	NFD_QC_N, /* No */
 	NFD_QC_Y, /* Yes */
 };
 
-enum uprop_nfkc_qc {
+enum uprop_nfkc_qc : uint_least8_t {
 	NFKC_QC_M, /* Maybe */
 	NFKC_QC_N, /* No */
 	NFKC_QC_Y, /* Yes */
 };
 
-enum uprop_nfkd_qc {
+enum uprop_nfkd_qc : uint_least8_t {
 	NFKD_QC_N, /* No */
 	NFKD_QC_Y, /* Yes */
 };
 
-enum uprop_nt {
+enum uprop_nt : uint_least8_t {
 	NT_NONE, /* None */
 	NT_DE,   /* Decimal */
 	NT_DI,   /* Digit */
 	NT_NU,   /* Numeric */
 };
 
-enum uprop_sb {
+enum uprop_sb : uint_least8_t {
 	SB_XX = 0, /* Other */
 	SB_AT,     /* ATerm */
 	SB_CL,     /* Close */
@@ -888,7 +888,7 @@ enum uprop_sb {
 	SB_UP,     /* Upper */
 };
 
-enum uprop_sc {
+enum uprop_sc : uint_least8_t {
 	SC_ZZZZ = 0, /* Unknown */
 	SC_ADLM,     /* Adlam */
 	SC_AGHB,     /* Caucasian Albanian */
@@ -1056,14 +1056,14 @@ enum uprop_sc {
 	SC_ZYYY,     /* Common */
 };
 
-enum uprop_vo {
+enum uprop_vo : uint_least8_t {
 	VO_R,  /* Rotated */
 	VO_TR, /* Transformed Rotated */
 	VO_TU, /* Transformed Upright */
 	VO_U,  /* Upright */
 };
 
-enum uprop_wb {
+enum uprop_wb : uint_least8_t {
 	WB_XX = 0,    /* Other */
 	WB_CR,        /* CR */
 	WB_DQ,        /* Double Quote */
