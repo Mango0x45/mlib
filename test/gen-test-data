@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+download()
+{
+	curl -sS "https://www.unicode.org/Public/15.1.0/ucd/$1"
+}
+
+download 'auxiliary/WordBreakTest.txt' \
+| sed -En 's/\s+//g; s/÷?#.*//g; /./p' >wnext.in

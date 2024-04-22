@@ -1,0 +1,33 @@
+#!/bin/sh
+
+set -e
+cd "${0%/*}"
+
+readonly FLAGS='
+	-std=c23 -I../include
+	-Og -ggdb3
+	-Wall -Wextra -Wpedantic
+	-Wno-pointer-sign
+	-Wno-attributes
+'
+
+(cd ..; ./make)
+
+./gen-test-data
+
+for src in *.c
+do
+	dst="${src%.*}"
+	gcc $FLAGS -o "$dst" "$src" ../libmlib.a 
+done
+
+s="$(find . -type f -executable \
+	-not -name gen-test-data \
+	-not -name run-tests \
+	-exec echo rm "*.in" {} +)"
+trap "$s" EXIT
+
+find . -type f -executable \
+	-not -name gen-test-data \
+	-not -name run-tests \
+	-exec {} \;
