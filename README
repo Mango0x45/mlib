@@ -77,6 +77,7 @@ FEATURES:
         • Functions for getting and setting the program name
         • Functions for printing diagnostics and optionally crashing with
           strerror() support
+        • Generate usage strings
     • macros.h
         • MIN()/MAX()/CLAMP()
         • Better assertion macro
@@ -112,7 +113,7 @@ FEATURES:
 
 PLANNED FEATURES:
 
-    • String Case Conversions         (unicode/string.h)
+    • Titlecase Conversions           (unicode/string.h)
     • Unicode Normalization           (unicode/string.h)
     • Line- and Sentence Segmentation (unicode/string.h)
 

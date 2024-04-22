@@ -5,6 +5,9 @@
 
 #include "_attrs.h"
 
+void usage(const char *, ...);
+#define usage(...) usage(__VA_ARGS__, nullptr)
+
 [[gnu::format(printf, 1, 2)]] void warn(const char *, ...);
 void vwarn(const char *, va_list);
 
