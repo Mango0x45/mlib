@@ -3,6 +3,11 @@
 # Usage: scale -v utf=X -v mapping=X [-v az=X] [-v lt=X]
 # Example: scale -v utf=8 -v mapping=title -v lt=1
 
+# NOTE: Titlecasing is a combination of titlecasing the first rune in a word,
+#       and lowercasing all the other runes in the word.  This means that for
+#       the titlecase scale factor, you actually need MAX(TS, LS) where TS is
+#       the titlecase scale factor and LS is the lowercase scale factor.
+
 set -e
 cd "${0%/*}/../.."
 
