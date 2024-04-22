@@ -122,3 +122,5 @@ BUGS:
 
     • Unicode Name Aliases (Name_Alias property) is not supported
     • Unihan properties are not supported (e.g. Unicode_Radical_Stroke)
+    • Casemapping is not fully up-to-spec
+    • Upper- and titlecasing don’t support CF_LANG_NL yet
