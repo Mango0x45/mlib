@@ -11,8 +11,6 @@
 #define streq(...) (!strcmp(__VA_ARGS__))
 #define u8eq(...)  (!u8cmp(__VA_ARGS__))
 
-#define TODO(s) err("%s:%s:%d: todo: %s", __FILE__, __func__, __LINE__, s)
-
 #ifdef NDEBUG
 #	include <stddef.h>
 #	define ASSUME(p) ((p) ? (void)0 : unreachable())
