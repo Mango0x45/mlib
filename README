@@ -105,7 +105,7 @@ FEATURES:
         • Properties related to case-mapping are context-aware (via a
           context-struct argument)
     • unicode/string.h
-        • Grapheme iteration and -counting
+        • Iteration and counting of graphemes and words in a string
         • Unicode-aware case-mapping of strings with truncation checking
         • Case-mapping supports optional language-specific quirks (Azeri,
           Lithuanian, German, etc.)
@@ -113,10 +113,9 @@ FEATURES:
 
 PLANNED FEATURES:
 
-    • Missing Unicode Properties  (unicode/prop.h)
-    • String Case Conversions     (unicode/string.h)
-    • Unicode Normalization       (unicode/string.h)
-    • Word- and Line Segmentation (unicode/string.h)
+    • String Case Conversions         (unicode/string.h)
+    • Unicode Normalization           (unicode/string.h)
+    • Line- and Sentence Segmentation (unicode/string.h)
 
 
 BUGS:
