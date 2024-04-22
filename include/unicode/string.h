@@ -19,9 +19,11 @@ enum [[clang::flag_enum]] caseflags {
 
 [[nodiscard]] size_t u8gcnt(const char8_t *, size_t);
 [[nodiscard]] size_t u8wcnt(const char8_t *, size_t);
+[[nodiscard]] size_t u8wcnt_human(const char8_t *, size_t);
 
 size_t u8gnext(struct u8view *, const char8_t **, size_t *);
 size_t u8wnext(struct u8view *, const char8_t **, size_t *);
+size_t u8wnext_human(struct u8view *, const char8_t **, size_t *);
 
 #define mlib_warn_trunc nodiscard("don’t forget to check for truncation")
 [[mlib_warn_trunc]] size_t u8casefold(char8_t *restrict, size_t,
