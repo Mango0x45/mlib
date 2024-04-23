@@ -149,14 +149,11 @@ error_s(struct optparse *st, const char *msg, struct u8view s)
 	return -1;
 }
 
-/* clang-format off */
-
 rune
 error_r(struct optparse *st, const char *msg, rune ch)
 {
 	char buf[U8_LEN_MAX + 1] = {};
-	return error_s(st, msg, (struct u8view){
-		.p = buf,
-		.len = rtou8(buf, ch, sizeof(buf)),
-	});
+	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
+	         rtou8(buf, sizeof(buf), ch), buf);
+	return -1;
 }
