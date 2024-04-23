@@ -23,8 +23,10 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 	int w;
 	rune ch;
 	size_t n = 0;
-	bool lt_special = false;
+	bool lt_special, nl_special;
 	struct u8view word = {}, cpy = {src, srcn};
+
+	lt_special = nl_special = false;
 
 	while (w = u8next(&ch, &src, &srcn)) {
 		rune next = 0;
@@ -39,8 +41,12 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 		ctx_l.before_acc =
 			next == COMB_GRAVE || next == COMB_ACUTE || next == COMB_TILDE;
 
-		struct rview rv = sow || lt_special ? uprop_get_tc(ch, ctx_t)
-		                                    : uprop_get_lc(ch, ctx_l);
+		struct rview rv;
+		if (nl_special && (ch == 'j' || ch == 'J'))
+			rv = (struct rview){.p = U"J", .len = 1};
+		else
+			rv = sow || lt_special ? uprop_get_tc(ch, ctx_t)
+			                       : uprop_get_lc(ch, ctx_l);
 		for (size_t i = 0; i < rv.len; i++) {
 			if (n >= dstn) {
 				char8_t buf[U8_LEN_MAX];
@@ -49,6 +55,8 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 				n += rtou8(dst + n, dstn - n, rv.p[i]);
 		}
 
+		if (flags & CF_LANG_NL)
+			nl_special = sow && (ch == 'i' || ch == 'I');
 		if (ctx_t.lt) {
 			/* If the rune at SOW is Soft_Dotted, then the next rune should be
 			   titlecased if it is U+0307 or if does not have ccc=0 and ccc=230.

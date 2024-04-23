@@ -14,7 +14,8 @@ enum [[clang::flag_enum]] caseflags {
 	CF_LANG_AZ = 1 << 0, /* Azeri; alias for CF_LANG_TR */
 	CF_LANG_TR = 1 << 0, /* Turkish; alias for CF_LANG_AZ */
 	CF_LANG_LT = 1 << 1, /* Lithuanian */
-	CF_ẞ       = 1 << 2, /* Use ‘ẞ’ as the uppercase of ‘ß’ */
+	CF_LANG_NL = 1 << 2, /* Dutch */
+	CF_ẞ       = 1 << 3, /* Use ‘ẞ’ as the uppercase of ‘ß’ */
 };
 
 /* clang-format on */
