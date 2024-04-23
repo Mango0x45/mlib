@@ -64,9 +64,11 @@ _MLIB_DEFINE_BSEARCH_KV(struct rview, lookup, M(ch))
 struct rview
 uprop_get_tc(rune ch, struct tcctx ctx)
 {
+	constexpr rune COMB_DOT_ABOVE = 0x307;
+
 	if (ch == 'i' && ctx.az_or_tr)
 		return M(U'İ');
-	if (ch == 0x307 && ctx.lt && ctx.after_i)
+	if (ch == COMB_DOT_ABOVE && ctx.lt && ctx.after_soft_dotted)
 		return M();
 
 	rune CH = uprop_get_stc(ch);

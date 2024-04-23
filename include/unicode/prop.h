@@ -13,31 +13,53 @@ struct rview {
 	size_t len;
 };
 
-/* clang-format off */
+/* The structures lcctx, tcctx, and ucctx are used to provide context to the
+   casing property functions whos return values are context-dependent.  Each
+   group of flags in a context structure is separated by a newline.
+
+   The first group of flags are named using language codes.  If one of these
+   flags is set, then language-specific tailorings for the given language are
+   enabled.  For example of the ‘az_or_tr’ flag is enabled in ucctx, then the
+   letter ‘i’ is uppercased to ‘İ’ as opposed to ‘I’.
+
+   The second group of flags relate to context specified by the Unicode standard
+   and typically have to do with which characters surround the one being cased.
+   The description for these flags can be found in Table 3-17 of chapter 3 of
+   the Unicode standard[1].
+
+   The third group of flags are extensions provided by MLib, and are documented
+   above or besides the relevant option.
+
+   [1]: https://www.unicode.org/versions/Unicode15.1.0/ch03.pdf#G54277 */
 
 struct lcctx {
-	bool az_or_tr : 1; /* Azeri or Turkish */
-	bool lt       : 1; /* Lithuanian */
+	bool az_or_tr : 1;
+	bool lt       : 1;
 
-	bool after_I    : 1; /* After ‘I’ */
+	bool after_I : 1;    /* After ‘I’ */
 	bool before_acc : 1; /* Before accent on ‘i’ or ‘j’ in Lithuanian */
 	bool before_dot : 1; /* Before U+0307 */
 	bool eow        : 1; /* End of word */
 };
 
 struct tcctx {
-	bool az_or_tr : 1; /* Azeri or Turkish */
-	bool lt       : 1; /* Lithuanian */
+	bool az_or_tr : 1;
+	bool lt       : 1;
 
-	bool after_i : 1; /* After ‘i’ */
+	bool after_soft_dotted : 1;
 };
 
 struct ucctx {
-	bool az_or_tr : 1; /* Azeri or Turkish */
-	bool lt       : 1; /* Lithuanian */
+	bool az_or_tr : 1;
+	bool lt       : 1;
 
-	bool ẞ       : 1; /* Uppercase ‘ß’ into ‘ẞ’ (instead of ‘SS’) */
-	bool after_i : 1; /* After ‘i’ */
+	bool after_soft_dotted : 1;
+
+	/* Uppercase the German lowercase-eszett ‘ß’ into the uppercase-eszett ‘ẞ’
+	   instead of the typical ‘SS’.  The uppercase-eszett was added to the
+	   German orthography in 2017 but has not yet seen widespread adoption as of
+	   writing (2024). */
+	bool ẞ : 1;
 };
 
 /* clang-format on */

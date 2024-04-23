@@ -2,9 +2,9 @@
 #include "unicode/prop.h"
 #include "unicode/string.h"
 
-constexpr rune COMB_GRAVE     = 0x0300;
-constexpr rune COMB_ACUTE     = 0x0301;
-constexpr rune COMB_TILDE     = 0x0303;
+constexpr rune COMB_GRAVE = 0x0300;
+constexpr rune COMB_ACUTE = 0x0301;
+constexpr rune COMB_TILDE = 0x0303;
 constexpr rune COMB_DOT_ABOVE = 0x0307;
 
 size_t
@@ -22,8 +22,8 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 
 	int w;
 	rune ch;
-	bool sow;
 	size_t n = 0;
+	bool lt_special = false;
 	struct u8view word = {}, cpy = {src, srcn};
 
 	while (w = u8next(&ch, &src, &srcn)) {
@@ -33,15 +33,14 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 		if (src > word.p + word.len)
 			u8wnext(&word, U8_ARGSP(cpy));
 
-		sow = src - w == word.p;
+		bool sow = src - w == word.p;
 		ctx_l.eow = src == word.p + word.len;
 		ctx_l.before_dot = next == COMB_DOT_ABOVE;
-		ctx_l.before_acc = next == COMB_GRAVE
-		                || next == COMB_ACUTE
-		                || next == COMB_TILDE;
+		ctx_l.before_acc =
+			next == COMB_GRAVE || next == COMB_ACUTE || next == COMB_TILDE;
 
-		struct rview rv = sow ? uprop_get_tc(ch, ctx_t)
-		                      : uprop_get_lc(ch, ctx_l);
+		struct rview rv = sow || lt_special ? uprop_get_tc(ch, ctx_t)
+		                                    : uprop_get_lc(ch, ctx_l);
 		for (size_t i = 0; i < rv.len; i++) {
 			if (n >= dstn) {
 				char8_t buf[U8_LEN_MAX];
@@ -50,7 +49,24 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 				n += rtou8(dst + n, dstn - n, rv.p[i]);
 		}
 
-		ctx_t.after_i = ch == 'i';
+		if (ctx_t.lt) {
+			/* If the rune at SOW is Soft_Dotted, then the next rune should be
+			   titlecased if it is U+0307 or if does not have ccc=0 and ccc=230.
+			   If the current rune was titlecased as a result of the above rule,
+			   then the rule should be applied again to the next rune.  If the
+			   current rune was titlecased and is U+0307, then lowercase until
+			   the next word boundary. */
+			enum uprop_ccc ccc;
+			if (lt_special || uprop_is_sd(ch)) {
+				ctx_t.after_soft_dotted = true;
+				lt_special =
+					(sow || lt_special) && ch != COMB_DOT_ABOVE
+					&& (next == COMB_DOT_ABOVE
+				        || ((ccc = uprop_get_ccc(next)) != 0 && ccc != 230));
+			} else
+				ctx_t.after_soft_dotted = false;
+		}
+
 		ctx_l.after_I = ch == 'I';
 	}
 

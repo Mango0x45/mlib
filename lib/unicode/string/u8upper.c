@@ -24,7 +24,14 @@ u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 			} else
 				n += rtou8(dst + n, dstn - n, rv.p[i]);
 		}
-		ctx.after_i = ch == 'i';
+
+		if (ctx.lt) {
+			enum uprop_ccc ccc;
+			if (uprop_is_sd(ch))
+				ctx.after_soft_dotted = true;
+			else if ((ccc = uprop_get_ccc(ch)) == CCC_NR || ccc == CCC_L)
+				ctx.after_soft_dotted = false;
+		}
 	}
 
 	return n;
