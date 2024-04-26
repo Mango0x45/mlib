@@ -35,23 +35,25 @@ u8lower(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 		if (srcn > 0)
 			u8tor(&next, src);
 
-		if (before_dot_cnt == 0 || more_above_cnt == 0) {
-			rune ch = 0;
-			before_dot_cnt = more_above_cnt = 0;
-			struct u8view cpy = {src, srcn};
+		if (ctx.az_or_tr || ctx.lt) {
+			if (before_dot_cnt == 0 || more_above_cnt == 0) {
+				rune ch = 0;
+				before_dot_cnt = more_above_cnt = 0;
+				struct u8view cpy = {src, srcn};
 
-			do {
-				before_dot_cnt++;
-				more_above_cnt++;
-			} while (u8next(&ch ,U8_ARGSP(cpy)) && !uprop_ccc_0_or_230(ch));
+				do {
+					before_dot_cnt++;
+					more_above_cnt++;
+				} while (u8next(&ch, U8_ARGSP(cpy)) && !uprop_ccc_0_or_230(ch));
 
-			if (ch != COMB_DOT_ABOVE)
-				before_dot_cnt = 0;
-			if (uprop_get_ccc(ch) != 230)
-				more_above_cnt = 0;
-		} else {
-			before_dot_cnt--;
-			more_above_cnt--;
+				if (ch != COMB_DOT_ABOVE)
+					before_dot_cnt = 0;
+				if (uprop_get_ccc(ch) != 230)
+					more_above_cnt = 0;
+			} else {
+				before_dot_cnt--;
+				more_above_cnt--;
+			}
 		}
 
 		if (final_sigma.after == 0) {
