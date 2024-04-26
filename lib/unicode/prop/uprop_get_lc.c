@@ -8,35 +8,40 @@
 struct rview
 uprop_get_lc(rune ch, struct lcctx ctx)
 {
+	constexpr rune COMB_GRAVE     = 0x300;
+	constexpr rune COMB_ACUTE     = 0x301;
+	constexpr rune COMB_TILDE     = 0x303;
+	constexpr rune COMB_DOT_ABOVE = 0x307;
+
 	if (ch == U'Σ')
-		return ctx.eow ? M(U'ς') : M(U'σ');
+		return ctx.final_sigma ? M(U'ς') : M(U'σ');
 	if (ch == U'İ')
-		return ctx.az_or_tr ? M('i') : M('i', 0x307);
+		return ctx.az_or_tr ? M('i') : M('i', COMB_DOT_ABOVE);
 
 	if (ctx.lt) {
-		if (ctx.before_acc) {
+		if (ctx.more_above) {
 			switch (ch) {
 			case 'I':
-				return M('i', 0x307);
+				return M('i', COMB_DOT_ABOVE);
 			case 'J':
-				return M('j', 0x307);
+				return M('j', COMB_DOT_ABOVE);
 			case U'Į':
-				return M(U'į', 0x307);
+				return M(U'į', COMB_DOT_ABOVE);
 			}
 		}
 
 		switch (ch) {
 		case U'Ì':
-			return M('i', 0x307, 0x300);
+			return M('i', COMB_DOT_ABOVE, COMB_GRAVE);
 		case U'Í':
-			return M('i', 0x307, 0x301);
+			return M('i', COMB_DOT_ABOVE, COMB_ACUTE);
 		case U'Ĩ':
-			return M('i', 0x307, 0x303);
+			return M('i', COMB_DOT_ABOVE, COMB_TILDE);
 		}
 	}
 
 	if (ctx.az_or_tr) {
-		if (ch == 0x307 && ctx.after_I)
+		if (ch == COMB_DOT_ABOVE && ctx.after_I)
 			return M();
 		if (ch == 'I' && !ctx.before_dot)
 			return M(U'ı');

@@ -107,8 +107,8 @@ FEATURES:
     • unicode/string.h
         • Iteration and counting of graphemes and words in a string
         • Unicode-aware case-mapping of strings with truncation checking
-        • Case-mapping supports optional language-specific quirks (Azeri,
-          Lithuanian, German, etc.)
+        • Case-mapping supports optional language-specific quirks for
+          Azeri, Dutch, German, Lithuanian, and Turkish.
 
 
 PLANNED FEATURES:
@@ -123,4 +123,3 @@ BUGS:
     • Unicode Name Aliases (Name_Alias property) is not supported
     • Unihan properties are not supported (e.g. Unicode_Radical_Stroke)
     • Casemapping is not fully up-to-spec
-    • Upper- and titlecasing don’t support CF_LANG_NL yet

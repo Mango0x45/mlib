@@ -36,10 +36,10 @@ struct lcctx {
 	bool az_or_tr : 1;
 	bool lt       : 1;
 
-	bool after_I : 1;    /* After ‘I’ */
-	bool before_acc : 1; /* Before accent on ‘i’ or ‘j’ in Lithuanian */
-	bool before_dot : 1; /* Before U+0307 */
-	bool eow        : 1; /* End of word */
+	bool after_I     : 1;
+	bool before_dot  : 1;
+	bool final_sigma : 1;
+	bool more_above  : 1;
 };
 
 struct tcctx {

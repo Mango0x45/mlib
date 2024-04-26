@@ -36,9 +36,9 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 			u8wnext(&word, U8_ARGSP(cpy));
 
 		bool sow = src - w == word.p;
-		ctx_l.eow = src == word.p + word.len;
+		ctx_l.final_sigma = src == word.p + word.len;
 		ctx_l.before_dot = next == COMB_DOT_ABOVE;
-		ctx_l.before_acc =
+		ctx_l.more_above =
 			next == COMB_GRAVE || next == COMB_ACUTE || next == COMB_TILDE;
 
 		struct rview rv;
