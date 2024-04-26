@@ -108,14 +108,14 @@ FEATURES:
         • Iteration and counting of graphemes and words in a string
         • Unicode-aware case-mapping of strings with truncation checking
         • Case-mapping supports optional language-specific quirks for
-          Azeri, Dutch, German, Lithuanian, and Turkish.
+          Azeri, German, Lithuanian, and Turkish.
 
 
 PLANNED FEATURES:
 
-    • Titlecase Conversions           (unicode/string.h)
-    • Unicode Normalization           (unicode/string.h)
-    • Line- and Sentence Segmentation (unicode/string.h)
+    • Dutch titlecase tailorings      (unicode/string.h)
+    • Unicode normalization           (unicode/string.h)
+    • Line- and sentence segmentation (unicode/string.h)
 
 
 BUGS:

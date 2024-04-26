@@ -1,52 +1,99 @@
+#include "_attrs.h"
 #include "mbstring.h"
 #include "unicode/prop.h"
 #include "unicode/string.h"
 
-constexpr rune COMB_GRAVE = 0x0300;
-constexpr rune COMB_ACUTE = 0x0301;
-constexpr rune COMB_TILDE = 0x0303;
 constexpr rune COMB_DOT_ABOVE = 0x0307;
+
+[[unsequenced, _mlib_inline]]
+static inline bool
+uprop_ccc_0_or_230(rune ch)
+{
+	enum uprop_ccc x = uprop_get_ccc(ch);
+	return x == 0 || x == 230;
+}
 
 size_t
 u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
         enum caseflags flags)
 {
-	struct tcctx ctx_t = {
-		.az_or_tr = flags & CF_LANG_AZ,
-		.lt = flags & CF_LANG_LT,
-	};
-	struct lcctx ctx_l = {
-		.az_or_tr = ctx_t.az_or_tr,
-		.lt = ctx_t.lt,
-	};
+	struct tcctx ctx_t;
+	struct lcctx ctx_l;
 
-	int w;
+	ctx_t.az_or_tr = ctx_l.az_or_tr = flags & CF_LANG_AZ;
+	ctx_t.lt = ctx_l.lt = flags & CF_LANG_LT;
+
 	rune ch;
-	size_t n = 0;
-	bool lt_special, nl_special;
-	struct u8view word = {}, cpy = {src, srcn};
+	size_t n, before_dot_cnt, more_above_cnt;
+	struct u8view word = {}, wcpy = {src, srcn};
+	struct {
+		bool before;
+		size_t after;
+	} final_sigma = {};
+	enum {
+		TITLE,
+		BETWEEN,
+		LOWER,
+	} state = 0;
 
-	lt_special = nl_special = false;
+	n = before_dot_cnt = more_above_cnt = 0;
 
-	while (w = u8next(&ch, &src, &srcn)) {
+	while (u8next(&ch, &src, &srcn)) {
 		rune next = 0;
 		if (srcn > 0)
 			u8tor(&next, src);
-		if (src > word.p + word.len)
-			u8wnext(&word, U8_ARGSP(cpy));
 
-		bool sow = src - w == word.p;
-		ctx_l.final_sigma = src == word.p + word.len;
-		ctx_l.before_dot = next == COMB_DOT_ABOVE;
-		ctx_l.more_above =
-			next == COMB_GRAVE || next == COMB_ACUTE || next == COMB_TILDE;
+		if (src > word.p + word.len) {
+			u8wnext(&word, U8_ARGSP(wcpy));
+			ctx_t.after_soft_dotted = false;
+			state = TITLE;
+		}
 
-		struct rview rv;
-		if (nl_special && (ch == 'j' || ch == 'J'))
-			rv = (struct rview){.p = U"J", .len = 1};
-		else
-			rv = sow || lt_special ? uprop_get_tc(ch, ctx_t)
-			                       : uprop_get_lc(ch, ctx_l);
+		if (ctx_l.az_or_tr || ctx_l.lt) {
+			if (before_dot_cnt == 0 || more_above_cnt == 0) {
+				rune ch = 0;
+				before_dot_cnt = more_above_cnt = 0;
+				struct u8view cpy = {src, srcn};
+
+				do {
+					before_dot_cnt++;
+					more_above_cnt++;
+				} while (u8next(&ch, U8_ARGSP(cpy)) && !uprop_ccc_0_or_230(ch));
+
+				if (ch != COMB_DOT_ABOVE)
+					before_dot_cnt = 0;
+				if (uprop_get_ccc(ch) != 230)
+					more_above_cnt = 0;
+			} else {
+				before_dot_cnt--;
+				more_above_cnt--;
+			}
+		}
+
+		if (final_sigma.after == 0) {
+			rune ch;
+			struct u8view cpy = {src, srcn};
+
+			do
+				final_sigma.after++;
+			while (u8next(&ch, U8_ARGSP(cpy)) && uprop_is_ci(ch));
+
+			if (!uprop_is_cased(ch))
+				final_sigma.after = 0;
+		} else
+			final_sigma.after--;
+
+		ctx_l.before_dot = before_dot_cnt > 0;
+		ctx_l.more_above = more_above_cnt > 0;
+		ctx_l.final_sigma = final_sigma.before && final_sigma.after == 0;
+
+		if (state == BETWEEN && uprop_is_cased(ch))
+			state = LOWER;
+		struct rview rv =
+			state == LOWER ? uprop_get_lc(ch, ctx_l) : uprop_get_tc(ch, ctx_t);
+		if (state == TITLE && uprop_is_cased(ch))
+			state = BETWEEN;
+
 		for (size_t i = 0; i < rv.len; i++) {
 			if (n >= dstn) {
 				char8_t buf[U8_LEN_MAX];
@@ -55,27 +102,17 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 				n += rtou8(dst + n, dstn - n, rv.p[i]);
 		}
 
-		if (flags & CF_LANG_NL)
-			nl_special = sow && (ch == 'i' || ch == 'I');
-		if (ctx_t.lt) {
-			/* If the rune at SOW is Soft_Dotted, then the next rune should be
-			   titlecased if it is U+0307 or if does not have ccc=0 and ccc=230.
-			   If the current rune was titlecased as a result of the above rule,
-			   then the rule should be applied again to the next rune.  If the
-			   current rune was titlecased and is U+0307, then lowercase until
-			   the next word boundary. */
-			enum uprop_ccc ccc;
-			if (lt_special || uprop_is_sd(ch)) {
-				ctx_t.after_soft_dotted = true;
-				lt_special =
-					(sow || lt_special) && ch != COMB_DOT_ABOVE
-					&& (next == COMB_DOT_ABOVE
-				        || ((ccc = uprop_get_ccc(next)) != 0 && ccc != 230));
-			} else
-				ctx_t.after_soft_dotted = false;
-		}
+		ctx_l.after_I =
+			(ch == 'I') || (ctx_l.after_I && !uprop_ccc_0_or_230(ch));
+		if (uprop_is_cased(ch))
+			final_sigma.before = true;
+		else if (!uprop_is_ci(ch))
+			final_sigma.before = false;
 
-		ctx_l.after_I = ch == 'I';
+		if (uprop_is_sd(ch))
+			ctx_t.after_soft_dotted = true;
+		else if (uprop_ccc_0_or_230(ch))
+			ctx_t.after_soft_dotted = false;
 	}
 
 	return n;
