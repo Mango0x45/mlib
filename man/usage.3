@@ -1,0 +1,73 @@
+.Dd 27 April 2024
+.Dt USAGE 3
+.Os
+.Sh NAME
+.Nm usage
+.Nd print a program usage diagnostic
+.Sh LIBRARY
+.Lb mlib
+.Sh SYNOPSIS
+.In errors.h
+.Ft void
+.Fn usage "const char *s" "..."
+.Sh DESCRIPTION
+The
+.Fn usage
+macro prints a program usage diagnostic to the standard error.
+The one-or-more program usages are provided as null-terminated strings to
+.Fn usage ,
+and the program name must be set via a prior invocation of
+.Fn mlib_setprogname .
+None of the provided arguments should be
+.Dv nullptr .
+.Sh EXAMPLES
+The following call to
+.Fn usage
+prints a diagnostic showing the different command-line arguments that can
+be provided to the example executable.
+.Bd -literal -offset indent
+#include <stdlib.h>
+
+#include <errors.h>
+#include <macros.h>
+#include <optparse.h>
+ 
+static const struct op_option opts[] = {
+	{'a', nullptr, OPT_NONE},
+	{'b', nullptr, OPT_NONE},
+	{'h', nullptr, OPT_NONE},
+};
+
+int
+main(int argc, char **argv)
+{
+	mlib_setprogname("my-prog");
+
+	rune opt;
+	struct optparse op = mkoptparser(argv);
+	while (opt = optparse(&op, opts, lengthof(opts))) {
+		switch (opt) {
+		/* … */
+		case 'h':
+			[[fallthrough]];
+		default:
+			/* Prints the following diagnostic:
+
+			   Usage: my-prog [-ab]
+			          my-prog -h
+			 */
+			usage("[-ab]", "-h");
+			exit(opt == 'h' ? EXIT_SUCCESS : EXIT_FAILURE);
+		}
+	}
+
+	/* … */
+
+	return EXIT_SUCCESS;
+}
+.Ed
+.Sh SEE ALSO
+.Xr mlib_setprogname 3 ,
+.Xr optparse.h 3
+.Sh AUTHORS
+.An Thomas Voss Aq Mt mail@thomasvoss.com
