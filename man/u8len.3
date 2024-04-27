@@ -1,4 +1,4 @@
-.Dd 10 March 2024
+.Dd 27 April 2024
 .Dt U8LEN 3
 .Os
 .Sh NAME
@@ -34,13 +34,13 @@ will return 17 while the call to
 will return 22 as a result of use of multibyte-characters in
 .Fa s .
 .Bd -literal -offset indent
-struct u8view sv = U8V(u8\(dq„Der Große Duden“\(dq);
+struct u8view sv = U8(\(dq„Der Große Duden“\(dq);
 size_t blen = strlen((char *)sv.p);
 size_t cplen = u8len(U8_ARGS(sv));
 .Ed
 .Sh SEE ALSO
 .Xr u8gcnt 3 ,
-.Xr U8V 3 ,
+.Xr U8 3 ,
 .Xr unicode 7 ,
 .Xr utf\-8 7
 .Sh STANDARDS
