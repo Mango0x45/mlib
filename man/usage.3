@@ -29,13 +29,14 @@ be provided to the example executable.
 #include <stdlib.h>
 
 #include <errors.h>
-#include <macros.h>
+#include <macros.h>   /* For lengthof() */
+#include <mbstring.h> /* For U8() */
 #include <optparse.h>
  
 static const struct op_option opts[] = {
-	{'a', nullptr, OPT_NONE},
-	{'b', nullptr, OPT_NONE},
-	{'h', nullptr, OPT_NONE},
+	{'a', U8(nullptr), OPT_NONE},
+	{'b', U8(nullptr), OPT_NONE},
+	{'h', U8(nullptr), OPT_NONE},
 };
 
 int
