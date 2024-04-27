@@ -8,7 +8,10 @@
 #include "_rune.h"
 #include "_u8view.h"
 
-#define U8V(s)      ((struct u8view){.p = (s), .len = sizeof(s) - 1})
+#define U8(s) \
+	_Generic((s), \
+	    nullptr_t: ((struct u8view){}), \
+	    default: ((struct u8view){.p = (s), .len = sizeof(s) - 1}))
 #define U8_ARGS(s)  ((s).p), ((s).len)
 #define U8_ARGSP(s) (&(s).p), (&(s).len)
 
