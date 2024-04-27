@@ -11,7 +11,7 @@
 #define U8(s) \
 	_Generic((s), \
 	    nullptr_t: ((struct u8view){}), \
-	    default: ((struct u8view){.p = (u8##s), .len = sizeof(s) - 1}))
+	    default: ((struct u8view){.p = (s), .len = sizeof(s) - 1}))
 #define U8_ARGS(s)  ((s).p), ((s).len)
 #define U8_ARGSP(s) (&(s).p), (&(s).len)
 
