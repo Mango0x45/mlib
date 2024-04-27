@@ -31,7 +31,9 @@ mkregion(size_t cap)
 	                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0),
 	};
 	if (r->data == MAP_FAILED) {
+		int save = errno;
 		free(r);
+		errno = save;
 		return nullptr;
 	}
 	return r;
