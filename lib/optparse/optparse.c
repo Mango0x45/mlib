@@ -55,9 +55,10 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 	};
 
 	for (size_t i = 0; i < nopts; i++) {
-		if (!u8haspfx(U8_ARGS(opts[i].longopt), U8_ARGS(opt_no_eq)))
+		struct u8view lo = opts[i].longopt;
+		if (lo.p == nullptr || !u8haspfx(U8_ARGS(lo), U8_ARGS(opt_no_eq)))
 			continue;
-		if (o)
+		if (o != nullptr)
 			return error(st, OPT_MSG_INVALID, opt_no_eq);
 		o = opts + i;
 	}
