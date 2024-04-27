@@ -24,6 +24,7 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 	ctx_t.lt = ctx_l.lt = flags & CF_LANG_LT;
 
 	rune ch;
+	bool nl_IJ = false;
 	size_t n, before_dot_cnt, more_above_cnt;
 	struct u8view word = {}, wcpy = {src, srcn};
 	struct {
@@ -39,10 +40,6 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 	n = before_dot_cnt = more_above_cnt = 0;
 
 	while (u8next(&ch, &src, &srcn)) {
-		rune next = 0;
-		if (srcn > 0)
-			u8tor(&next, src);
-
 		if (src > word.p + word.len) {
 			u8wnext(&word, U8_ARGSP(wcpy));
 			ctx_t.after_soft_dotted = false;
@@ -89,10 +86,21 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 
 		if (state == BETWEEN && uprop_is_cased(ch))
 			state = LOWER;
-		struct rview rv =
-			state == LOWER ? uprop_get_lc(ch, ctx_l) : uprop_get_tc(ch, ctx_t);
-		if (state == TITLE && uprop_is_cased(ch))
+		struct rview rv = state == LOWER && !nl_IJ ? uprop_get_lc(ch, ctx_l)
+		                                           : uprop_get_tc(ch, ctx_t);
+		if (nl_IJ)
+			nl_IJ = false;
+		if (state == TITLE && uprop_is_cased(ch)) {
 			state = BETWEEN;
+
+			if (flags & CF_LANG_NL) {
+				rune next = 0;
+				if (srcn > 0)
+					u8tor(&next, src);
+				nl_IJ =
+					(ch == 'i' || ch == 'I') && (next == 'j' || next == 'J');
+			}
+		}
 
 		for (size_t i = 0; i < rv.len; i++) {
 			if (n >= dstn) {

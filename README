@@ -113,7 +113,6 @@ FEATURES:
 
 PLANNED FEATURES:
 
-    • Dutch titlecase tailorings      (unicode/string.h)
     • Line- and sentence segmentation (unicode/string.h)
     • String casefolding              (unicode/string.h)
     • String collation                (unicode/string.h)
