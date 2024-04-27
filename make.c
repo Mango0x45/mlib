@@ -1,5 +1,8 @@
 #define _GNU_SOURCE
 #include <errno.h>
+#if __has_include(<features.h>)
+#	include <features.h>
+#endif
 #include <glob.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,19 +11,28 @@
 #define CBS_PTHREAD
 #include "cbs.h"
 
-#define CC         "gcc"
-#define CFLAGS_ALL WARNINGS, "-pipe", "-std=c23", "-Iinclude"
-#define CFLAGS_DBG CFLAGS_ALL, "-g", "-ggdb3", "-Og"
-#ifdef __APPLE__
-#	define CFLAGS_RLS CFLAGS_ALL, "-O3", "-flto", "-DNDEBUG"
-#else
-#	define CFLAGS_RLS \
-		CFLAGS_ALL, "-O3", "-flto", "-DNDEBUG", "-march=native", "-mtune=native"
-#endif
+#define CC      "gcc"
 #define LIBNAME "libmlib"
+
+#define CFLAGS_ALL WARNINGS, "-pipe", "-std=c23", "-Iinclude" GLIB_EXTRAS
+#define CFLAGS_DBG CFLAGS_ALL, "-g", "-ggdb3", "-Og"
+#define CFLAGS_RLS CFLAGS_ALL, "-O3", "-flto", "-DNDEBUG" NOT_APPLE_EXTRAS
+
 #define WARNINGS \
 	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", "-Wvla", \
 		"-Wno-pointer-sign", "-Wno-parentheses"
+
+#ifdef __GLIBC__
+#	define GLIB_EXTRAS , "-D_GNU_SOURCE"
+#else
+#	define GLIB_EXTRAS
+#endif
+
+#ifndef __APPLE__
+#	define NOT_APPLE_EXTRAS , "-march=native", "-mtune=native"
+#else
+#	define NOT_APPLE_EXTRAS
+#endif
 
 #define CMDRC(c) \
 	do { \
