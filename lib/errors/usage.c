@@ -15,12 +15,8 @@ void
 	va_start(ap, s);
 
 	fprintf(stderr, "Usage: %s %s\n", mlib_progname(), s);
-
-	while ((s = va_arg(ap, char *)) != nullptr) {
-		for (size_t i = 0; i < lengthof("Usage: ") - 1; i++)
-			fputc(' ', stderr);
-		fprintf(stderr, "%s %s\n", mlib_progname(), s);
-	}
+	while ((s = va_arg(ap, char *)) != nullptr)
+		fprintf(stderr, "       %s %s\n", mlib_progname(), s);
 
 	va_end(ap);
 }
