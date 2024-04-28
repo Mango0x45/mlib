@@ -29,14 +29,14 @@ size_t u8gnext(struct u8view *, const char8_t **, size_t *);
 size_t u8wnext(struct u8view *, const char8_t **, size_t *);
 size_t u8wnext_human(struct u8view *, const char8_t **, size_t *);
 
-[[mlib_warn_trunc]] size_t u8casefold(char8_t *restrict, size_t,
-                                      const char8_t *, size_t, enum caseflags);
 [[mlib_warn_trunc]] size_t u8lower(char8_t *restrict, size_t, const char8_t *,
                                    size_t, enum caseflags);
 [[mlib_warn_trunc]] size_t u8title(char8_t *restrict, size_t, const char8_t *,
                                    size_t, enum caseflags);
 [[mlib_warn_trunc]] size_t u8upper(char8_t *restrict, size_t, const char8_t *,
                                    size_t, enum caseflags);
+[[mlib_warn_trunc]] size_t u8casefold(char8_t *restrict, size_t,
+                                      const char8_t *, size_t, enum caseflags);
 
 constexpr double U8LOWER_SCALE = 1.5;
 constexpr double U8LOWER_SCALE_LT = 3;
