@@ -79,9 +79,8 @@ ri=Regional_Indicator
 gen()
 {
 	local p=${1%%=*}
-	gawk -M -v prop=${1#*=} -v short=$p \
-		-f gen/prop/bool-props.awk data/$2 \
-		>lib/unicode/prop/uprop_is_${p}.c
+	gen/prop/bool-props.py ${1#*=} $p data/$2 \
+		>lib/unicode/prop/uprop_is_$p.c
 	printf 'DONE uprop_is_%s()\n' $p >&2
 }
 
