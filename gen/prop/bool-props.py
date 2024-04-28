@@ -1,55 +1,10 @@
 #!/usr/bin/python3
 
-import functools
 import math
 import sys
-from typing import Generator
 
+from lib import *
 
-def chunks[T](xs: list[T], n: int) -> Generator[list[T], None, None]:
-	for i in range(0, len(xs), n):
-		yield xs[i:i + n]
-
-def powers_of_2() -> Generator[int, None, None]:
-	i = 0
-	while True:
-		yield 2 ** i
-		i += 1
-
-def bytes_per_col(n: int) -> int:
-	xs = list(set(functools.reduce(list.__add__, (
-		[i, n // i] for i in range(1, int(n ** 0.5) + 1) if n % i == 0)
-	)))
-	for x in sorted(xs, reverse=True):
-		y = 5
-		y += x * 5
-		y += x - 1
-		if y <= 80:
-			return x
-
-	raise ValueError
-
-def isize(x: int) -> int:
-	if x < 256:
-		return 1
-	if x < 65535:
-		return 2
-	if x < 4294967295:
-		return 3
-	if x < 18446744073709551615:
-		return 4
-	raise ValueError
-
-def typename(x: int) -> str:
-	if x < 256:
-		return "uint8_t"
-	if x < 65535:
-		return "uint16_t"
-	if x < 4294967295:
-		return "uint32_t"
-	if x < 18446744073709551615:
-		return "uint64_t"
-	raise ValueError
 
 def parse(file: str) -> list[bool]:
 	xs = [False] * 0x110000
@@ -89,7 +44,7 @@ def genfile(cs: list[tuple[bool, ...]], blksize: int) -> None:
 	print()
 
 	bcnt = blksize // 8
-	bpc = bytes_per_col(bcnt)
+	bpc = columns(bcnt)
 	print(f'static constexpr unsigned char stage2[][{bcnt}] = {{')
 	for c in cs:
 		x = sum(map(lambda x: x[1] << x[0], enumerate(c)))
