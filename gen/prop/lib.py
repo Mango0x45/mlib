@@ -1,4 +1,7 @@
 import functools
+import os
+import sys
+from pathlib import Path
 from typing import Generator
 
 def chunks[T](xs: list[T], n: int) -> Generator[list[T], None, None]:
@@ -45,3 +48,7 @@ def typename(x: int) -> str:
 	if x < 18446744073709551615:
 		return "uint64_t"
 	raise ValueError
+
+def cwd_init() -> None:
+	dir = Path(os.path.dirname(sys.argv[0]))
+	os.chdir(dir / '..' / '..')
