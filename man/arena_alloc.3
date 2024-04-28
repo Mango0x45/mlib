@@ -1,0 +1,173 @@
+.Dd 27 April 2024
+.Dt ARENA_ALLOC 3
+.Os MLib
+.Sh NAME
+.Nm arena_alloc ,
+.Nm arena_free ,
+.Nm arena_new ,
+.Nm arena_zero ,
+.Nm mkarena
+.Nd arena allocator functions
+.Sh LIBRARY
+.Lb mlib
+.Sh SYNOPSIS
+.In alloc.h
+.Fd #define MLIB_ARENA_BLKSIZE 8192
+.Ft arena
+.Fn mkarena "size_t n"
+.Ft "void *"
+.Fn arena_alloc "arena *a" "size_t n" "size_t m" "size_t align"
+.Ft "T *"
+.Fn arena_new "arena *a" "type T" "size_t n"
+.Ft void
+.Fn arena_zero "arena *a"
+.Ft void
+.Fn arena_free "arena *a"
+.Sh DESCRIPTION
+The functions and macros defined in this manual implement a basic arena
+allocator.
+An arena object represents an instance of an arena allocator.
+Unlike typical dynamic memory allocation via functions such as
+.Fn malloc ,
+when an arena is freed, all allocations made using that arena are freed
+in one go.
+This allows for the simplification of lifetimes and memory management.
+As arena allocators allocate memory linearly,
+they can often also have various performance benefits over allocations
+made using allocators such as
+.Fn malloc .
+.Pp
+The
+.Fn mkarena
+function returns a new arena with a default blocksize of
+.Fa n .
+If
+.Fa n
+is 0, then
+.Dv MLIB_ARENA_BLKSIZE is used instead.
+.Pp
+The
+.Fn arena_alloc
+function allocates memory for
+.Fa n
+elements of size
+.Fa m
+in the arena pointed to by
+.Fa a
+with the alignment
+.Fa align .
+A pointer to the newly allocated memory is returned, or
+.Dv nullptr
+on error.
+In most cases it is preferable to use the
+.Fn arena_new
+macro instead of this function.
+The behavior of
+.Fn arena_alloc
+is undefined if
+.Fa align
+is not a power of 2
+.Pq this includes 0, which is not a power of 2 .
+.Pp
+The
+.Fn arena_new
+macro allocates memory for
+.Fa n
+elements of type
+.Fa T
+in the arena pointed to by
+.Fa a .
+Allocations are aligned to
+.Ql alignof(T)
+bytes.
+A pointer to the newly allocated memory is returned, or
+.Dv nullptr
+on error.
+This macro is equivalent to the following invocation of
+.Fn arena_alloc :
+.Bd -literal -offset indent
+(T *)arena_alloc(a, n, sizeof(T), alignof(T))
+.Ed
+.Pp
+The
+.Fn arena_free
+function deallocates all memory associated with the arena pointed to by
+.Fa a .
+After an arena has been freed you may safely continue to allocate memory
+with it, however you may prefer to use
+.Fn arena_zero
+in such a situation.
+.Pp
+The
+.Fn arena_zero
+function resets the state of the arena pointed to by
+.Fa a .
+This allows you to reuse the memory that has already been allocated by
+the given arena for new allocations,
+which may improve the performance of your application.
+Note that after zeroing an arena, any prior allocations made with the
+arena must be considered garbage.
+.Pp
+If you wish to configure the default blocksize of new arena allocators
+created via
+.Fn mkarena ,
+you may define
+.Dv MLIB_ARENA_BLKSIZE
+to a constant value of type
+.Vt size_t
+before including
+.In alloc.h .
+.Sh RETURN VALUES
+The
+.Fn mkarena
+function returns a new arena allocator with a given blocksize or
+.Dv MLIB_ARENA_BLKSIZE
+if zero.
+.Pp
+The
+.Fn arena_alloc
+function and
+.Fn arena_new
+macro return a pointer to the newly allocated buffer if successful;
+otherwise the value
+.Dv nullptr
+is returned and the global variable
+.Va errno
+is set to indicate the error.
+.Sh EXAMPLES
+The following example creates a new arena allocator,
+allocates two integer arrays,
+and then frees the arena.
+.Bd -literal -offset indent
+#define NUM_ELEMS 16
+
+arena a = mkarena(0);
+
+int *xs = arena_new(&a, int, NUM_ELEMS);
+int *ys = arena_new(&a, int, NUM_ELEMS);
+
+for (int i = 0; i < NUM_ELEMS; i++)
+	xs[i] = i;
+for (int i = 0; i < NUM_ELEMS; i++)
+	ys[i] = xs[i] * xs[i];
+
+arena_free(&a);
+.Ed
+.Sh ERRORS
+.Bl -tag -width Er
+.It Bq Er EOVERFLOW
+Overflow occured when computing buffer size.
+.El
+.Pp
+The
+.Fn arena_alloc
+function and
+.Fn arena_new
+macro may fail and set the external variable
+.Va errno
+for any of the errors specified for the library function
+.Xr mmap 2 .
+.Sh SEE ALSO
+.Xr bufalloc 3
+.Sh AUTHORS
+.An Thomas Voss Aq Mt mail@thomasvoss.com
