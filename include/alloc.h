@@ -36,6 +36,6 @@ void *arena_alloc(arena *, size_t, size_t, size_t);
 void arena_zero(arena *);
 void arena_free(arena *);
 
-#define arena_new(a, T, n) ((T *)arena_alloc((a), sizeof(T), (n), alignof(T)))
+#define arena_new(a, T, n) ((T *)arena_alloc((a), (n), sizeof(T), alignof(T)))
 
 #endif /* !MLIB_ALLOC_H */
