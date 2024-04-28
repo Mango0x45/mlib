@@ -40,7 +40,7 @@ def genfile(cs: list[tuple[bool, ...]], blksize: int) -> None:
 
 	print()
 
-	ppc = columns(blksize)
+	ppc = columns(blksize, 6)
 	print(f'static constexpr enum uprop_gc stage2[][{blksize}] = {{')
 	for c in cs:
 		for i in range(blksize // ppc):

@@ -44,7 +44,7 @@ def genfile(cs: list[tuple[bool, ...]], blksize: int) -> None:
 	print()
 
 	bcnt = blksize // 8
-	bpc = columns(bcnt)
+	bpc = columns(bcnt, 5)
 	print(f'static constexpr unsigned char stage2[][{bcnt}] = {{')
 	for c in cs:
 		x = sum(map(lambda x: x[1] << x[0], enumerate(c)))
