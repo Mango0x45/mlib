@@ -114,7 +114,6 @@ FEATURES:
 PLANNED FEATURES:
 
     • Line- and sentence segmentation (unicode/string.h)
-    • String casefolding              (unicode/string.h)
     • String collation                (unicode/string.h)
     • Unicode normalization           (unicode/string.h)
 
@@ -123,4 +122,3 @@ BUGS:
 
     • Unicode Name Aliases (Name_Alias property) is not supported
     • Unihan properties are not supported (e.g. Unicode_Radical_Stroke)
-    • Casemapping is not fully up-to-spec
