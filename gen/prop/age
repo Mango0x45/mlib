@@ -71,7 +71,6 @@ uprop_get_age(rune ch)
 
 def main() -> None:
 	cwd_init()
-	sys.stdout = open('lib/unicode/prop/uprop_get_age.c', 'w')
 	xs = parse('data/DerivedAge')
 
 	blksize = -1
@@ -92,7 +91,9 @@ def main() -> None:
 			blksize = bs
 
 	Cs = [tuple(x) for x in chunks(xs, blksize)]
-	genfile(Cs, blksize)
+	with open('lib/unicode/prop/uprop_get_age.c', 'w') as f:
+		sys.stdout = f
+		genfile(Cs, blksize)
 
 if __name__ == '__main__':
 	main()
