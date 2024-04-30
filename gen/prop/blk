@@ -1,395 +1,439 @@
-#!/bin/sh
+#!/usr/bin/python3
 
-set -e
-cd "${0%/*}/../.."
-exec >lib/unicode/prop/uprop_get_blk.c
+import math
 
-gawk '
-BEGIN {
-	FS = " *(; *|#.*)"
+from lib import *
 
-	map["adlam"]                                            = "ADLAM"
-	map["aegean_numbers"]                                   = "AEGEAN_NUMBERS"
-	map["ahom"]                                             = "AHOM"
-	map["alchemical_symbols"]                               = "ALCHEMICAL"
-	map["alphabetic_presentation_forms"]                    = "ALPHABETIC_PF"
-	map["anatolian_hieroglyphs"]                            = "ANATOLIAN_HIEROGLYPHS"
-	map["ancient_greek_musical_notation"]                   = "ANCIENT_GREEK_MUSIC"
-	map["ancient_greek_numbers"]                            = "ANCIENT_GREEK_NUMBERS"
-	map["ancient_symbols"]                                  = "ANCIENT_SYMBOLS"
-	map["arabic"]                                           = "ARABIC"
-	map["arabic_extended_a"]                                = "ARABIC_EXT_A"
-	map["arabic_extended_b"]                                = "ARABIC_EXT_B"
-	map["arabic_extended_c"]                                = "ARABIC_EXT_C"
-	map["arabic_mathematical_alphabetic_symbols"]           = "ARABIC_MATH"
-	map["arabic_presentation_forms_a"]                      = "ARABIC_PF_A"
-	map["arabic_presentation_forms_b"]                      = "ARABIC_PF_B"
-	map["arabic_supplement"]                                = "ARABIC_SUP"
-	map["armenian"]                                         = "ARMENIAN"
-	map["arrows"]                                           = "ARROWS"
-	map["avestan"]                                          = "AVESTAN"
-	map["balinese"]                                         = "BALINESE"
-	map["bamum"]                                            = "BAMUM"
-	map["bamum_supplement"]                                 = "BAMUM_SUP"
-	map["basic_latin"]                                      = "ASCII"
-	map["bassa_vah"]                                        = "BASSA_VAH"
-	map["batak"]                                            = "BATAK"
-	map["bengali"]                                          = "BENGALI"
-	map["bhaiksuki"]                                        = "BHAIKSUKI"
-	map["block_elements"]                                   = "BLOCK_ELEMENTS"
-	map["bopomofo"]                                         = "BOPOMOFO"
-	map["bopomofo_extended"]                                = "BOPOMOFO_EXT"
-	map["box_drawing"]                                      = "BOX_DRAWING"
-	map["brahmi"]                                           = "BRAHMI"
-	map["braille_patterns"]                                 = "BRAILLE"
-	map["buginese"]                                         = "BUGINESE"
-	map["buhid"]                                            = "BUHID"
-	map["byzantine_musical_symbols"]                        = "BYZANTINE_MUSIC"
-	map["carian"]                                           = "CARIAN"
-	map["caucasian_albanian"]                               = "CAUCASIAN_ALBANIAN"
-	map["chakma"]                                           = "CHAKMA"
-	map["cham"]                                             = "CHAM"
-	map["cherokee"]                                         = "CHEROKEE"
-	map["cherokee_supplement"]                              = "CHEROKEE_SUP"
-	map["chess_symbols"]                                    = "CHESS_SYMBOLS"
-	map["chorasmian"]                                       = "CHORASMIAN"
-	map["cjk_compatibility"]                                = "CJK_COMPAT"
-	map["cjk_compatibility_forms"]                          = "CJK_COMPAT_FORMS"
-	map["cjk_compatibility_ideographs"]                     = "CJK_COMPAT_IDEOGRAPHS"
-	map["cjk_compatibility_ideographs_supplement"]          = "CJK_COMPAT_IDEOGRAPHS_SUP"
-	map["cjk_radicals_supplement"]                          = "CJK_RADICALS_SUP"
-	map["cjk_strokes"]                                      = "CJK_STROKES"
-	map["cjk_symbols_and_punctuation"]                      = "CJK_SYMBOLS"
-	map["cjk_unified_ideographs"]                           = "CJK"
-	map["cjk_unified_ideographs_extension_a"]               = "CJK_EXT_A"
-	map["cjk_unified_ideographs_extension_b"]               = "CJK_EXT_B"
-	map["cjk_unified_ideographs_extension_c"]               = "CJK_EXT_C"
-	map["cjk_unified_ideographs_extension_d"]               = "CJK_EXT_D"
-	map["cjk_unified_ideographs_extension_e"]               = "CJK_EXT_E"
-	map["cjk_unified_ideographs_extension_f"]               = "CJK_EXT_F"
-	map["cjk_unified_ideographs_extension_g"]               = "CJK_EXT_G"
-	map["cjk_unified_ideographs_extension_h"]               = "CJK_EXT_H"
-	map["cjk_unified_ideographs_extension_i"]               = "CJK_EXT_I"
-	map["combining_diacritical_marks"]                      = "DIACRITICALS"
-	map["combining_diacritical_marks_extended"]             = "DIACRITICALS_EXT"
-	map["combining_diacritical_marks_for_symbols"]          = "DIACRITICALS_FOR_SYMBOLS"
-	map["combining_diacritical_marks_supplement"]           = "DIACRITICALS_SUP"
-	map["combining_half_marks"]                             = "HALF_MARKS"
-	map["common_indic_number_forms"]                        = "INDIC_NUMBER_FORMS"
-	map["control_pictures"]                                 = "CONTROL_PICTURES"
-	map["coptic"]                                           = "COPTIC"
-	map["coptic_epact_numbers"]                             = "COPTIC_EPACT_NUMBERS"
-	map["counting_rod_numerals"]                            = "COUNTING_ROD"
-	map["cuneiform"]                                        = "CUNEIFORM"
-	map["cuneiform_numbers_and_punctuation"]                = "CUNEIFORM_NUMBERS"
-	map["currency_symbols"]                                 = "CURRENCY_SYMBOLS"
-	map["cypriot_syllabary"]                                = "CYPRIOT_SYLLABARY"
-	map["cypro_minoan"]                                     = "CYPRO_MINOAN"
-	map["cyrillic"]                                         = "CYRILLIC"
-	map["cyrillic_extended_a"]                              = "CYRILLIC_EXT_A"
-	map["cyrillic_extended_b"]                              = "CYRILLIC_EXT_B"
-	map["cyrillic_extended_c"]                              = "CYRILLIC_EXT_C"
-	map["cyrillic_extended_d"]                              = "CYRILLIC_EXT_D"
-	map["cyrillic_supplement"]                              = "CYRILLIC_SUP"
-	map["deseret"]                                          = "DESERET"
-	map["devanagari"]                                       = "DEVANAGARI"
-	map["devanagari_extended_a"]                            = "DEVANAGARI_EXT_A"
-	map["devanagari_extended"]                              = "DEVANAGARI_EXT"
-	map["dingbats"]                                         = "DINGBATS"
-	map["dives_akuru"]                                      = "DIVES_AKURU"
-	map["dogra"]                                            = "DOGRA"
-	map["domino_tiles"]                                     = "DOMINO"
-	map["duployan"]                                         = "DUPLOYAN"
-	map["early_dynastic_cuneiform"]                         = "EARLY_DYNASTIC_CUNEIFORM"
-	map["egyptian_hieroglyph_format_controls"]              = "EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS"
-	map["egyptian_hieroglyphs"]                             = "EGYPTIAN_HIEROGLYPHS"
-	map["elbasan"]                                          = "ELBASAN"
-	map["elymaic"]                                          = "ELYMAIC"
-	map["emoticons"]                                        = "EMOTICONS"
-	map["enclosed_alphanumerics"]                           = "ENCLOSED_ALPHANUM"
-	map["enclosed_alphanumeric_supplement"]                 = "ENCLOSED_ALPHANUM_SUP"
-	map["enclosed_cjk_letters_and_months"]                  = "ENCLOSED_CJK"
-	map["enclosed_ideographic_supplement"]                  = "ENCLOSED_IDEOGRAPHIC_SUP"
-	map["ethiopic"]                                         = "ETHIOPIC"
-	map["ethiopic_extended_a"]                              = "ETHIOPIC_EXT_A"
-	map["ethiopic_extended_b"]                              = "ETHIOPIC_EXT_B"
-	map["ethiopic_extended"]                                = "ETHIOPIC_EXT"
-	map["ethiopic_supplement"]                              = "ETHIOPIC_SUP"
-	map["general_punctuation"]                              = "PUNCTUATION"
-	map["geometric_shapes_extended"]                        = "GEOMETRIC_SHAPES_EXT"
-	map["geometric_shapes"]                                 = "GEOMETRIC_SHAPES"
-	map["georgian_extended"]                                = "GEORGIAN_EXT"
-	map["georgian"]                                         = "GEORGIAN"
-	map["georgian_supplement"]                              = "GEORGIAN_SUP"
-	map["glagolitic"]                                       = "GLAGOLITIC"
-	map["glagolitic_supplement"]                            = "GLAGOLITIC_SUP"
-	map["gothic"]                                           = "GOTHIC"
-	map["grantha"]                                          = "GRANTHA"
-	map["greek_and_coptic"]                                 = "GREEK"
-	map["greek_extended"]                                   = "GREEK_EXT"
-	map["gujarati"]                                         = "GUJARATI"
-	map["gunjala_gondi"]                                    = "GUNJALA_GONDI"
-	map["gurmukhi"]                                         = "GURMUKHI"
-	map["halfwidth_and_fullwidth_forms"]                    = "HALF_AND_FULL_FORMS"
-	map["hangul_compatibility_jamo"]                        = "COMPAT_JAMO"
-	map["hangul_jamo_extended_a"]                           = "JAMO_EXT_A"
-	map["hangul_jamo_extended_b"]                           = "JAMO_EXT_B"
-	map["hangul_jamo"]                                      = "JAMO"
-	map["hangul_syllables"]                                 = "HANGUL"
-	map["hanifi_rohingya"]                                  = "HANIFI_ROHINGYA"
-	map["hanunoo"]                                          = "HANUNOO"
-	map["hatran"]                                           = "HATRAN"
-	map["hebrew"]                                           = "HEBREW"
-	map["high_private_use_surrogates"]                      = "HIGH_PU_SURROGATES"
-	map["high_surrogates"]                                  = "HIGH_SURROGATES"
-	map["hiragana"]                                         = "HIRAGANA"
-	map["ideographic_description_characters"]               = "IDC"
-	map["ideographic_symbols_and_punctuation"]              = "IDEOGRAPHIC_SYMBOLS"
-	map["imperial_aramaic"]                                 = "IMPERIAL_ARAMAIC"
-	map["indic_siyaq_numbers"]                              = "INDIC_SIYAQ_NUMBERS"
-	map["inscriptional_pahlavi"]                            = "INSCRIPTIONAL_PAHLAVI"
-	map["inscriptional_parthian"]                           = "INSCRIPTIONAL_PARTHIAN"
-	map["ipa_extensions"]                                   = "IPA_EXT"
-	map["javanese"]                                         = "JAVANESE"
-	map["kaithi"]                                           = "KAITHI"
-	map["kaktovik_numerals"]                                = "KAKTOVIK_NUMERALS"
-	map["kana_extended_a"]                                  = "KANA_EXT_A"
-	map["kana_extended_b"]                                  = "KANA_EXT_B"
-	map["kana_supplement"]                                  = "KANA_SUP"
-	map["kanbun"]                                           = "KANBUN"
-	map["kangxi_radicals"]                                  = "KANGXI"
-	map["kannada"]                                          = "KANNADA"
-	map["katakana"]                                         = "KATAKANA"
-	map["katakana_phonetic_extensions"]                     = "KATAKANA_EXT"
-	map["kawi"]                                             = "KAWI"
-	map["kayah_li"]                                         = "KAYAH_LI"
-	map["kharoshthi"]                                       = "KHAROSHTHI"
-	map["khitan_small_script"]                              = "KHITAN_SMALL_SCRIPT"
-	map["khmer"]                                            = "KHMER"
-	map["khmer_symbols"]                                    = "KHMER_SYMBOLS"
-	map["khojki"]                                           = "KHOJKI"
-	map["khudawadi"]                                        = "KHUDAWADI"
-	map["lao"]                                              = "LAO"
-	map["latin_1_supplement"]                               = "LATIN_1_SUP"
-	map["latin_extended_additional"]                        = "LATIN_EXT_ADDITIONAL"
-	map["latin_extended_a"]                                 = "LATIN_EXT_A"
-	map["latin_extended_b"]                                 = "LATIN_EXT_B"
-	map["latin_extended_c"]                                 = "LATIN_EXT_C"
-	map["latin_extended_d"]                                 = "LATIN_EXT_D"
-	map["latin_extended_e"]                                 = "LATIN_EXT_E"
-	map["latin_extended_f"]                                 = "LATIN_EXT_F"
-	map["latin_extended_g"]                                 = "LATIN_EXT_G"
-	map["lepcha"]                                           = "LEPCHA"
-	map["letterlike_symbols"]                               = "LETTERLIKE_SYMBOLS"
-	map["limbu"]                                            = "LIMBU"
-	map["linear_a"]                                         = "LINEAR_A"
-	map["linear_b_ideograms"]                               = "LINEAR_B_IDEOGRAMS"
-	map["linear_b_syllabary"]                               = "LINEAR_B_SYLLABARY"
-	map["lisu"]                                             = "LISU"
-	map["lisu_supplement"]                                  = "LISU_SUP"
-	map["low_surrogates"]                                   = "LOW_SURROGATES"
-	map["lycian"]                                           = "LYCIAN"
-	map["lydian"]                                           = "LYDIAN"
-	map["mahajani"]                                         = "MAHAJANI"
-	map["mahjong_tiles"]                                    = "MAHJONG"
-	map["makasar"]                                          = "MAKASAR"
-	map["malayalam"]                                        = "MALAYALAM"
-	map["mandaic"]                                          = "MANDAIC"
-	map["manichaean"]                                       = "MANICHAEAN"
-	map["marchen"]                                          = "MARCHEN"
-	map["masaram_gondi"]                                    = "MASARAM_GONDI"
-	map["mathematical_alphanumeric_symbols"]                = "MATH_ALPHANUM"
-	map["mathematical_operators"]                           = "MATH_OPERATORS"
-	map["mayan_numerals"]                                   = "MAYAN_NUMERALS"
-	map["medefaidrin"]                                      = "MEDEFAIDRIN"
-	map["meetei_mayek_extensions"]                          = "MEETEI_MAYEK_EXT"
-	map["meetei_mayek"]                                     = "MEETEI_MAYEK"
-	map["mende_kikakui"]                                    = "MENDE_KIKAKUI"
-	map["meroitic_cursive"]                                 = "MEROITIC_CURSIVE"
-	map["meroitic_hieroglyphs"]                             = "MEROITIC_HIEROGLYPHS"
-	map["miao"]                                             = "MIAO"
-	map["miscellaneous_mathematical_symbols_a"]             = "MISC_MATH_SYMBOLS_A"
-	map["miscellaneous_mathematical_symbols_b"]             = "MISC_MATH_SYMBOLS_B"
-	map["miscellaneous_symbols_and_arrows"]                 = "MISC_ARROWS"
-	map["miscellaneous_symbols_and_pictographs"]            = "MISC_PICTOGRAPHS"
-	map["miscellaneous_symbols"]                            = "MISC_SYMBOLS"
-	map["miscellaneous_technical"]                          = "MISC_TECHNICAL"
-	map["modifier_tone_letters"]                            = "MODIFIER_TONE_LETTERS"
-	map["modi"]                                             = "MODI"
-	map["mongolian"]                                        = "MONGOLIAN"
-	map["mongolian_supplement"]                             = "MONGOLIAN_SUP"
-	map["mro"]                                              = "MRO"
-	map["multani"]                                          = "MULTANI"
-	map["musical_symbols"]                                  = "MUSIC"
-	map["myanmar_extended_a"]                               = "MYANMAR_EXT_A"
-	map["myanmar_extended_b"]                               = "MYANMAR_EXT_B"
-	map["myanmar"]                                          = "MYANMAR"
-	map["nabataean"]                                        = "NABATAEAN"
-	map["nag_mundari"]                                      = "NAG_MUNDARI"
-	map["nandinagari"]                                      = "NANDINAGARI"
-	map["newa"]                                             = "NEWA"
-	map["new_tai_lue"]                                      = "NEW_TAI_LUE"
-	map["nko"]                                              = "NKO"
-	map["number_forms"]                                     = "NUMBER_FORMS"
-	map["nushu"]                                            = "NUSHU"
-	map["nyiakeng_puachue_hmong"]                           = "NYIAKENG_PUACHUE_HMONG"
-	map["ogham"]                                            = "OGHAM"
-	map["ol_chiki"]                                         = "OL_CHIKI"
-	map["old_hungarian"]                                    = "OLD_HUNGARIAN"
-	map["old_italic"]                                       = "OLD_ITALIC"
-	map["old_north_arabian"]                                = "OLD_NORTH_ARABIAN"
-	map["old_permic"]                                       = "OLD_PERMIC"
-	map["old_persian"]                                      = "OLD_PERSIAN"
-	map["old_sogdian"]                                      = "OLD_SOGDIAN"
-	map["old_south_arabian"]                                = "OLD_SOUTH_ARABIAN"
-	map["old_turkic"]                                       = "OLD_TURKIC"
-	map["old_uyghur"]                                       = "OLD_UYGHUR"
-	map["optical_character_recognition"]                    = "OCR"
-	map["oriya"]                                            = "ORIYA"
-	map["ornamental_dingbats"]                              = "ORNAMENTAL_DINGBATS"
-	map["osage"]                                            = "OSAGE"
-	map["osmanya"]                                          = "OSMANYA"
-	map["ottoman_siyaq_numbers"]                            = "OTTOMAN_SIYAQ_NUMBERS"
-	map["pahawh_hmong"]                                     = "PAHAWH_HMONG"
-	map["palmyrene"]                                        = "PALMYRENE"
-	map["pau_cin_hau"]                                      = "PAU_CIN_HAU"
-	map["phags_pa"]                                         = "PHAGS_PA"
-	map["phaistos_disc"]                                    = "PHAISTOS"
-	map["phoenician"]                                       = "PHOENICIAN"
-	map["phonetic_extensions"]                              = "PHONETIC_EXT"
-	map["phonetic_extensions_supplement"]                   = "PHONETIC_EXT_SUP"
-	map["playing_cards"]                                    = "PLAYING_CARDS"
-	map["private_use_area"]                                 = "PUA"
-	map["psalter_pahlavi"]                                  = "PSALTER_PAHLAVI"
-	map["rejang"]                                           = "REJANG"
-	map["rumi_numeral_symbols"]                             = "RUMI"
-	map["runic"]                                            = "RUNIC"
-	map["samaritan"]                                        = "SAMARITAN"
-	map["saurashtra"]                                       = "SAURASHTRA"
-	map["sharada"]                                          = "SHARADA"
-	map["shavian"]                                          = "SHAVIAN"
-	map["shorthand_format_controls"]                        = "SHORTHAND_FORMAT_CONTROLS"
-	map["siddham"]                                          = "SIDDHAM"
-	map["sinhala_archaic_numbers"]                          = "SINHALA_ARCHAIC_NUMBERS"
-	map["sinhala"]                                          = "SINHALA"
-	map["small_form_variants"]                              = "SMALL_FORMS"
-	map["small_kana_extension"]                             = "SMALL_KANA_EXT"
-	map["sogdian"]                                          = "SOGDIAN"
-	map["sora_sompeng"]                                     = "SORA_SOMPENG"
-	map["soyombo"]                                          = "SOYOMBO"
-	map["spacing_modifier_letters"]                         = "MODIFIER_LETTERS"
-	map["specials"]                                         = "SPECIALS"
-	map["sundanese"]                                        = "SUNDANESE"
-	map["sundanese_supplement"]                             = "SUNDANESE_SUP"
-	map["superscripts_and_subscripts"]                      = "SUPER_AND_SUB"
-	map["supplemental_arrows_a"]                            = "SUP_ARROWS_A"
-	map["supplemental_arrows_b"]                            = "SUP_ARROWS_B"
-	map["supplemental_arrows_c"]                            = "SUP_ARROWS_C"
-	map["supplemental_mathematical_operators"]              = "SUP_MATH_OPERATORS"
-	map["supplemental_punctuation"]                         = "SUP_PUNCTUATION"
-	map["supplemental_symbols_and_pictographs"]             = "SUP_SYMBOLS_AND_PICTOGRAPHS"
-	map["supplementary_private_use_area_a"]                 = "SUP_PUA_A"
-	map["supplementary_private_use_area_b"]                 = "SUP_PUA_B"
-	map["sutton_signwriting"]                               = "SUTTON_SIGNWRITING"
-	map["syloti_nagri"]                                     = "SYLOTI_NAGRI"
-	map["symbols_and_pictographs_extended_a"]               = "SYMBOLS_AND_PICTOGRAPHS_EXT_A"
-	map["symbols_for_legacy_computing"]                     = "SYMBOLS_FOR_LEGACY_COMPUTING"
-	map["syriac_supplement"]                                = "SYRIAC_SUP"
-	map["syriac"]                                           = "SYRIAC"
-	map["tagalog"]                                          = "TAGALOG"
-	map["tagbanwa"]                                         = "TAGBANWA"
-	map["tags"]                                             = "TAGS"
-	map["tai_le"]                                           = "TAI_LE"
-	map["tai_tham"]                                         = "TAI_THAM"
-	map["tai_viet"]                                         = "TAI_VIET"
-	map["tai_xuan_jing_symbols"]                            = "TAI_XUAN_JING"
-	map["takri"]                                            = "TAKRI"
-	map["tamil_supplement"]                                 = "TAMIL_SUP"
-	map["tamil"]                                            = "TAMIL"
-	map["tangsa"]                                           = "TANGSA"
-	map["tangut_components"]                                = "TANGUT_COMPONENTS"
-	map["tangut_supplement"]                                = "TANGUT_SUP"
-	map["tangut"]                                           = "TANGUT"
-	map["telugu"]                                           = "TELUGU"
-	map["thaana"]                                           = "THAANA"
-	map["thai"]                                             = "THAI"
-	map["tibetan"]                                          = "TIBETAN"
-	map["tifinagh"]                                         = "TIFINAGH"
-	map["tirhuta"]                                          = "TIRHUTA"
-	map["toto"]                                             = "TOTO"
-	map["transport_and_map_symbols"]                        = "TRANSPORT_AND_MAP"
-	map["ugaritic"]                                         = "UGARITIC"
-	map["unified_canadian_aboriginal_syllabics_extended_a"] = "UCAS_EXT_A"
-	map["unified_canadian_aboriginal_syllabics_extended"]   = "UCAS_EXT"
-	map["unified_canadian_aboriginal_syllabics"]            = "UCAS"
-	map["vai"]                                              = "VAI"
-	map["variation_selectors_supplement"]                   = "VS_SUP"
-	map["variation_selectors"]                              = "VS"
-	map["vedic_extensions"]                                 = "VEDIC_EXT"
-	map["vertical_forms"]                                   = "VERTICAL_FORMS"
-	map["vithkuqi"]                                         = "VITHKUQI"
-	map["wancho"]                                           = "WANCHO"
-	map["warang_citi"]                                      = "WARANG_CITI"
-	map["yezidi"]                                           = "YEZIDI"
-	map["yijing_hexagram_symbols"]                          = "YIJING"
-	map["yi_radicals"]                                      = "YI_RADICALS"
-	map["yi_syllables"]                                     = "YI_SYLLABLES"
-	map["zanabazar_square"]                                 = "ZANABAZAR_SQUARE"
-	map["znamenny_musical_notation"]                        = "ZNAMENNY_MUSIC"
 
-	print "/* This file is autogenerated by gen/prop/blk; DO NOT EDIT. */"
-	print ""
-	print "#include \"_bsearch.h\""
-	print "#include \"macros.h\""
-	print "#include \"rune.h\""
-	print "#include \"unicode/prop.h\""
-	print ""
+MAP = {
+	'adlam'                                           : 'ADLAM',
+	'aegean_numbers'                                  : 'AEGEAN_NUMBERS',
+	'ahom'                                            : 'AHOM',
+	'alchemical_symbols'                              : 'ALCHEMICAL',
+	'alphabetic_presentation_forms'                   : 'ALPHABETIC_PF',
+	'anatolian_hieroglyphs'                           : 'ANATOLIAN_HIEROGLYPHS',
+	'ancient_greek_musical_notation'                  : 'ANCIENT_GREEK_MUSIC',
+	'ancient_greek_numbers'                           : 'ANCIENT_GREEK_NUMBERS',
+	'ancient_symbols'                                 : 'ANCIENT_SYMBOLS',
+	'arabic'                                          : 'ARABIC',
+	'arabic_extended_a'                               : 'ARABIC_EXT_A',
+	'arabic_extended_b'                               : 'ARABIC_EXT_B',
+	'arabic_extended_c'                               : 'ARABIC_EXT_C',
+	'arabic_mathematical_alphabetic_symbols'          : 'ARABIC_MATH',
+	'arabic_presentation_forms_a'                     : 'ARABIC_PF_A',
+	'arabic_presentation_forms_b'                     : 'ARABIC_PF_B',
+	'arabic_supplement'                               : 'ARABIC_SUP',
+	'armenian'                                        : 'ARMENIAN',
+	'arrows'                                          : 'ARROWS',
+	'avestan'                                         : 'AVESTAN',
+	'balinese'                                        : 'BALINESE',
+	'bamum'                                           : 'BAMUM',
+	'bamum_supplement'                                : 'BAMUM_SUP',
+	'basic_latin'                                     : 'ASCII',
+	'bassa_vah'                                       : 'BASSA_VAH',
+	'batak'                                           : 'BATAK',
+	'bengali'                                         : 'BENGALI',
+	'bhaiksuki'                                       : 'BHAIKSUKI',
+	'block_elements'                                  : 'BLOCK_ELEMENTS',
+	'bopomofo'                                        : 'BOPOMOFO',
+	'bopomofo_extended'                               : 'BOPOMOFO_EXT',
+	'box_drawing'                                     : 'BOX_DRAWING',
+	'brahmi'                                          : 'BRAHMI',
+	'braille_patterns'                                : 'BRAILLE',
+	'buginese'                                        : 'BUGINESE',
+	'buhid'                                           : 'BUHID',
+	'byzantine_musical_symbols'                       : 'BYZANTINE_MUSIC',
+	'carian'                                          : 'CARIAN',
+	'caucasian_albanian'                              : 'CAUCASIAN_ALBANIAN',
+	'chakma'                                          : 'CHAKMA',
+	'cham'                                            : 'CHAM',
+	'cherokee'                                        : 'CHEROKEE',
+	'cherokee_supplement'                             : 'CHEROKEE_SUP',
+	'chess_symbols'                                   : 'CHESS_SYMBOLS',
+	'chorasmian'                                      : 'CHORASMIAN',
+	'cjk_compatibility'                               : 'CJK_COMPAT',
+	'cjk_compatibility_forms'                         : 'CJK_COMPAT_FORMS',
+	'cjk_compatibility_ideographs'                    : 'CJK_COMPAT_IDEOGRAPHS',
+	'cjk_compatibility_ideographs_supplement'         : 'CJK_COMPAT_IDEOGRAPHS_SUP',
+	'cjk_radicals_supplement'                         : 'CJK_RADICALS_SUP',
+	'cjk_strokes'                                     : 'CJK_STROKES',
+	'cjk_symbols_and_punctuation'                     : 'CJK_SYMBOLS',
+	'cjk_unified_ideographs'                          : 'CJK',
+	'cjk_unified_ideographs_extension_a'              : 'CJK_EXT_A',
+	'cjk_unified_ideographs_extension_b'              : 'CJK_EXT_B',
+	'cjk_unified_ideographs_extension_c'              : 'CJK_EXT_C',
+	'cjk_unified_ideographs_extension_d'              : 'CJK_EXT_D',
+	'cjk_unified_ideographs_extension_e'              : 'CJK_EXT_E',
+	'cjk_unified_ideographs_extension_f'              : 'CJK_EXT_F',
+	'cjk_unified_ideographs_extension_g'              : 'CJK_EXT_G',
+	'cjk_unified_ideographs_extension_h'              : 'CJK_EXT_H',
+	'cjk_unified_ideographs_extension_i'              : 'CJK_EXT_I',
+	'combining_diacritical_marks'                     : 'DIACRITICALS',
+	'combining_diacritical_marks_extended'            : 'DIACRITICALS_EXT',
+	'combining_diacritical_marks_for_symbols'         : 'DIACRITICALS_FOR_SYMBOLS',
+	'combining_diacritical_marks_supplement'          : 'DIACRITICALS_SUP',
+	'combining_half_marks'                            : 'HALF_MARKS',
+	'common_indic_number_forms'                       : 'INDIC_NUMBER_FORMS',
+	'control_pictures'                                : 'CONTROL_PICTURES',
+	'coptic'                                          : 'COPTIC',
+	'coptic_epact_numbers'                            : 'COPTIC_EPACT_NUMBERS',
+	'counting_rod_numerals'                           : 'COUNTING_ROD',
+	'cuneiform'                                       : 'CUNEIFORM',
+	'cuneiform_numbers_and_punctuation'               : 'CUNEIFORM_NUMBERS',
+	'currency_symbols'                                : 'CURRENCY_SYMBOLS',
+	'cypriot_syllabary'                               : 'CYPRIOT_SYLLABARY',
+	'cypro_minoan'                                    : 'CYPRO_MINOAN',
+	'cyrillic'                                        : 'CYRILLIC',
+	'cyrillic_extended_a'                             : 'CYRILLIC_EXT_A',
+	'cyrillic_extended_b'                             : 'CYRILLIC_EXT_B',
+	'cyrillic_extended_c'                             : 'CYRILLIC_EXT_C',
+	'cyrillic_extended_d'                             : 'CYRILLIC_EXT_D',
+	'cyrillic_supplement'                             : 'CYRILLIC_SUP',
+	'deseret'                                         : 'DESERET',
+	'devanagari'                                      : 'DEVANAGARI',
+	'devanagari_extended_a'                           : 'DEVANAGARI_EXT_A',
+	'devanagari_extended'                             : 'DEVANAGARI_EXT',
+	'dingbats'                                        : 'DINGBATS',
+	'dives_akuru'                                     : 'DIVES_AKURU',
+	'dogra'                                           : 'DOGRA',
+	'domino_tiles'                                    : 'DOMINO',
+	'duployan'                                        : 'DUPLOYAN',
+	'early_dynastic_cuneiform'                        : 'EARLY_DYNASTIC_CUNEIFORM',
+	'egyptian_hieroglyph_format_controls'             : 'EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS',
+	'egyptian_hieroglyphs'                            : 'EGYPTIAN_HIEROGLYPHS',
+	'elbasan'                                         : 'ELBASAN',
+	'elymaic'                                         : 'ELYMAIC',
+	'emoticons'                                       : 'EMOTICONS',
+	'enclosed_alphanumerics'                          : 'ENCLOSED_ALPHANUM',
+	'enclosed_alphanumeric_supplement'                : 'ENCLOSED_ALPHANUM_SUP',
+	'enclosed_cjk_letters_and_months'                 : 'ENCLOSED_CJK',
+	'enclosed_ideographic_supplement'                 : 'ENCLOSED_IDEOGRAPHIC_SUP',
+	'ethiopic'                                        : 'ETHIOPIC',
+	'ethiopic_extended_a'                             : 'ETHIOPIC_EXT_A',
+	'ethiopic_extended_b'                             : 'ETHIOPIC_EXT_B',
+	'ethiopic_extended'                               : 'ETHIOPIC_EXT',
+	'ethiopic_supplement'                             : 'ETHIOPIC_SUP',
+	'general_punctuation'                             : 'PUNCTUATION',
+	'geometric_shapes_extended'                       : 'GEOMETRIC_SHAPES_EXT',
+	'geometric_shapes'                                : 'GEOMETRIC_SHAPES',
+	'georgian_extended'                               : 'GEORGIAN_EXT',
+	'georgian'                                        : 'GEORGIAN',
+	'georgian_supplement'                             : 'GEORGIAN_SUP',
+	'glagolitic'                                      : 'GLAGOLITIC',
+	'glagolitic_supplement'                           : 'GLAGOLITIC_SUP',
+	'gothic'                                          : 'GOTHIC',
+	'grantha'                                         : 'GRANTHA',
+	'greek_and_coptic'                                : 'GREEK',
+	'greek_extended'                                  : 'GREEK_EXT',
+	'gujarati'                                        : 'GUJARATI',
+	'gunjala_gondi'                                   : 'GUNJALA_GONDI',
+	'gurmukhi'                                        : 'GURMUKHI',
+	'halfwidth_and_fullwidth_forms'                   : 'HALF_AND_FULL_FORMS',
+	'hangul_compatibility_jamo'                       : 'COMPAT_JAMO',
+	'hangul_jamo_extended_a'                          : 'JAMO_EXT_A',
+	'hangul_jamo_extended_b'                          : 'JAMO_EXT_B',
+	'hangul_jamo'                                     : 'JAMO',
+	'hangul_syllables'                                : 'HANGUL',
+	'hanifi_rohingya'                                 : 'HANIFI_ROHINGYA',
+	'hanunoo'                                         : 'HANUNOO',
+	'hatran'                                          : 'HATRAN',
+	'hebrew'                                          : 'HEBREW',
+	'high_private_use_surrogates'                     : 'HIGH_PU_SURROGATES',
+	'high_surrogates'                                 : 'HIGH_SURROGATES',
+	'hiragana'                                        : 'HIRAGANA',
+	'ideographic_description_characters'              : 'IDC',
+	'ideographic_symbols_and_punctuation'             : 'IDEOGRAPHIC_SYMBOLS',
+	'imperial_aramaic'                                : 'IMPERIAL_ARAMAIC',
+	'indic_siyaq_numbers'                             : 'INDIC_SIYAQ_NUMBERS',
+	'inscriptional_pahlavi'                           : 'INSCRIPTIONAL_PAHLAVI',
+	'inscriptional_parthian'                          : 'INSCRIPTIONAL_PARTHIAN',
+	'ipa_extensions'                                  : 'IPA_EXT',
+	'javanese'                                        : 'JAVANESE',
+	'kaithi'                                          : 'KAITHI',
+	'kaktovik_numerals'                               : 'KAKTOVIK_NUMERALS',
+	'kana_extended_a'                                 : 'KANA_EXT_A',
+	'kana_extended_b'                                 : 'KANA_EXT_B',
+	'kana_supplement'                                 : 'KANA_SUP',
+	'kanbun'                                          : 'KANBUN',
+	'kangxi_radicals'                                 : 'KANGXI',
+	'kannada'                                         : 'KANNADA',
+	'katakana'                                        : 'KATAKANA',
+	'katakana_phonetic_extensions'                    : 'KATAKANA_EXT',
+	'kawi'                                            : 'KAWI',
+	'kayah_li'                                        : 'KAYAH_LI',
+	'kharoshthi'                                      : 'KHAROSHTHI',
+	'khitan_small_script'                             : 'KHITAN_SMALL_SCRIPT',
+	'khmer'                                           : 'KHMER',
+	'khmer_symbols'                                   : 'KHMER_SYMBOLS',
+	'khojki'                                          : 'KHOJKI',
+	'khudawadi'                                       : 'KHUDAWADI',
+	'lao'                                             : 'LAO',
+	'latin_1_supplement'                              : 'LATIN_1_SUP',
+	'latin_extended_additional'                       : 'LATIN_EXT_ADDITIONAL',
+	'latin_extended_a'                                : 'LATIN_EXT_A',
+	'latin_extended_b'                                : 'LATIN_EXT_B',
+	'latin_extended_c'                                : 'LATIN_EXT_C',
+	'latin_extended_d'                                : 'LATIN_EXT_D',
+	'latin_extended_e'                                : 'LATIN_EXT_E',
+	'latin_extended_f'                                : 'LATIN_EXT_F',
+	'latin_extended_g'                                : 'LATIN_EXT_G',
+	'lepcha'                                          : 'LEPCHA',
+	'letterlike_symbols'                              : 'LETTERLIKE_SYMBOLS',
+	'limbu'                                           : 'LIMBU',
+	'linear_a'                                        : 'LINEAR_A',
+	'linear_b_ideograms'                              : 'LINEAR_B_IDEOGRAMS',
+	'linear_b_syllabary'                              : 'LINEAR_B_SYLLABARY',
+	'lisu'                                            : 'LISU',
+	'lisu_supplement'                                 : 'LISU_SUP',
+	'low_surrogates'                                  : 'LOW_SURROGATES',
+	'lycian'                                          : 'LYCIAN',
+	'lydian'                                          : 'LYDIAN',
+	'mahajani'                                        : 'MAHAJANI',
+	'mahjong_tiles'                                   : 'MAHJONG',
+	'makasar'                                         : 'MAKASAR',
+	'malayalam'                                       : 'MALAYALAM',
+	'mandaic'                                         : 'MANDAIC',
+	'manichaean'                                      : 'MANICHAEAN',
+	'marchen'                                         : 'MARCHEN',
+	'masaram_gondi'                                   : 'MASARAM_GONDI',
+	'mathematical_alphanumeric_symbols'               : 'MATH_ALPHANUM',
+	'mathematical_operators'                          : 'MATH_OPERATORS',
+	'mayan_numerals'                                  : 'MAYAN_NUMERALS',
+	'medefaidrin'                                     : 'MEDEFAIDRIN',
+	'meetei_mayek_extensions'                         : 'MEETEI_MAYEK_EXT',
+	'meetei_mayek'                                    : 'MEETEI_MAYEK',
+	'mende_kikakui'                                   : 'MENDE_KIKAKUI',
+	'meroitic_cursive'                                : 'MEROITIC_CURSIVE',
+	'meroitic_hieroglyphs'                            : 'MEROITIC_HIEROGLYPHS',
+	'miao'                                            : 'MIAO',
+	'miscellaneous_mathematical_symbols_a'            : 'MISC_MATH_SYMBOLS_A',
+	'miscellaneous_mathematical_symbols_b'            : 'MISC_MATH_SYMBOLS_B',
+	'miscellaneous_symbols_and_arrows'                : 'MISC_ARROWS',
+	'miscellaneous_symbols_and_pictographs'           : 'MISC_PICTOGRAPHS',
+	'miscellaneous_symbols'                           : 'MISC_SYMBOLS',
+	'miscellaneous_technical'                         : 'MISC_TECHNICAL',
+	'modifier_tone_letters'                           : 'MODIFIER_TONE_LETTERS',
+	'modi'                                            : 'MODI',
+	'mongolian'                                       : 'MONGOLIAN',
+	'mongolian_supplement'                            : 'MONGOLIAN_SUP',
+	'mro'                                             : 'MRO',
+	'multani'                                         : 'MULTANI',
+	'musical_symbols'                                 : 'MUSIC',
+	'myanmar_extended_a'                              : 'MYANMAR_EXT_A',
+	'myanmar_extended_b'                              : 'MYANMAR_EXT_B',
+	'myanmar'                                         : 'MYANMAR',
+	'nabataean'                                       : 'NABATAEAN',
+	'nag_mundari'                                     : 'NAG_MUNDARI',
+	'nandinagari'                                     : 'NANDINAGARI',
+	'newa'                                            : 'NEWA',
+	'new_tai_lue'                                     : 'NEW_TAI_LUE',
+	'nko'                                             : 'NKO',
+	'number_forms'                                    : 'NUMBER_FORMS',
+	'nushu'                                           : 'NUSHU',
+	'nyiakeng_puachue_hmong'                          : 'NYIAKENG_PUACHUE_HMONG',
+	'ogham'                                           : 'OGHAM',
+	'ol_chiki'                                        : 'OL_CHIKI',
+	'old_hungarian'                                   : 'OLD_HUNGARIAN',
+	'old_italic'                                      : 'OLD_ITALIC',
+	'old_north_arabian'                               : 'OLD_NORTH_ARABIAN',
+	'old_permic'                                      : 'OLD_PERMIC',
+	'old_persian'                                     : 'OLD_PERSIAN',
+	'old_sogdian'                                     : 'OLD_SOGDIAN',
+	'old_south_arabian'                               : 'OLD_SOUTH_ARABIAN',
+	'old_turkic'                                      : 'OLD_TURKIC',
+	'old_uyghur'                                      : 'OLD_UYGHUR',
+	'optical_character_recognition'                   : 'OCR',
+	'oriya'                                           : 'ORIYA',
+	'ornamental_dingbats'                             : 'ORNAMENTAL_DINGBATS',
+	'osage'                                           : 'OSAGE',
+	'osmanya'                                         : 'OSMANYA',
+	'ottoman_siyaq_numbers'                           : 'OTTOMAN_SIYAQ_NUMBERS',
+	'pahawh_hmong'                                    : 'PAHAWH_HMONG',
+	'palmyrene'                                       : 'PALMYRENE',
+	'pau_cin_hau'                                     : 'PAU_CIN_HAU',
+	'phags_pa'                                        : 'PHAGS_PA',
+	'phaistos_disc'                                   : 'PHAISTOS',
+	'phoenician'                                      : 'PHOENICIAN',
+	'phonetic_extensions'                             : 'PHONETIC_EXT',
+	'phonetic_extensions_supplement'                  : 'PHONETIC_EXT_SUP',
+	'playing_cards'                                   : 'PLAYING_CARDS',
+	'private_use_area'                                : 'PUA',
+	'psalter_pahlavi'                                 : 'PSALTER_PAHLAVI',
+	'rejang'                                          : 'REJANG',
+	'rumi_numeral_symbols'                            : 'RUMI',
+	'runic'                                           : 'RUNIC',
+	'samaritan'                                       : 'SAMARITAN',
+	'saurashtra'                                      : 'SAURASHTRA',
+	'sharada'                                         : 'SHARADA',
+	'shavian'                                         : 'SHAVIAN',
+	'shorthand_format_controls'                       : 'SHORTHAND_FORMAT_CONTROLS',
+	'siddham'                                         : 'SIDDHAM',
+	'sinhala_archaic_numbers'                         : 'SINHALA_ARCHAIC_NUMBERS',
+	'sinhala'                                         : 'SINHALA',
+	'small_form_variants'                             : 'SMALL_FORMS',
+	'small_kana_extension'                            : 'SMALL_KANA_EXT',
+	'sogdian'                                         : 'SOGDIAN',
+	'sora_sompeng'                                    : 'SORA_SOMPENG',
+	'soyombo'                                         : 'SOYOMBO',
+	'spacing_modifier_letters'                        : 'MODIFIER_LETTERS',
+	'specials'                                        : 'SPECIALS',
+	'sundanese'                                       : 'SUNDANESE',
+	'sundanese_supplement'                            : 'SUNDANESE_SUP',
+	'superscripts_and_subscripts'                     : 'SUPER_AND_SUB',
+	'supplemental_arrows_a'                           : 'SUP_ARROWS_A',
+	'supplemental_arrows_b'                           : 'SUP_ARROWS_B',
+	'supplemental_arrows_c'                           : 'SUP_ARROWS_C',
+	'supplemental_mathematical_operators'             : 'SUP_MATH_OPERATORS',
+	'supplemental_punctuation'                        : 'SUP_PUNCTUATION',
+	'supplemental_symbols_and_pictographs'            : 'SUP_SYMBOLS_AND_PICTOGRAPHS',
+	'supplementary_private_use_area_a'                : 'SUP_PUA_A',
+	'supplementary_private_use_area_b'                : 'SUP_PUA_B',
+	'sutton_signwriting'                              : 'SUTTON_SIGNWRITING',
+	'syloti_nagri'                                    : 'SYLOTI_NAGRI',
+	'symbols_and_pictographs_extended_a'              : 'SYMBOLS_AND_PICTOGRAPHS_EXT_A',
+	'symbols_for_legacy_computing'                    : 'SYMBOLS_FOR_LEGACY_COMPUTING',
+	'syriac_supplement'                               : 'SYRIAC_SUP',
+	'syriac'                                          : 'SYRIAC',
+	'tagalog'                                         : 'TAGALOG',
+	'tagbanwa'                                        : 'TAGBANWA',
+	'tags'                                            : 'TAGS',
+	'tai_le'                                          : 'TAI_LE',
+	'tai_tham'                                        : 'TAI_THAM',
+	'tai_viet'                                        : 'TAI_VIET',
+	'tai_xuan_jing_symbols'                           : 'TAI_XUAN_JING',
+	'takri'                                           : 'TAKRI',
+	'tamil_supplement'                                : 'TAMIL_SUP',
+	'tamil'                                           : 'TAMIL',
+	'tangsa'                                          : 'TANGSA',
+	'tangut_components'                               : 'TANGUT_COMPONENTS',
+	'tangut_supplement'                               : 'TANGUT_SUP',
+	'tangut'                                          : 'TANGUT',
+	'telugu'                                          : 'TELUGU',
+	'thaana'                                          : 'THAANA',
+	'thai'                                            : 'THAI',
+	'tibetan'                                         : 'TIBETAN',
+	'tifinagh'                                        : 'TIFINAGH',
+	'tirhuta'                                         : 'TIRHUTA',
+	'toto'                                            : 'TOTO',
+	'transport_and_map_symbols'                       : 'TRANSPORT_AND_MAP',
+	'ugaritic'                                        : 'UGARITIC',
+	'unified_canadian_aboriginal_syllabics_extended_a': 'UCAS_EXT_A',
+	'unified_canadian_aboriginal_syllabics_extended'  : 'UCAS_EXT',
+	'unified_canadian_aboriginal_syllabics'           : 'UCAS',
+	'vai'                                             : 'VAI',
+	'variation_selectors_supplement'                  : 'VS_SUP',
+	'variation_selectors'                             : 'VS',
+	'vedic_extensions'                                : 'VEDIC_EXT',
+	'vertical_forms'                                  : 'VERTICAL_FORMS',
+	'vithkuqi'                                        : 'VITHKUQI',
+	'wancho'                                          : 'WANCHO',
+	'warang_citi'                                     : 'WARANG_CITI',
+	'yezidi'                                          : 'YEZIDI',
+	'yijing_hexagram_symbols'                         : 'YIJING',
+	'yi_radicals'                                     : 'YI_RADICALS',
+	'yi_syllables'                                    : 'YI_SYLLABLES',
+	'zanabazar_square'                                : 'ZANABAZAR_SQUARE',
+	'znamenny_musical_notation'                       : 'ZNAMENNY_MUSIC',
 }
 
-/^[^#]/ {
-	n = split($1, a, /\.\./)
-	lo = strtonum("0X" a[1])
-	hi = strtonum("0X" a[n])
+longest = 0
 
-	for (i = lo; i <= hi; i++) {
-		gsub(/^; /, "", $2)
-		gsub(/[- ]/, "_", $2)
-		props[i] = "BLK_" map[tolower($2)]
-	}
-}
+def parse(file: str) -> list[bool]:
+	global longest
 
-END {
-	print "static constexpr enum uprop_blk lookup_lat1[] = {"
-	for (i = 0; i < 0x100; i++) {
-		if (i % 8 == 0)
-			printf "\t"
-		printf "%-15s,%s", props[i] ? props[i] : 0, i % 8 == 7 ? "\n" : " "
-	}
-	print "};"
-	print ""
+	xs = ['BLK_NB'] * 0x110000
+	with open(file, 'r') as f:
+		for line in f.readlines():
+			if len(line.strip()) == 0 or line[0] == '#':
+				continue
 
-	print "static const struct {"
-	print "\trune lo, hi;"
-	print "\tenum uprop_blk val;"
-	print "} lookup[] = {"
+			parts = line.split(';')
+			ranges = [int(x, 16) for x in parts[0].strip().split('..')]
+			prop = 'BLK_' + MAP[(
+				parts[1]
+					.split('#')[0]
+					.strip()
+					.lower()
+					.replace('-', '_')
+					.replace(' ', '_')
+			)]
+			longest = max(longest, len(prop))
 
-	for (i = 0x100; i <= 0x10FFFF; i++) {
-		if (!props[i])
-			continue
-		lo = i
-		while (props[lo] == props[i + 1])
-			i++
-		printf "\t{RUNE_C(0x%06X), RUNE_C(0x%06X), %s},\n", lo, i, props[i]
-	}
+			for i in range(ranges[0], ranges[len(ranges) - 1] + 1):
+				xs[i] = prop
+	return xs
 
-	print "};"
-	print ""
-	print "_MLIB_DEFINE_BSEARCH(enum uprop_blk, lookup, BLK_NB)"
-	print ""
-	print "enum uprop_blk"
-	print "uprop_get_blk(rune ch)"
-	print "{"
-	print "\treturn ch <= lengthof(lookup_lat1) ? lookup_lat1[ch] : mlib_lookup(ch);"
-	print "}"
-}
-' data/Blocks | sed 's/\s*$//'
+def genfile(cs: list[tuple[bool, ...]], blksize: int) -> None:
+	Cs = cs
+	cs = list(dict.fromkeys(Cs))
+
+	print('''\
+/* This file is autogenerated by gen/prop/blk; DO NOT EDIT. */
+
+#include "unicode/prop.h"
+''')
+
+	print(f'static constexpr {typename(len(cs) - 1)} stage1[] = {{')
+	for i, c in enumerate(Cs):
+		print(f'%c%{len(str(len(cs) - 1))}d,' % ('\t' if i % 16 == 0 else ' ', cs.index(c)), end='')
+		if i % 16 == 15:
+			print()
+	print('};')
+
+	print()
+
+	ppc = columns(blksize, longest + 1)
+	print(f'static constexpr enum uprop_blk stage2[][{blksize}] = {{')
+	for c in cs:
+		for i in range(blksize // ppc):
+			print('\t{' if i == 0 else '\t ', end='')
+			for j in range(ppc):
+				print(c[i*ppc + j], end='')
+				if i < blksize // ppc - 1 or j < ppc - 1:
+					print(',', end='')
+				if j < ppc - 1:
+					print(' ' * (longest + 1 - len(c[i*ppc + j])), end='')
+			if i < blksize // ppc - 1:
+				print()
+		print('},')
+	print('};')
+
+	print()
+
+	print(f'''\
+enum uprop_blk
+uprop_get_blk(rune ch)
+{{
+	return stage2[stage1[ch / {blksize}]][ch % {blksize}];
+}}''')
+
+def main() -> None:
+	cwd_init()
+	xs = parse('data/Blocks')
+
+	blksize = -1
+	smallest = math.inf
+
+	for bs in powers_of_2():
+		if bs > len(xs):
+			break
+		Cs = [tuple(x) for x in chunks(xs, bs)]
+		cs = set(Cs)
+
+		sz_s1 = len(Cs) * isize(len(cs) - 1)
+		sz_s2 = len(cs) * bs * 2
+		sz = sz_s1 + sz_s2
+
+		if sz < smallest:
+			smallest = sz
+			blksize = bs
+
+	Cs = [tuple(x) for x in chunks(xs, blksize)]
+	with open('lib/unicode/prop/uprop_get_blk.c', 'w') as f:
+		sys.stdout = f
+		genfile(Cs, blksize)
+
+	report_size(len(xs), smallest)
+
+if __name__ == '__main__':
+	main()
