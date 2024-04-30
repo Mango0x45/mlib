@@ -52,3 +52,16 @@ def typename(x: int) -> str:
 def cwd_init() -> None:
 	dir = Path(os.path.dirname(sys.argv[0]))
 	os.chdir(dir / '..' / '..')
+
+def report_size(before: int, after: int) -> None:
+	def btokib(n: int) -> str:
+		s = str(round(n / 1024, 2))
+		if s.endswith('.0'):
+			s = s[:-2]
+		return s + ' KiB'
+
+	prefix = sys.argv[0].split('/')[-1]
+	change = round((after - before) / before * 100, 1)
+	before = btokib(before)
+	after  = btokib(after)
+	print(f'%s\t%s%%\t%s → %s' % (prefix, change, before, after), file=sys.stderr)

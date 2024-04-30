@@ -86,7 +86,7 @@ def main() -> None:
 		if bs > len(xs):
 			break
 		Cs = [tuple(x) for x in chunks(xs, bs)]
-		cs = list(dict.fromkeys(Cs))
+		cs = set(Cs)
 
 		sz_s1 = len(Cs) * isize(len(cs) - 1)
 		sz_s2 = len(cs) * bs
@@ -98,6 +98,9 @@ def main() -> None:
 
 	Cs = [tuple(x) for x in chunks(xs, blksize)]
 	genfile(Cs, blksize)
+
+	sys.argv[0] = sys.argv[2]
+	report_size(len(xs), smallest)
 
 if __name__ == '__main__':
 	main()

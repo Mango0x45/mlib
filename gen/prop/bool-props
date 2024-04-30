@@ -81,7 +81,6 @@ gen()
 	local p=${1%%=*}
 	gen/prop/bool-props.py ${1#*=} $p data/$2 \
 		>lib/unicode/prop/uprop_is_$p.c
-	printf 'DONE uprop_is_%s()\n' $p >&2
 }
 
 for prop in $props1; do gen $prop PropList & done
