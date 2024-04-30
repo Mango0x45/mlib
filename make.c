@@ -81,7 +81,8 @@ main(int argc, char **argv)
 			       "*.so", ")", "-delete");
 		} else if (streq(*argv, "gen")) {
 			cmdadd(&c, "find", "gen", "-mindepth", "2", "-type", "f",
-			       "-executable", "-not", "-name", "scale", "-exec", "{}", ";");
+			       "-executable", "-not", "(", "-name", "scale", "-or", "-name",
+			       "bool-props.py", ")", "-exec", "{}", ";");
 		} else
 			diex("invalid subcommand — ‘%s’", *argv);
 		cmdput(c);
