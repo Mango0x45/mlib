@@ -565,27 +565,6 @@ enum uprop_ea : uint_least8_t {
 	EA_W,  /* Narrow */
 };
 
-enum uprop_gcb : uint_least8_t {
-	GCB_XX = 0, /* Other */
-	GCB_CN,     /* Control */
-	GCB_CR,     /* CR */
-	GCB_EB,     /* E Base */
-	GCB_EBG,    /* E Base GAZ */
-	GCB_EM,     /* E Modifier */
-	GCB_EX,     /* Extend */
-	GCB_GAZ,    /* Glue After Zwj */
-	GCB_L,      /* L */
-	GCB_LF,     /* LF */
-	GCB_LV,     /* LV */
-	GCB_LVT,    /* LVT */
-	GCB_PP,     /* Prepend */
-	GCB_RI,     /* Regional Indicator */
-	GCB_SM,     /* SpacingMark */
-	GCB_T,      /* T */
-	GCB_V,      /* V */
-	GCB_ZWJ,    /* ZWJ */
-};
-
 enum [[clang::flag_enum]] uprop_gc : uint_least32_t {
 	GC_CN = UINT32_C(1) << 0,  /* Not Assigned */
 	GC_CC = UINT32_C(1) << 1,  /* Control */
@@ -627,6 +606,27 @@ enum [[clang::flag_enum]] uprop_gc : uint_least32_t {
 	GC_N = GC_ND | GC_NL | GC_NO,                 /* Number */
 	GC_S = GC_SC | GC_SK | GC_SM | GC_SO,         /* Symbol */
 	GC_Z = GC_ZL | GC_ZP | GC_ZS,                 /* Separator */
+};
+
+enum uprop_gcb : uint_least8_t {
+	GCB_XX = 0, /* Other */
+	GCB_CN,     /* Control */
+	GCB_CR,     /* CR */
+	GCB_EB,     /* E Base */
+	GCB_EBG,    /* E Base GAZ */
+	GCB_EM,     /* E Modifier */
+	GCB_EX,     /* Extend */
+	GCB_GAZ,    /* Glue After Zwj */
+	GCB_L,      /* L */
+	GCB_LF,     /* LF */
+	GCB_LV,     /* LV */
+	GCB_LVT,    /* LVT */
+	GCB_PP,     /* Prepend */
+	GCB_RI,     /* Regional Indicator */
+	GCB_SM,     /* SpacingMark */
+	GCB_T,      /* T */
+	GCB_V,      /* V */
+	GCB_ZWJ,    /* ZWJ */
 };
 
 enum uprop_hst : uint_least8_t {

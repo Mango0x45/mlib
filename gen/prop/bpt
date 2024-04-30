@@ -83,7 +83,7 @@ def main() -> None:
 		cs = set(Cs)
 
 		sz_s1 = len(Cs) * isize(len(cs) - 1)
-		sz_s2 = len(cs) * bs * 2
+		sz_s2 = len(cs) * bs
 		sz = sz_s1 + sz_s2
 
 		if sz < smallest:
