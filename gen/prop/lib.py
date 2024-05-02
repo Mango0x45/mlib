@@ -60,8 +60,8 @@ def report_size(before: int, after: int) -> None:
 			s = s[:-2]
 		return s + ' KiB'
 
-	prefix = sys.argv[0].split('/')[-1]
+	prefix = sys.argv[0].split('/')[-1].ljust(len('id_compat_math_continue') + 2)
 	change = round((after - before) / before * 100, 1)
 	before = btokib(before)
 	after  = btokib(after)
-	print(f'%s\t%s%%\t%s → %s' % (prefix, change, before, after), file=sys.stderr)
+	print(f'%s%s%%, %s → %s' % (prefix, change, before, after), file=sys.stderr)

@@ -79,15 +79,21 @@ ri=Regional_Indicator
 gen()
 {
 	local p=${1%%=*}
-	gen/prop/bool-props.py ${1#*=} $p data/$2 \
-		>lib/unicode/prop/uprop_is_$p.c
+	printf 'sh -c "gen/prop/bool-props.py %s %s %s >%s"\n' \
+		${1#*=} $p data/$2 lib/unicode/prop/uprop_is_$p.c
 }
 
-for prop in $props1; do gen $prop PropList & done
-for prop in $props2; do gen $prop DerivedCoreProperties & done
-for prop in $props3; do gen $prop emoji-data & done
-for prop in $props4; do gen $prop DerivedNormalizationProps & done
-for prop in $props5; do gen $prop DerivedBinaryProperties & done
+(
+	IFS='
+'
+	parallel-moreutils -- $(
+		for prop in $props1; do gen $prop PropList & done
+		for prop in $props2; do gen $prop DerivedCoreProperties & done
+		for prop in $props3; do gen $prop emoji-data & done
+		for prop in $props4; do gen $prop DerivedNormalizationProps & done
+		for prop in $props5; do gen $prop DerivedBinaryProperties & done
+	)
+)
 
 printf '[[_mlib_pure]] bool uprop_is_%s(rune);\n' \
 	$(printf '%s\n' $props1 $props2 $props3 $props4 $props5 | cut -d= -f1) \
