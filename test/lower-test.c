@@ -56,9 +56,7 @@ test(const char8_t *line, int id)
 	flags.len = strlen(flags.p);
 
 	enum caseflags cf = 0;
-	if (u8eq(U8_ARGS(flags), U8_ARGS(U8("ẞ"))))
-		cf |= CF_ẞ;
-	else if (u8eq(U8_ARGS(flags), U8_ARGS(U8("AZ"))))
+	if (u8eq(U8_ARGS(flags), U8_ARGS(U8("AZ"))))
 		cf |= CF_LANG_AZ;
 	else if (u8eq(U8_ARGS(flags), U8_ARGS(U8("LT"))))
 		cf |= CF_LANG_LT;
