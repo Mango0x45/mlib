@@ -26,6 +26,10 @@ RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, ki̇̀lo;LT
 RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, kìlo;
 RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, ki̇̀lo;LT
 
+# Croatian has 3 cases
+ǇUDEVIT GAJ;ǉudevit gaj;
+ǈudevit Gaj;ǉudevit gaj;
+
 # Add U+0307 COMBINING DOT ABOVE after ‘i’ when lowercasing ‘İ’ in non-Azeri and
 # -Turkish locales
 İSTANBUL’LUYUM;i̇stanbul’luyum;
