@@ -21,3 +21,6 @@ istanbul’luyum;İSTANBUL’LUYUM;AZ
 # Remove U+0307 COMBINING DOT ABOVE in Lithuanian
 ràsti, mèsti, ki̇̀lo;RÀSTI, MÈSTI, Kİ̀LO;
 ràsti, mèsti, ki̇̀lo;RÀSTI, MÈSTI, KÌLO;LT
+
+# Uncased language
+안녕하세요, 월드!;안녕하세요, 월드!;
