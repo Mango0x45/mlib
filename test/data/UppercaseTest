@@ -1,0 +1,23 @@
+# Empty input
+;;
+
+# Latin alphabet
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.;LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.;
+
+# Greek alphabet
+Δεν υπάρχει κανείς που να αγαπάει τον ίδιο τον πόνο;ΔΕΝ ΥΠΆΡΧΕΙ ΚΑΝΕΊΣ ΠΟΥ ΝΑ ΑΓΑΠΆΕΙ ΤΟΝ ΊΔΙΟ ΤΟΝ ΠΌΝΟ;
+
+# Cyrillic alphabet
+Слава Україні проти російської агресії!;СЛАВА УКРАЇНІ ПРОТИ РОСІЙСЬКОЇ АГРЕСІЇ!;
+
+# Capital ‘ß’ with CF_ẞ, and ‘SS’ otherwise
+Was ich nicht weiß, macht mich nicht heiß;WAS ICH NICHT WEISS, MACHT MICH NICHT HEISS;
+Was ich nicht weiß, macht mich nicht heiß;WAS ICH NICHT WEIẞ, MACHT MICH NICHT HEIẞ;ẞ
+
+# Uppercase ‘i’ to ‘İ’ in Azeri/Turkish
+istanbul’luyum;ISTANBUL’LUYUM;
+istanbul’luyum;İSTANBUL’LUYUM;AZ
+
+# Remove U+0307 COMBINING DOT ABOVE in Lithuanian
+ràsti, mèsti, ki̇̀lo;RÀSTI, MÈSTI, Kİ̀LO;
+ràsti, mèsti, ki̇̀lo;RÀSTI, MÈSTI, KÌLO;LT
