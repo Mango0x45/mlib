@@ -3,6 +3,13 @@
 set -e
 cd "${0%/*}"
 
+download()
+{
+	s="$(basename "$1" .txt)"
+	test -f "data/$s" ||
+		wget -q "https://www.unicode.org/Public/15.1.0/ucd/$1" -O "data/$s"
+}
+
 readonly FLAGS='
 	-std=c23 -I../include
 	-Og -ggdb3
@@ -13,22 +20,24 @@ readonly FLAGS='
 
 (cd ..; ./make)
 
-./gen-test-data
+download 'auxiliary/GraphemeBreakTest.txt'
+download 'auxiliary/WordBreakTest.txt'
+
+grep '^[^#]'                         data/LowercaseTest     >lower.in
+grep '^[^#]'                         data/UppercaseTest     >upper.in
+sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/GraphemeBreakTest >gnext.in
+sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/WordBreakTest     >wnext.in
 
 for src in *.c
 do
-	dst="${src%.*}"
-	gcc $FLAGS -o "$dst" "$src" ../libmlib.a 
+	gcc $FLAGS -o "${src%.*}" "$src" ../libmlib.a 
 done
 
-s="$(find . -maxdepth 1 \
-	-type f -executable \
-	-not -name gen-test-data \
-	-not -name run-tests \
-	-exec echo rm "*.in" {} +)"
-trap "$s" EXIT
+trap "$(
+	find . -maxdepth 1       \
+		-type f -executable  \
+		-not -name run-tests \
+		-exec echo rm "*.in" {} +
+)" EXIT
 
-find . -type f -executable \
-	-not -name gen-test-data \
-	-not -name run-tests \
-	-exec {} \;
+find . -type f -executable -not -name run-tests -exec {} \;
