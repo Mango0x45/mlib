@@ -12,6 +12,7 @@ download()
 download 'auxiliary/GraphemeBreakTest.txt'
 download 'auxiliary/WordBreakTest.txt'
 
+grep '^[^#]'                         data/LowercaseTest     >lower.in
 grep '^[^#]'                         data/UppercaseTest     >upper.in
 sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/GraphemeBreakTest >gnext.in
 sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/WordBreakTest     >wnext.in

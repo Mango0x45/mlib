@@ -26,7 +26,9 @@ u8lower(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 	struct {
 		bool before;
 		size_t after;
-	} final_sigma = {};
+	} final_sigma = {
+		.before = true,
+	};
 
 	n = before_dot_cnt = more_above_cnt = 0;
 
@@ -57,7 +59,7 @@ u8lower(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 		}
 
 		if (final_sigma.after == 0) {
-			rune ch;
+			rune ch = 0;
 			struct u8view cpy = {src, srcn};
 
 			do
