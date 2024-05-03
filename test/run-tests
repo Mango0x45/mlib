@@ -21,7 +21,8 @@ do
 	gcc $FLAGS -o "$dst" "$src" ../libmlib.a 
 done
 
-s="$(find . -type f -executable \
+s="$(find . -maxdepth 1 \
+	-type f -executable \
 	-not -name gen-test-data \
 	-not -name run-tests \
 	-exec echo rm "*.in" {} +)"
