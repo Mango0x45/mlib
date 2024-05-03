@@ -64,18 +64,25 @@ test(const char8_t *line, int id)
 		cf |= CF_LANG_LT;
 
 	char8_t *buf = bufalloc(nullptr, 1, after.len);
-	size_t ret = u8upper(buf, after.len, U8_ARGS(before), cf);
-
-	if (ret != after.len) {
-		warn("case %d: expected uppercased length of %zu but got %zu "
+	size_t bufsz = u8upper(nullptr, 0, U8_ARGS(before), cf);
+	if (bufsz != after.len) {
+		warn("case %d: expected uppercased buffer size of %zu but got %zu "
 		     "(flags=‘%.*s’)",
-		     id, after.len, ret, U8_PRI_ARGS(flags));
+		     id, after.len, bufsz, U8_PRI_ARGS(flags));
 		return false;
 	}
 
-	if (!memeq(buf, after.p, after.len)) {
+	bufsz = u8upper(buf, bufsz, U8_ARGS(before), cf);
+	if (bufsz != after.len) {
+		warn("case %d: expected uppercased length of %zu but got %zu "
+		     "(flags=‘%.*s’)",
+		     id, after.len, bufsz, U8_PRI_ARGS(flags));
+		return false;
+	}
+
+	if (!memeq(buf, after.p, bufsz)) {
 		warn("case %d: expected ‘%.*s’ but got ‘%.*s’ (flags=‘%.*s’)", id,
-		     U8_PRI_ARGS(after), (int)after.len, buf, U8_PRI_ARGS(flags));
+		     U8_PRI_ARGS(after), (int)bufsz, buf, U8_PRI_ARGS(flags));
 		return false;
 	}
 
