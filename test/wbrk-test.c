@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "alloc.h"
-#include "dynarr.h"
-#include "errors.h"
-#include "macros.h"
-#include "mbstring.h"
-#include "rune.h"
-#include "unicode/string.h"
+#include <alloc.h>
+#include <dynarr.h>
+#include <errors.h>
+#include <macros.h>
+#include <mbstring.h>
+#include <rune.h>
+#include <unicode/string.h>
 
 #define TESTFILE "wnext.in"
 
@@ -35,10 +35,8 @@ main(int, char **argv)
 		if (line[nr - 1] == '\n')
 			line[--nr] = '\0';
 
-		if (!test(line, (size_t)nr, id)) {
+		if (!test(line, (size_t)nr, id))
 			rv = EXIT_FAILURE;
-			break;
-		}
 	}
 	if (ferror(fp))
 		err("getline: %s:", TESTFILE);
