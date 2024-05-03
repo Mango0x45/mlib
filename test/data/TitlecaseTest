@@ -1,0 +1,48 @@
+# Empty input
+;;
+
+# Short input
+a;A;
+
+# If CF_ẞ gets passed for whatever reason… don’t turn into ẞ
+ß;Ss;ẞ
+
+# Latin alphabet
+LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.;Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit.;
+lorem ipsum dolor sit amet, consectetur adipiscing elit.;Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit.;
+
+# Random punctuation and numbers
+COMPLEX-LANGUAGE AND -SCRIPT;Complex-Language And -Script;
+complex-language and -script;Complex-Language And -Script;
+
+# Greek alphabet; handle sigma properly
+ΤΟ ΓΡΆΜΜΑ ΣΊΓΜΑ ΈΧΕΙ ΔΎΟ ΠΕΖΟΎΣ ΤΎΠΟΥΣ;Το Γράμμα Σίγμα Έχει Δύο Πεζούς Τύπους;
+το γράμμα σίγμα έχει δύο πεζούς τύπους;Το Γράμμα Σίγμα Έχει Δύο Πεζούς Τύπους;
+
+# Cyrillic alphabet
+СЛАВА УКРАЇНІ ПРОТИ РОСІЙСЬКОЇ АГРЕСІЇ!;Слава Україні Проти Російської Агресії!;
+слава україні проти російської агресії!;Слава Україні Проти Російської Агресії!;
+
+# In lithuanian we need to retain the dot above ‘i’ and ‘j’ when there’s an
+# accent above the uppercased variant.  Also test with both single-codepoint
+# variants (i.e. U+00CC LATIN CAPITAL I WITH GRAVE) and variants that use
+# combining-characters.
+i̇̀;İ̀;
+i̇̀;Ì;LT
+RÀSTI, MÈSTI, KÌLO;Ràsti, Mèsti, Kìlo;
+RÀSTI, MÈSTI, KÌLO;Ràsti, Mèsti, Ki̇̀lo;LT
+
+# Croatian has 3 cases
+ǇUDEVIT GAJ;ǈudevit Gaj;
+ǉudevit gaj;ǈudevit Gaj;
+
+# Dutch IJ needs special handling
+ijsberg en onderzeeër in de ijssel;Ijsberg En Onderzeeër In De Ijssel;
+ijsberg en onderzeeër in de ijssel;IJsberg En Onderzeeër In De IJssel;NL
+
+# Uppercase ‘i’ to ‘İ’ in Azeri/Turkish
+istanbul’luyum;Istanbul’luyum;
+istanbul’luyum;İstanbul’luyum;AZ
+
+# Uncased language
+안녕하세요, 월드!;안녕하세요, 월드!;

@@ -68,7 +68,7 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 		}
 
 		if (final_sigma.after == 0) {
-			rune ch;
+			rune ch = 0;
 			struct u8view cpy = {src, srcn};
 
 			do
