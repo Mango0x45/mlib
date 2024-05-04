@@ -14,7 +14,7 @@ uprop_ccc_0_or_230(rune ch)
 }
 
 size_t
-u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
+u8title(char8_t *restrict dst, size_t dstn, struct u8view sv,
         enum caseflags flags)
 {
 	struct tcctx ctx_t;
@@ -26,7 +26,7 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 	rune ch;
 	bool nl_IJ = false;
 	size_t n, before_dot_cnt, more_above_cnt;
-	struct u8view word = {}, wcpy = {src, srcn};
+	struct u8view word = {}, wcpy = sv;
 	struct {
 		bool before;
 		size_t after;
@@ -39,9 +39,9 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 
 	n = before_dot_cnt = more_above_cnt = 0;
 
-	while (u8next(&ch, &src, &srcn)) {
-		if (src > word.p + word.len) {
-			u8wnext(&word, U8_ARGSP(wcpy));
+	while (u8next(&ch, &sv)) {
+		if (sv.p > word.p + word.len) {
+			u8wnext(&word, &wcpy);
 			ctx_t.after_soft_dotted = false;
 			state = TITLE;
 		}
@@ -50,12 +50,12 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 			if (before_dot_cnt == 0 || more_above_cnt == 0) {
 				rune ch = 0;
 				before_dot_cnt = more_above_cnt = 0;
-				struct u8view cpy = {src, srcn};
+				struct u8view cpy = sv;
 
 				do {
 					before_dot_cnt++;
 					more_above_cnt++;
-				} while (u8next(&ch, U8_ARGSP(cpy)) && !uprop_ccc_0_or_230(ch));
+				} while (u8next(&ch, &cpy) && !uprop_ccc_0_or_230(ch));
 
 				if (ch != COMB_DOT_ABOVE)
 					before_dot_cnt = 0;
@@ -69,11 +69,11 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 
 		if (final_sigma.after == 0) {
 			rune ch = 0;
-			struct u8view cpy = {src, srcn};
+			struct u8view cpy = sv;
 
 			do
 				final_sigma.after++;
-			while (u8next(&ch, U8_ARGSP(cpy)) && uprop_is_ci(ch));
+			while (u8next(&ch, &cpy) && uprop_is_ci(ch));
 
 			if (!uprop_is_cased(ch))
 				final_sigma.after = 0;
@@ -95,8 +95,8 @@ u8title(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 
 			if (flags & CF_LANG_NL) {
 				rune next = 0;
-				if (srcn > 0)
-					u8tor(&next, src);
+				if (sv.len > 0)
+					u8tor(&next, sv.p);
 				nl_IJ =
 					(ch == 'i' || ch == 'I') && (next == 'j' || next == 'J');
 			}

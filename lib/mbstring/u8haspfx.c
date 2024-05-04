@@ -4,7 +4,7 @@
 #include "mbstring.h"
 
 bool
-u8haspfx(const char8_t *s, size_t n, const char8_t *pfx, size_t m)
+u8haspfx(struct u8view sv, struct u8view pfx)
 {
-	return n >= m && memeq(s, pfx, m);
+	return sv.len >= pfx.len && memeq(sv.p, pfx.p, pfx.len);
 }

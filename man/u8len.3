@@ -1,4 +1,4 @@
-.Dd 27 April 2024
+.Dd 4 May 2024
 .Dt U8LEN 3
 .Os
 .Sh NAME
@@ -9,38 +9,38 @@
 .Sh SYNOPSIS
 .In mbstring.h
 .Ft size_t
-.Fn u8len "const char8_t *s" "size_t n"
+.Fn u8len "struct u8view sv"
 .Sh DESCRIPTION
 The
 .Fn u8len
 function returns the number of UTF-8 encoded Unicode codepoints in the
-buffer
-.Fa s
-of length
-.Fa n
-bytes.
+string view
+.Fa sv .
 .Pp
 Invalid bytes are interpreted as having a length of 1 byte.
 .Sh RETURN VALUES
 The
 .Fn u8len
-function returns the number of codepoints in the buffer
-.Fa s .
+function returns the number of codepoints in the string view
+.Fa sv .
 .Sh EXAMPLES
 The following call to
 .Fn u8len
 will return 17 while the call to
 .Fn strlen
 will return 22 as a result of use of multibyte-characters in
-.Fa s .
+.Fa sv .
 .Bd -literal -offset indent
-struct u8view sv = U8(u8\(dq„Der Große Duden“\(dq);
-size_t blen = strlen((char *)sv.p);
-size_t cplen = u8len(U8_ARGS(sv));
+size_t n;
+struct u8view sv = U8(\(dq„Der Große Duden“\(dq);
+
+n = u8len(sv);            /* 17 */
+n = strlen((char *)sv.p); /* 22 */
 .Ed
 .Sh SEE ALSO
-.Xr u8gcnt 3 ,
 .Xr U8 3 ,
+.Xr u8gcnt 3 ,
+.Xr u8view 3 ,
 .Xr unicode 7 ,
 .Xr utf\-8 7
 .Sh STANDARDS
@@ -56,10 +56,11 @@ size_t cplen = u8len(U8_ARGS(sv));
 The return value of
 .Fn u8len
 does not necessarily represent the number of human-preceived characters
-in the given buffer;
-multiple codepoints may combine to form one human-preceived character
-that spans a single column.
-To count user-preceived codepoints
+in the given string view;
+multiple codepoints may combine to form one human-preceived character.
+These human-preceived characters may even take up multiple columns in a
+monospaced-environment such as in a terminal emulator.
+To count user-preceived characters
 .Pq also known as graphemes ,
 you may want to use the
 .Xr u8gcnt 3

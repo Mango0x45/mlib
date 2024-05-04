@@ -1,16 +1,16 @@
 #include "mbstring.h"
 
 struct u8view
-u8split(const char8_t **p, size_t *n, rune ch)
+u8split(struct u8view *rhs, rune ch)
 {
-	struct u8view lhs = {.p = *p};
-	if ((*p = u8chr(*p, *n, ch)) == nullptr) {
-		lhs.len = *n;
-		*n = 0;
+	struct u8view lhs = {.p = rhs->p};
+	if ((rhs->p = u8chr(*rhs, ch)) == nullptr) {
+		lhs.len = rhs->len;
+		rhs->len = 0;
 	} else {
-		lhs.len = *p - lhs.p;
-		*n -= lhs.len;
-		u8next(nullptr, p, n);
+		lhs.len = rhs->p - lhs.p;
+		rhs->len -= lhs.len;
+		u8next(nullptr, rhs);
 	}
 	return lhs;
 }

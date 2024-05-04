@@ -1,16 +1,15 @@
 #include "mbstring.h"
 
 int
-u8next(rune *ch, const char8_t **s, size_t *n)
+u8next(rune *ch, struct u8view *sv)
 {
-	rune _;
-	int m = 0;
+	int n = 0;
 
-	if (*n) {
-		m = u8tor(ch ? ch : &_, *s);
-		*n -= m;
-		*s += m;
+	if (sv->len) {
+		rune _;
+		n = u8tor(ch ? ch : &_, sv->p);
+		VSHFT(sv, n);
 	}
 
-	return m;
+	return n;
 }

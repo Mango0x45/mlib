@@ -20,17 +20,17 @@ static bool u8isgbrk(rune, rune, struct gbrk_state *);
 _MLIB_DEFINE_BSEARCH(gbrk_prop, gbrk_prop_tbl, GBP_OTHER)
 
 size_t
-u8gnext(struct u8view *g, const char8_t **s, size_t *n)
+u8gnext(struct u8view *g, struct u8view *sv)
 {
 	int m;
 	rune ch1;
 	const char8_t *p;
 	struct gbrk_state gs = {0};
 
-	if (*n == 0)
+	if (sv->len == 0)
 		return 0;
 
-	p = *s;
+	p = sv->p;
 	if (g)
 		g->p = p;
 	p += u8tor(&ch1, p);
@@ -38,14 +38,13 @@ u8gnext(struct u8view *g, const char8_t **s, size_t *n)
 	for (;;) {
 		rune ch2;
 
-		if ((size_t)(p - *s) >= *n)
+		if ((size_t)(p - sv->p) >= sv->len)
 			ch2 = 0;
 		else
 			m = u8tor(&ch2, p);
 		if (u8isgbrk(ch1, ch2, &gs)) {
-			ptrdiff_t d = p - *s;
-			*n -= d;
-			*s = p;
+			ptrdiff_t d = p - sv->p;
+			VSHFT(sv, d);
 			if (g)
 				g->len = d;
 			return d;

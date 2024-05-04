@@ -1,4 +1,4 @@
-.Dd 27 April 2024
+.Dd 4 May 2024
 .Dt USAGE 3
 .Os
 .Sh NAME
@@ -34,9 +34,9 @@ be provided to the example executable.
 #include <optparse.h>
  
 static const struct op_option opts[] = {
-	{'a', U8(nullptr), OPT_NONE},
-	{'b', U8(nullptr), OPT_NONE},
-	{'h', U8(nullptr), OPT_NONE},
+	{'a', U8(),       OPT_NONE},
+	{'b', U8(),       OPT_NONE},
+	{'h', U8("help"), OPT_NONE},
 };
 
 int

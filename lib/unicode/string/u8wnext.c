@@ -29,22 +29,20 @@ static size_t findwbrk(struct u8view);
 static struct wbrk_state mkwbrkstate(struct u8view);
 
 size_t
-u8wnext(struct u8view *w, const char8_t **s, size_t *n)
+u8wnext(struct u8view *w, struct u8view *sv)
 {
-	ASSUME(n != nullptr);
-	ASSUME(s != nullptr);
-	ASSUME(*s != nullptr);
+	ASSUME(sv != nullptr);
+	ASSUME(sv->p != nullptr);
 
-	if (*n == 0)
+	if (sv->len == 0)
 		return 0;
 
-	size_t off = findwbrk((struct u8view){*s, *n});
+	size_t off = findwbrk(*sv);
 	if (w != nullptr)
-		*w = (struct u8view){*s, off};
+		*w = (struct u8view){sv->p, off};
 
-	ASSUME(*n >= off);
-	*s += off;
-	*n -= off;
+	ASSUME(sv->len >= off);
+	VSHFT(sv, off);
 	return off;
 }
 
@@ -196,13 +194,13 @@ mkwbrkstate(struct u8view sv)
 
 	rune ch;
 	for (size_t i = 0;
-	     i < lengthof(ws.raw.next) && u8next(&ch, U8_ARGSP(ws.raw_v)) != 0; i++)
+	     i < lengthof(ws.raw.next) && u8next(&ch, &ws.raw_v) != 0; i++)
 	{
 		ws.raw.next[i] = mlib_lookup(ch);
 	}
 
 	for (size_t i = 0;
-	     i < lengthof(ws.raw.next) && u8next(&ch, U8_ARGSP(ws.skip_v)) != 0;)
+	     i < lengthof(ws.raw.next) && u8next(&ch, &ws.skip_v) != 0;)
 	{
 		ws.skip.next[i] = mlib_lookup(ch);
 		if (!IS_IGNORE(ws.skip.next[i]))
@@ -224,10 +222,10 @@ advance(struct wbrk_state *ws)
 	ws->raw.prev[0] = ws->raw.next[0];
 	ws->raw.next[0] = ws->raw.next[1];
 	ws->raw.next[1] =
-		u8next(&ch, U8_ARGSP(ws->raw_v)) != 0 ? mlib_lookup(ch) : WBRK_EOT;
+		u8next(&ch, &ws->raw_v) != 0 ? mlib_lookup(ch) : WBRK_EOT;
 
 	/* Increment the midpoint */
-	u8next(nullptr, U8_ARGSP(ws->mid_v));
+	u8next(nullptr, &ws->mid_v);
 
 	/* Ignore ignorable properties */
 	if (!IS_IGNORE(ws->raw.prev[0])) {
@@ -237,7 +235,7 @@ advance(struct wbrk_state *ws)
 		ws->ri_parity = ws->ri_parity == 0 && ws->skip.prev[0] == WBRK_RI;
 
 		do {
-			if (u8next(&ch, U8_ARGSP(ws->skip_v)) == 0) {
+			if (u8next(&ch, &ws->skip_v) == 0) {
 				ws->skip.next[1] = WBRK_EOT;
 				break;
 			}

@@ -1,10 +1,10 @@
 #include "unicode/string.h"
 
 size_t
-u8wcnt_human(const char8_t *s, size_t n)
+u8wcnt_human(struct u8view sv)
 {
 	size_t m = 0;
-	while (u8wnext_human(nullptr, &s, &n))
+	while (u8wnext_human(nullptr, &sv))
 		m++;
 	return m;
 }

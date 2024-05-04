@@ -3,7 +3,7 @@
 #include "mbstring.h"
 
 int
-u8cmp(const char8_t *x, size_t n, const char8_t *y, size_t m)
+u8cmp(struct u8view x, struct u8view y)
 {
-	return n != m ? (n > m ? +1 : -1) : memcmp(x, y, n);
+	return x.len != y.len ? (x.len > y.len ? +1 : -1) : memcmp(x.p, y.p, x.len);
 }

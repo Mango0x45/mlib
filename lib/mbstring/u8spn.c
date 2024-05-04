@@ -1,15 +1,15 @@
 #include "mbstring.h"
 
 size_t
-u8spn(const char8_t *s, size_t n, const rune *p, size_t m)
+u8spn(struct u8view sv, const rune *p, size_t n)
 {
 	rune ch;
-	size_t k = 0, l;
+	size_t k = 0, w;
 
-	while ((l = u8next(&ch, &s, &n))) {
-		for (size_t i = 0; i < m; i++) {
+	while (w = u8next(&ch, &sv)) {
+		for (size_t i = 0; i < n; i++) {
 			if (p[i] == ch) {
-				k += l;
+				k += w;
 				goto found;
 			}
 		}

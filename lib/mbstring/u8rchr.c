@@ -3,17 +3,17 @@
 
 #include "mbstring.h"
 
-static char8_t *
+static const char8_t *
 memrchr1(const char8_t *s, size_t k, const char8_t *n)
 {
 	for (const char8_t *p = s + k - 1; k-- > 0; p--) {
 		if (*p == *n)
-			return (char8_t *)p;
+			return p;
 	}
 	return nullptr;
 }
 
-static char8_t *
+static const char8_t *
 memrchr2(const char8_t *h, size_t k, const char8_t *n)
 {
 	uint16_t hw, nw;
@@ -23,13 +23,13 @@ memrchr2(const char8_t *h, size_t k, const char8_t *n)
 
 	for (H -= 2, k -= 2; k; k--, hw = hw >> 8 | (*H-- << 8)) {
 		if (hw == nw)
-			return (char8_t *)H + 1;
+			return H + 1;
 	}
 
-	return hw == nw ? (char8_t *)H + 1 : nullptr;
+	return hw == nw ? H + 1 : nullptr;
 }
 
-static char8_t *
+static const char8_t *
 memrchr3(const char8_t *h, size_t k, const char8_t *n)
 {
 	uint32_t hw, nw;
@@ -41,13 +41,13 @@ memrchr3(const char8_t *h, size_t k, const char8_t *n)
 	     k--, hw = (hw >> 8 | (*H-- << 24)) & UINT32_C(0xFFFFFF00))
 	{
 		if (hw == nw)
-			return (char8_t *)H + 1;
+			return H + 1;
 	}
 
-	return hw == nw ? (char8_t *)H + 1 : nullptr;
+	return hw == nw ? H + 1 : nullptr;
 }
 
-static char8_t *
+static const char8_t *
 memrchr4(const char8_t *h, size_t k, const char8_t *n)
 {
 	uint32_t hw, nw;
@@ -57,29 +57,29 @@ memrchr4(const char8_t *h, size_t k, const char8_t *n)
 
 	for (H -= 4, k -= 4; k; k--, hw = hw >> 8 | (*H-- << 24)) {
 		if (hw == nw)
-			return (char8_t *)H + 1;
+			return H + 1;
 	}
 
-	return hw == nw ? (char8_t *)H + 1 : nullptr;
+	return hw == nw ? H + 1 : nullptr;
 }
 
-char8_t *
-(u8rchr)(const char8_t *s, size_t n, rune ch)
+const char8_t *
+u8rchr(struct u8view sv, rune ch)
 {
 	char8_t buf[U8_LEN_MAX];
-	int m = rtou8(buf, ch, sizeof(buf));
+	int n = rtou8(buf, ch, sizeof(buf));
 
-	if (n < (size_t)m)
+	if (sv.len < (size_t)n)
 		return nullptr;
-	switch (m) {
+	switch (n) {
 	case 1:
-		return (char8_t *)memrchr1(s, n, buf);
+		return memrchr1(sv.p, sv.len, buf);
 	case 2:
-		return (char8_t *)memrchr2(s, n, buf);
+		return memrchr2(sv.p, sv.len, buf);
 	case 3:
-		return (char8_t *)memrchr3(s, n, buf);
+		return memrchr3(sv.p, sv.len, buf);
 	case 4:
-		return (char8_t *)memrchr4(s, n, buf);
+		return memrchr4(sv.p, sv.len, buf);
 	}
 
 	unreachable();

@@ -7,9 +7,9 @@
 
 #define lengthof(a) (sizeof(a) / sizeof(*(a)))
 
-#define memeq(...) (!memcmp(__VA_ARGS__))
-#define streq(...) (!strcmp(__VA_ARGS__))
-#define u8eq(...)  (!u8cmp(__VA_ARGS__))
+#define memeq(x, y, n) (!memcmp((x), (y), (n)))
+#define streq(x, y)    (!strcmp((x), (y)))
+#define u8eq(x, y)     (!u8cmp((x), (y)))
 
 #define _MLIB_STR(s)       #s
 #define _MLIB_CONCAT(x, y) x##y

@@ -44,11 +44,10 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 	st->optind++;
 
 	/* Skip ‘--’ */
-	opt.p += 2;
-	opt.len -= 2;
+	VSHFT(&opt, 2);
 
 	const struct op_option *o = nullptr;
-	const char8_t *eq_p = u8chr(opt.p, '=', opt.len);
+	const char8_t *eq_p = u8chr(opt, '=');
 	struct u8view opt_no_eq = {
 		.p = opt.p,
 		.len = eq_p == nullptr ? opt.len : (size_t)(eq_p - opt.p),
@@ -56,7 +55,7 @@ optparse(struct optparse *st, const struct op_option *opts, size_t nopts)
 
 	for (size_t i = 0; i < nopts; i++) {
 		struct u8view lo = opts[i].longopt;
-		if (lo.p == nullptr || !u8haspfx(U8_ARGS(lo), U8_ARGS(opt_no_eq)))
+		if (lo.p == nullptr || !u8haspfx(lo, opt_no_eq))
 			continue;
 		if (o != nullptr)
 			return error(st, OPT_MSG_INVALID, opt_no_eq);
@@ -146,7 +145,7 @@ rune
 error_s(struct optparse *st, const char *msg, struct u8view s)
 {
 	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
-	         U8_PRI_ARGS(s));
+	         SV_PRI_ARGS(s));
 	return -1;
 }
 

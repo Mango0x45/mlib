@@ -1,17 +1,15 @@
 #include "rune.h"
 #include "mbstring.h"
 
-char8_t *
-(u8chk)(const char8_t *s, size_t n)
+const char8_t *
+u8chk(struct u8view sv)
 {
-	while (n) {
-		rune ch;
-		int m = u8tor(&ch, s);
+	int w;
+	rune ch;
 
+	while (w = u8next(&ch, &sv)) {
 		if (ch == RUNE_ERROR)
-			return (char8_t *)s;
-		n -= m;
-		s += m;
+			return sv.p - w;
 	}
 
 	return nullptr;

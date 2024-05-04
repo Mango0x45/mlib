@@ -1,4 +1,4 @@
-.Dd 20 February 2024
+.Dd 4 May 2024
 .Dt U8NEXT 3
 .Os
 .Sh NAME
@@ -10,30 +10,25 @@
 .Sh SYNOPSIS
 .In mbstring.h
 .Ft int
-.Fn u8next "rune *ch" "const char8_t **s" "size_t *n"
+.Fn u8next "rune *ch" "struct u8view sv"
 .Ft int
 .Fn u8prev "rune *ch" "const char8_t **s" "const char8_t *start"
 .Sh DESCRIPTION
 The
 .Fn u8next
-function decodes the first rune in the UTF-8 encoded string pointed to by
-.Fa s
-of length
-.Fa n
+function decodes the first rune in the UTF-8 encoded string view
+.Fa sv
 and stores the result in
 .Fa ch .
-It then updates
-.Fa s
-to point to the next codepoint in the buffer and updates the length
-.Fa n
-accordingly.
+It then shrinks
+.Fa sv
+so that the decoded rune is removed.
 .Pp
 The
 .Fn u8prev
 function takes a pointer
 .Fa start
-which points to the start of the string instead of a length,
-and updates
+which points to the start of the string and updates
 .Fa s
 to point to the previous codepoint in the buffer.
 The rune
@@ -59,19 +54,16 @@ or 0 at the end of iteration.
 The following calls to
 .Fn u8next
 iterate over and print all the codepoints in
-.Va s .
+.Va sv .
 .Bd -literal -offset indent
 #include <rune.h> /* For PRIXRUNE; see rune(3) */
 
-#define STRING u8"Ta’ Ħaġrat"
-
 int w;
 rune ch;
-const char8_t *s = STRING;
-size_t n = sizeof(STRING) - 1;
+struct u8view sv = U8("Ta’ Ħaġrat");
 
-while (w = u8next(&ch, &s, &n))
-	printf("U+%04" PRIXRUNE ": ‘%.*s’\en", ch, w, s - w);
+while (w = u8next(&ch, &sv))
+	printf("U+%04" PRIXRUNE ": ‘%.*s’\en", ch, w, sv.p - w);
 .Ed
 .Pp
 The following example is the same as the previous,
@@ -81,23 +73,20 @@ function to iterate backwards.
 .Bd -literal -offset indent
 #include <rune.h> /* For PRIXRUNE; see rune(3) */
 
-#define STRING u8"Ta’ Ħaġrat"
-
 int w;
 rune ch;
-const char8_t *s, *start;
-size_t n = sizeof(STRING) - 1;
+struct u8view sv = U8("Ta’ Ħaġrat");
+const char8_t *s = sv.p + sv.len;
 
-start = STRING;
-s = start + n;
-
-while (w = u8prev(&ch, &s, start))
+while (w = u8prev(&ch, &s, sv.p))
 	printf("U+%04" PRIXRUNE ": ‘%.*s’\en", ch, w, s);
 .Ed
 .Sh SEE ALSO
 .Xr rune 3 ,
+.Xr U8 3 ,
 .Xr u8gnext 3 ,
 .Xr u8tor 3 ,
+.Xr u8view 3type ,
 .Xr RUNE_ERROR 3const ,
 .Xr unicode 7 ,
 .Xr utf\-8 7

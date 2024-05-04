@@ -1,4 +1,4 @@
-.Dd 10 March 2024
+.Dd 4 May 2024
 .Dt U8TOR 3
 .Os
 .Sh NAME
@@ -37,18 +37,20 @@ The following call to
 attempts to decode the first UTF-8 codepoint in
 .Va buf .
 .Bd -literal -offset indent
-/* Implementation of read_codepoint() omitted */
+#include <errors.h> /* For err(); see errors(3) */
+#include <rune.h> /* For PRIXRUNE; see rune(3) */
 
 rune ch;
-char8_t *buf = read_codepoint(stdin);
+char8_t *buf = u8"Γειά σου Κόσμε";
 int w = u8tor(&ch, buf);
 if (ch == RUNE_ERROR)
-	errx("Got invalid UTF-8 codepoint");
-printf("Got rune ‘%.*s’\en", w, buf);
+	err("Got invalid UTF-8 codepoint");
+printf("Got rune ‘%.*s’ (U+%04" PRIXRUNE ")\en", w, buf, ch);
 .Ed
 .Sh SEE ALSO
-.Xr errx 3mlib ,
+.Xr errors 3 ,
 .Xr rtou8 3 ,
+.Xr rune 3 ,
 .Xr u8chk 3 ,
 .Xr u8next 3 ,
 .Xr RUNE_ERROR 3const ,

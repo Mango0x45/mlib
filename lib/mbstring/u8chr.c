@@ -31,7 +31,7 @@
        TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
        SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-static char8_t *
+static const char8_t *
 memmem2(const char8_t *h, size_t k, const char8_t *n)
 {
 	uint16_t hw, nw;
@@ -40,12 +40,12 @@ memmem2(const char8_t *h, size_t k, const char8_t *n)
 
 	for (h += 2, k -= 2; k; k--, hw = hw << 8 | *h++) {
 		if (hw == nw)
-			return (char8_t *)h - 2;
+			return h - 2;
 	}
-	return hw == nw ? (char8_t *)h - 2 : nullptr;
+	return hw == nw ? h - 2 : nullptr;
 }
 
-static char8_t *
+static const char8_t *
 memmem3(const char8_t *h, size_t k, const char8_t *n)
 {
 	uint32_t hw, nw;
@@ -54,12 +54,12 @@ memmem3(const char8_t *h, size_t k, const char8_t *n)
 
 	for (h += 3, k -= 3; k; k--, hw = (hw | *h++) << 8) {
 		if (hw == nw)
-			return (char8_t *)h - 3;
+			return h - 3;
 	}
-	return hw == nw ? (char8_t *)h - 3 : nullptr;
+	return hw == nw ? h - 3 : nullptr;
 }
 
-static char8_t *
+static const char8_t *
 memmem4(const char8_t *h, size_t k, const char8_t *n)
 {
 	uint32_t hw, nw;
@@ -68,28 +68,28 @@ memmem4(const char8_t *h, size_t k, const char8_t *n)
 
 	for (h += 4, k -= 4; k; k--, hw = hw << 8 | *h++) {
 		if (hw == nw)
-			return (char8_t *)h - 4;
+			return h - 4;
 	}
-	return hw == nw ? (char8_t *)h - 4 : nullptr;
+	return hw == nw ? h - 4 : nullptr;
 }
 
-char8_t *
-(u8chr)(const char8_t *s, size_t n, rune ch)
+const char8_t *
+u8chr(struct u8view sv, rune ch)
 {
 	char8_t buf[U8_LEN_MAX];
 	int m = rtou8(buf, sizeof(buf), ch);
 
-	if (n < (size_t)m)
+	if (sv.len < (size_t)m)
 		return nullptr;
 	switch (m) {
 	case 1:
-		return memchr(s, ch, n);
+		return memchr(sv.p, ch, sv.len);
 	case 2:
-		return memmem2(s, n, buf);
+		return memmem2(sv.p, sv.len, buf);
 	case 3:
-		return memmem3(s, n, buf);
+		return memmem3(sv.p, sv.len, buf);
 	case 4:
-		return memmem4(s, n, buf);
+		return memmem4(sv.p, sv.len, buf);
 	}
 
 	unreachable();

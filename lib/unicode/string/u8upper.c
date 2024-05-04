@@ -3,7 +3,7 @@
 #include "unicode/string.h"
 
 size_t
-u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
+u8upper(char8_t *restrict dst, size_t dstn, struct u8view sv,
         enum caseflags flags)
 {
 	struct ucctx ctx = {
@@ -15,7 +15,7 @@ u8upper(char8_t *restrict dst, size_t dstn, const char8_t *src, size_t srcn,
 	rune ch;
 	size_t n = 0;
 
-	while (u8next(&ch, &src, &srcn)) {
+	while (u8next(&ch, &sv)) {
 		struct rview rv = uprop_get_uc(ch, ctx);
 		for (size_t i = 0; i < rv.len; i++) {
 			if (n >= dstn) {

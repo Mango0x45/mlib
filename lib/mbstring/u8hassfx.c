@@ -4,7 +4,7 @@
 #include "mbstring.h"
 
 bool
-u8hassfx(const char8_t *s, size_t n, const char8_t *sfx, size_t m)
+u8hassfx(struct u8view sv, struct u8view sfx)
 {
-	return n >= m && memeq(s + n - m, sfx, m);
+	return sv.len >= sfx.len && memeq(sv.p + sv.len - sfx.len, sfx.p, sfx.len);
 }
