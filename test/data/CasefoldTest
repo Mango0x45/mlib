@@ -1,0 +1,55 @@
+# Empty input
+;;
+
+# Latin alphabet
+LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.;lorem ipsum dolor sit amet, consectetur adipiscing elit.;
+
+# Greek alphabet; when casefolding we don’t use ‘ς’
+Σ;σ;
+ς;σ;
+ΤΟ ΓΡΆΜΜΑ ΣΊΓΜΑ ΈΧΕΙ ΔΎΟ ΠΕΖΟΎΣ ΤΎΠΟΥΣ;το γράμμα σίγμα έχει δύο πεζούσ τύπουσ;
+
+# Cyrillic alphabet
+СЛАВА УКРАЇНІ ПРОТИ РОСІЙСЬКОЇ АГРЕСІЇ!;слава україні проти російської агресії!;
+
+# Croatian has 3 cases
+ǇUDEVIT GAJ;ǉudevit gaj;
+ǈudevit Gaj;ǉudevit gaj;
+
+# Ignore the Lithuanian case completely
+Į̃;į̃;
+Į̃;į̃;LT
+J́;j́;
+J́;j́;LT
+Į̃J́;į̃j́;
+Į̃J́;į̃j́;LT
+RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, kìlo;
+RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, kìlo;LT
+RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, kìlo;
+RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, kìlo;LT
+
+# Azeri/Turkish ‘ı’ and ‘i’ are different letters
+I;i;
+I;ı;AZ
+
+# Add U+0307 COMBINING DOT ABOVE after ‘i’ when lowercasing ‘İ’ in
+# non-Azeri and -Turkish locales
+İSTANBUL’LUYUM;i̇stanbul’luyum;
+İSTANBUL’LUYUM;istanbul’luyum;AZ
+
+# Composite characters should be expanded, including
+# U+00DF LATIN SMALL LETTER SHARP S for some reason…
+FLUẞ;fluss;
+ﬂuß;fluss;
+Waﬄe;waffle;
+ﬆab;stab;
+
+# …but not U+0132 LATIN SMALL LIGATURE IJ or the capital variant?
+ĳssel;ĳssel;
+ĲSSEL;ĳssel;
+
+# In Cherokee we want to uppercase our strings
+ꭳꮝꮣ ꮢꭿᏸᏹꮧꮲ;ᎣᏍᏓ ᏒᎯᏰᏱᏗᏢ;
+
+# Uncased language
+안녕하세요, 월드!;안녕하세요, 월드!;
