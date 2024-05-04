@@ -61,7 +61,10 @@ main(int argc, char **argv)
 	while ((opt = getopt(argc, argv, "fj:r")) != -1) {
 		switch (opt) {
 		case '?':
-			fprintf(stderr, "Usage: %s [-j procs] [-fr]\n", *argv);
+			fprintf(stderr,
+			        "Usage: %s [-j procs] [-fr]\n"
+			        "       %s clean | gen | test\n",
+			        *argv, *argv);
 			exit(EXIT_FAILURE);
 		case 'j':
 			procs = atoi(optarg);
@@ -83,7 +86,9 @@ main(int argc, char **argv)
 			cmdadd(&c, "find", "gen", "-mindepth", "2", "-type", "f",
 			       "-executable", "-not", "(", "-name", "scale", "-or", "-name",
 			       "bool-props.py", ")", "-exec", "{}", ";");
-		} else
+		} else if (streq(*argv, "test"))
+			cmdadd(&c, "./test/run-tests");
+		else
 			diex("invalid subcommand — ‘%s’", *argv);
 		cmdput(c);
 		CMDRC(c);
