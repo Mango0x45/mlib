@@ -11,6 +11,12 @@
 #define streq(...) (!strcmp(__VA_ARGS__))
 #define u8eq(...)  (!u8cmp(__VA_ARGS__))
 
+#define _MLIB_STR(s)       #s
+#define _MLIB_CONCAT(x, y) x##y
+
+#define STR(s)       _MLIB_STR(s)
+#define CONCAT(x, y) _MLIB_CONCAT(x, y)
+
 #ifdef NDEBUG
 #	include <stddef.h>
 #	define ASSUME(p) ((p) ? (void)0 : unreachable())
