@@ -20,12 +20,13 @@
 #define u8bytec(x) (((x) & 0xC0) == 0x80)
 /* clang-format on */
 
+constexpr int U8_LEN_MAX = 4;
 constexpr rune U8_1B_MAX = 0x00007F;
 constexpr rune U8_2B_MAX = 0x0007FF;
 constexpr rune U8_3B_MAX = 0x00FFFF;
 constexpr rune U8_4B_MAX = 0x10FFFF;
 
-constexpr int U8_LEN_MAX = 4;
+constexpr rune MBEND = 0x110000;
 
 #define PRIsU8          ".*s"
 #define SV_PRI_ARGS(sv) ((int)(sv).len), ((sv).p)
@@ -43,6 +44,7 @@ int u8tor(rune *, const char8_t *);
 [[nodiscard]] size_t u8cspn(struct u8view, const rune *, size_t);
 [[nodiscard]] size_t u8len(struct u8view);
 [[nodiscard]] size_t u8spn(struct u8view, const rune *, size_t);
-struct u8view u8split(struct u8view *, rune);
+rune u8cut(struct u8view *restrict, struct u8view *restrict, const rune *,
+           size_t);
 
 #endif /* !MLIB_MBSTRING_H */

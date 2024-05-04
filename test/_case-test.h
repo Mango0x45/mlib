@@ -54,9 +54,9 @@ test(const char8_t *line, int id)
 {
 	struct u8view sv = {line, strlen(line)};
 	struct u8view before, after, flags;
-	before = u8split(&sv, ';');
-	after  = u8split(&sv, ';');
-	flags  = u8split(&sv, ';');
+	u8cut(&before, &sv, U";", 1);
+	u8cut(&after,  &sv, U";", 1);
+	u8cut(&flags,  &sv, U";", 1);
 
 	enum caseflags cf = u8eq(flags, U8("ẞ"))  ? CF_ẞ
 	                  : u8eq(flags, U8("AZ")) ? CF_LANG_AZ

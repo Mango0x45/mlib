@@ -19,7 +19,6 @@
 #define CNTFUNC  CONCAT(CONCAT(u8, BRKTYPE), cnt)
 
 static bool test(struct u8view, int);
-static int hexdigits(rune);
 
 int
 main(int, char **argv)
@@ -59,25 +58,21 @@ test(struct u8view sv, int id)
 
 	typedef dynarr(char8_t) item;
 	dynarr(item) items = {};
+
+	rune op;
 	struct u8view sv_cpy = sv;
-
-	do {
-		rune op, ch;
-
-		u8next(&op, &sv_cpy);
+	while ((op = u8cut(nullptr, &sv_cpy, U"×÷", 2)) != MBEND) {
+		rune ch;
 		sscanf(sv_cpy.p, "%" SCNxRUNE, &ch);
-		int off = hexdigits(ch);
-		off = MAX(4, off);
-		VSHFT(&sv_cpy, off);
 
-		char8_t buf[U8_LEN_MAX] = {};
+		char8_t buf[U8_LEN_MAX];
 		int w = rtou8(buf, sizeof(buf), ch);
 		total += w;
 
 		if (op == U'÷')
 			DAPUSH(&items, (item){});
 		DAEXTEND(&items.buf[items.len - 1], buf, w);
-	} while (sv_cpy.len > 0);
+	}
 
 	size_t off = 0;
 	char8_t *p = bufalloc(nullptr, 1, total);
@@ -113,15 +108,4 @@ test(struct u8view sv, int id)
 	free(p);
 
 	return true;
-}
-
-int
-hexdigits(rune ch)
-{
-	int n = 0;
-	do {
-		ch /= 16;
-		n++;
-	} while (ch != 0);
-	return n;
 }
