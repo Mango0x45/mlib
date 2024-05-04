@@ -24,8 +24,7 @@ def columns(n: int, m: int) -> int:
 		y += x - 1
 		if y <= 80:
 			return x
-
-	raise ValueError
+	return 1
 
 def isize(x: int) -> int:
 	if x < 256:
@@ -54,14 +53,8 @@ def cwd_init() -> None:
 	os.chdir(dir / '..' / '..')
 
 def report_size(before: int, after: int) -> None:
-	def btokib(n: int) -> str:
-		s = str(round(n / 1024, 2))
-		if s.endswith('.0'):
-			s = s[:-2]
-		return s + ' KiB'
-
 	prefix = sys.argv[0].split('/')[-1].ljust(len('id_compat_math_continue') + 2)
 	change = round((after - before) / before * 100, 1)
-	before = btokib(before)
-	after  = btokib(after)
+	before = '%d KiB' % round(before / 1024, 2)
+	after  = ('%.2f KiB' % round(after / 1024, 2)).rjust(len('XXX.XX KiB'))
 	print(f'%s%s%%, %s → %s' % (prefix, change, before, after), file=sys.stderr)

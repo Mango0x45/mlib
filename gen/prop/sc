@@ -1,230 +1,270 @@
-#!/bin/sh
+#!/usr/bin/python3
 
-set -e
-cd "${0%/*}/../.."
-exec >lib/unicode/prop/uprop_get_sc.c
+import math
 
-gawk '
-BEGIN {
-	FS = " *(; *|#.*)"
+from lib import *
 
-	map["Adlam"]                  = "ADLM"
-	map["Caucasian_Albanian"]     = "AGHB"
-	map["Ahom"]                   = "AHOM"
-	map["Arabic"]                 = "ARAB"
-	map["Imperial_Aramaic"]       = "ARMI"
-	map["Armenian"]               = "ARMN"
-	map["Avestan"]                = "AVST"
-	map["Balinese"]               = "BALI"
-	map["Bamum"]                  = "BAMU"
-	map["Bassa_Vah"]              = "BASS"
-	map["Batak"]                  = "BATK"
-	map["Bengali"]                = "BENG"
-	map["Bhaiksuki"]              = "BHKS"
-	map["Bopomofo"]               = "BOPO"
-	map["Brahmi"]                 = "BRAH"
-	map["Braille"]                = "BRAI"
-	map["Buginese"]               = "BUGI"
-	map["Buhid"]                  = "BUHD"
-	map["Chakma"]                 = "CAKM"
-	map["Canadian_Aboriginal"]    = "CANS"
-	map["Carian"]                 = "CARI"
-	map["Cham"]                   = "CHAM"
-	map["Cherokee"]               = "CHER"
-	map["Chorasmian"]             = "CHRS"
-	map["Coptic"]                 = "COPT"
-	map["Cypro_Minoan"]           = "CPMN"
-	map["Cypriot"]                = "CPRT"
-	map["Cyrillic"]               = "CYRL"
-	map["Devanagari"]             = "DEVA"
-	map["Dives_Akuru"]            = "DIAK"
-	map["Dogra"]                  = "DOGR"
-	map["Deseret"]                = "DSRT"
-	map["Duployan"]               = "DUPL"
-	map["Egyptian_Hieroglyphs"]   = "EGYP"
-	map["Elbasan"]                = "ELBA"
-	map["Elymaic"]                = "ELYM"
-	map["Ethiopic"]               = "ETHI"
-	map["Georgian"]               = "GEOR"
-	map["Glagolitic"]             = "GLAG"
-	map["Gunjala_Gondi"]          = "GONG"
-	map["Masaram_Gondi"]          = "GONM"
-	map["Gothic"]                 = "GOTH"
-	map["Grantha"]                = "GRAN"
-	map["Greek"]                  = "GREK"
-	map["Gujarati"]               = "GUJR"
-	map["Gurmukhi"]               = "GURU"
-	map["Hangul"]                 = "HANG"
-	map["Han"]                    = "HANI"
-	map["Hanunoo"]                = "HANO"
-	map["Hatran"]                 = "HATR"
-	map["Hebrew"]                 = "HEBR"
-	map["Hiragana"]               = "HIRA"
-	map["Anatolian_Hieroglyphs"]  = "HLUW"
-	map["Pahawh_Hmong"]           = "HMNG"
-	map["Nyiakeng_Puachue_Hmong"] = "HMNP"
-	map["Katakana_Or_Hiragana"]   = "HRKT"
-	map["Old_Hungarian"]          = "HUNG"
-	map["Old_Italic"]             = "ITAL"
-	map["Javanese"]               = "JAVA"
-	map["Kayah_Li"]               = "KALI"
-	map["Katakana"]               = "KANA"
-	map["Kawi"]                   = "KAWI"
-	map["Kharoshthi"]             = "KHAR"
-	map["Khmer"]                  = "KHMR"
-	map["Khojki"]                 = "KHOJ"
-	map["Khitan_Small_Script"]    = "KITS"
-	map["Kannada"]                = "KNDA"
-	map["Kaithi"]                 = "KTHI"
-	map["Tai_Tham"]               = "LANA"
-	map["Lao"]                    = "LAOO"
-	map["Latin"]                  = "LATN"
-	map["Lepcha"]                 = "LEPC"
-	map["Limbu"]                  = "LIMB"
-	map["Linear_A"]               = "LINA"
-	map["Linear_B"]               = "LINB"
-	map["Lisu"]                   = "LISU"
-	map["Lycian"]                 = "LYCI"
-	map["Lydian"]                 = "LYDI"
-	map["Mahajani"]               = "MAHJ"
-	map["Makasar"]                = "MAKA"
-	map["Mandaic"]                = "MAND"
-	map["Manichaean"]             = "MANI"
-	map["Marchen"]                = "MARC"
-	map["Medefaidrin"]            = "MEDF"
-	map["Mende_Kikakui"]          = "MEND"
-	map["Meroitic_Cursive"]       = "MERC"
-	map["Meroitic_Hieroglyphs"]   = "MERO"
-	map["Malayalam"]              = "MLYM"
-	map["Modi"]                   = "MODI"
-	map["Mongolian"]              = "MONG"
-	map["Mro"]                    = "MROO"
-	map["Meetei_Mayek"]           = "MTEI"
-	map["Multani"]                = "MULT"
-	map["Myanmar"]                = "MYMR"
-	map["Nag_Mundari"]            = "NAGM"
-	map["Nandinagari"]            = "NAND"
-	map["Old_North_Arabian"]      = "NARB"
-	map["Nabataean"]              = "NBAT"
-	map["Newa"]                   = "NEWA"
-	map["Nko"]                    = "NKOO"
-	map["Nushu"]                  = "NSHU"
-	map["Ogham"]                  = "OGAM"
-	map["Ol_Chiki"]               = "OLCK"
-	map["Old_Turkic"]             = "ORKH"
-	map["Oriya"]                  = "ORYA"
-	map["Osage"]                  = "OSGE"
-	map["Osmanya"]                = "OSMA"
-	map["Old_Uyghur"]             = "OUGR"
-	map["Palmyrene"]              = "PALM"
-	map["Pau_Cin_Hau"]            = "PAUC"
-	map["Old_Permic"]             = "PERM"
-	map["Phags_Pa"]               = "PHAG"
-	map["Inscriptional_Pahlavi"]  = "PHLI"
-	map["Psalter_Pahlavi"]        = "PHLP"
-	map["Phoenician"]             = "PHNX"
-	map["Miao"]                   = "PLRD"
-	map["Inscriptional_Parthian"] = "PRTI"
-	map["Rejang"]                 = "RJNG"
-	map["Hanifi_Rohingya"]        = "ROHG"
-	map["Runic"]                  = "RUNR"
-	map["Samaritan"]              = "SAMR"
-	map["Old_South_Arabian"]      = "SARB"
-	map["Saurashtra"]             = "SAUR"
-	map["SignWriting"]            = "SGNW"
-	map["Shavian"]                = "SHAW"
-	map["Sharada"]                = "SHRD"
-	map["Siddham"]                = "SIDD"
-	map["Khudawadi"]              = "SIND"
-	map["Sinhala"]                = "SINH"
-	map["Sogdian"]                = "SOGD"
-	map["Old_Sogdian"]            = "SOGO"
-	map["Sora_Sompeng"]           = "SORA"
-	map["Soyombo"]                = "SOYO"
-	map["Sundanese"]              = "SUND"
-	map["Syloti_Nagri"]           = "SYLO"
-	map["Syriac"]                 = "SYRC"
-	map["Tagbanwa"]               = "TAGB"
-	map["Takri"]                  = "TAKR"
-	map["Tai_Le"]                 = "TALE"
-	map["New_Tai_Lue"]            = "TALU"
-	map["Tamil"]                  = "TAML"
-	map["Tangut"]                 = "TANG"
-	map["Tai_Viet"]               = "TAVT"
-	map["Telugu"]                 = "TELU"
-	map["Tifinagh"]               = "TFNG"
-	map["Tagalog"]                = "TGLG"
-	map["Thaana"]                 = "THAA"
-	map["Thai"]                   = "THAI"
-	map["Tibetan"]                = "TIBT"
-	map["Tirhuta"]                = "TIRH"
-	map["Tangsa"]                 = "TNSA"
-	map["Toto"]                   = "TOTO"
-	map["Ugaritic"]               = "UGAR"
-	map["Vai"]                    = "VAII"
-	map["Vithkuqi"]               = "VITH"
-	map["Warang_Citi"]            = "WARA"
-	map["Wancho"]                 = "WCHO"
-	map["Old_Persian"]            = "XPEO"
-	map["Cuneiform"]              = "XSUX"
-	map["Yezidi"]                 = "YEZI"
-	map["Yi"]                     = "YIII"
-	map["Zanabazar_Square"]       = "ZANB"
-	map["Inherited"]              = "ZINH"
-	map["Common"]                 = "ZYYY"
 
-	print "/* This file is autogenerated by gen/prop/sc; DO NOT EDIT. */"
-	print ""
-	print "#include \"_bsearch.h\""
-	print "#include \"macros.h\""
-	print "#include \"rune.h\""
-	print "#include \"unicode/prop.h\""
-	print ""
+MAP = {
+	'Adlam':                  'ADLM',
+	'Caucasian_Albanian':     'AGHB',
+	'Ahom':                   'AHOM',
+	'Arabic':                 'ARAB',
+	'Imperial_Aramaic':       'ARMI',
+	'Armenian':               'ARMN',
+	'Avestan':                'AVST',
+	'Balinese':               'BALI',
+	'Bamum':                  'BAMU',
+	'Bassa_Vah':              'BASS',
+	'Batak':                  'BATK',
+	'Bengali':                'BENG',
+	'Bhaiksuki':              'BHKS',
+	'Bopomofo':               'BOPO',
+	'Brahmi':                 'BRAH',
+	'Braille':                'BRAI',
+	'Buginese':               'BUGI',
+	'Buhid':                  'BUHD',
+	'Chakma':                 'CAKM',
+	'Canadian_Aboriginal':    'CANS',
+	'Carian':                 'CARI',
+	'Cham':                   'CHAM',
+	'Cherokee':               'CHER',
+	'Chorasmian':             'CHRS',
+	'Coptic':                 'COPT',
+	'Cypro_Minoan':           'CPMN',
+	'Cypriot':                'CPRT',
+	'Cyrillic':               'CYRL',
+	'Devanagari':             'DEVA',
+	'Dives_Akuru':            'DIAK',
+	'Dogra':                  'DOGR',
+	'Deseret':                'DSRT',
+	'Duployan':               'DUPL',
+	'Egyptian_Hieroglyphs':   'EGYP',
+	'Elbasan':                'ELBA',
+	'Elymaic':                'ELYM',
+	'Ethiopic':               'ETHI',
+	'Georgian':               'GEOR',
+	'Glagolitic':             'GLAG',
+	'Gunjala_Gondi':          'GONG',
+	'Masaram_Gondi':          'GONM',
+	'Gothic':                 'GOTH',
+	'Grantha':                'GRAN',
+	'Greek':                  'GREK',
+	'Gujarati':               'GUJR',
+	'Gurmukhi':               'GURU',
+	'Hangul':                 'HANG',
+	'Han':                    'HANI',
+	'Hanunoo':                'HANO',
+	'Hatran':                 'HATR',
+	'Hebrew':                 'HEBR',
+	'Hiragana':               'HIRA',
+	'Anatolian_Hieroglyphs':  'HLUW',
+	'Pahawh_Hmong':           'HMNG',
+	'Nyiakeng_Puachue_Hmong': 'HMNP',
+	'Katakana_Or_Hiragana':   'HRKT',
+	'Old_Hungarian':          'HUNG',
+	'Old_Italic':             'ITAL',
+	'Javanese':               'JAVA',
+	'Kayah_Li':               'KALI',
+	'Katakana':               'KANA',
+	'Kawi':                   'KAWI',
+	'Kharoshthi':             'KHAR',
+	'Khmer':                  'KHMR',
+	'Khojki':                 'KHOJ',
+	'Khitan_Small_Script':    'KITS',
+	'Kannada':                'KNDA',
+	'Kaithi':                 'KTHI',
+	'Tai_Tham':               'LANA',
+	'Lao':                    'LAOO',
+	'Latin':                  'LATN',
+	'Lepcha':                 'LEPC',
+	'Limbu':                  'LIMB',
+	'Linear_A':               'LINA',
+	'Linear_B':               'LINB',
+	'Lisu':                   'LISU',
+	'Lycian':                 'LYCI',
+	'Lydian':                 'LYDI',
+	'Mahajani':               'MAHJ',
+	'Makasar':                'MAKA',
+	'Mandaic':                'MAND',
+	'Manichaean':             'MANI',
+	'Marchen':                'MARC',
+	'Medefaidrin':            'MEDF',
+	'Mende_Kikakui':          'MEND',
+	'Meroitic_Cursive':       'MERC',
+	'Meroitic_Hieroglyphs':   'MERO',
+	'Malayalam':              'MLYM',
+	'Modi':                   'MODI',
+	'Mongolian':              'MONG',
+	'Mro':                    'MROO',
+	'Meetei_Mayek':           'MTEI',
+	'Multani':                'MULT',
+	'Myanmar':                'MYMR',
+	'Nag_Mundari':            'NAGM',
+	'Nandinagari':            'NAND',
+	'Old_North_Arabian':      'NARB',
+	'Nabataean':              'NBAT',
+	'Newa':                   'NEWA',
+	'Nko':                    'NKOO',
+	'Nushu':                  'NSHU',
+	'Ogham':                  'OGAM',
+	'Ol_Chiki':               'OLCK',
+	'Old_Turkic':             'ORKH',
+	'Oriya':                  'ORYA',
+	'Osage':                  'OSGE',
+	'Osmanya':                'OSMA',
+	'Old_Uyghur':             'OUGR',
+	'Palmyrene':              'PALM',
+	'Pau_Cin_Hau':            'PAUC',
+	'Old_Permic':             'PERM',
+	'Phags_Pa':               'PHAG',
+	'Inscriptional_Pahlavi':  'PHLI',
+	'Psalter_Pahlavi':        'PHLP',
+	'Phoenician':             'PHNX',
+	'Miao':                   'PLRD',
+	'Inscriptional_Parthian': 'PRTI',
+	'Rejang':                 'RJNG',
+	'Hanifi_Rohingya':        'ROHG',
+	'Runic':                  'RUNR',
+	'Samaritan':              'SAMR',
+	'Old_South_Arabian':      'SARB',
+	'Saurashtra':             'SAUR',
+	'SignWriting':            'SGNW',
+	'Shavian':                'SHAW',
+	'Sharada':                'SHRD',
+	'Siddham':                'SIDD',
+	'Khudawadi':              'SIND',
+	'Sinhala':                'SINH',
+	'Sogdian':                'SOGD',
+	'Old_Sogdian':            'SOGO',
+	'Sora_Sompeng':           'SORA',
+	'Soyombo':                'SOYO',
+	'Sundanese':              'SUND',
+	'Syloti_Nagri':           'SYLO',
+	'Syriac':                 'SYRC',
+	'Tagbanwa':               'TAGB',
+	'Takri':                  'TAKR',
+	'Tai_Le':                 'TALE',
+	'New_Tai_Lue':            'TALU',
+	'Tamil':                  'TAML',
+	'Tangut':                 'TANG',
+	'Tai_Viet':               'TAVT',
+	'Telugu':                 'TELU',
+	'Tifinagh':               'TFNG',
+	'Tagalog':                'TGLG',
+	'Thaana':                 'THAA',
+	'Thai':                   'THAI',
+	'Tibetan':                'TIBT',
+	'Tirhuta':                'TIRH',
+	'Tangsa':                 'TNSA',
+	'Toto':                   'TOTO',
+	'Ugaritic':               'UGAR',
+	'Vai':                    'VAII',
+	'Vithkuqi':               'VITH',
+	'Warang_Citi':            'WARA',
+	'Wancho':                 'WCHO',
+	'Old_Persian':            'XPEO',
+	'Cuneiform':              'XSUX',
+	'Yezidi':                 'YEZI',
+	'Yi':                     'YIII',
+	'Zanabazar_Square':       'ZANB',
+	'Inherited':              'ZINH',
+	'Common':                 'ZYYY',
 }
 
-/^[^#]/ {
-	n = split($1, a, /\.\./)
-	lo = strtonum("0X" a[1])
-	hi = strtonum("0X" a[n])
+longest = 0
 
-	for (i = lo; i <= hi; i++) {
-		gsub(/^; /, "", $2)
-		props[i] = "SC_" map[$2]
-	}
-}
+def parse(file: str) -> list[bool]:
+	global longest
 
-END {
-	print "static constexpr enum uprop_sc lookup_lat1[] = {"
-	for (i = 0; i < 0x100; i++) {
-		if (i % 8 == 0)
-			printf "\t"
-		printf "%-7s,%s", props[i] ? props[i] : 0, i % 8 == 7 ? "\n" : " "
-	}
-	print "};"
-	print ""
+	xs = ['SC_ZZZZ'] * 0x110000
+	with open(file, 'r') as f:
+		for line in f.readlines():
+			if len(line.strip()) == 0 or line[0] == '#':
+				continue
 
-	print "static const struct {"
-	print "\trune lo, hi;"
-	print "\tenum uprop_sc val;"
-	print "} lookup[] = {"
+			parts = line.split(';')
+			ranges = [int(x, 16) for x in parts[0].strip().split('..')]
+			prop = 'SC_' + MAP[parts[1].split('#')[0].strip()]
+			longest = max(longest, len(prop))
 
-	for (i = 0x100; i <= 0x10FFFF; i++) {
-		if (!props[i])
-			continue
-		lo = i
-		while (props[lo] == props[i + 1])
-			i++
-		printf "\t{RUNE_C(0x%06X), RUNE_C(0x%06X), %s},\n", lo, i, props[i]
-	}
+			for i in range(ranges[0], ranges[len(ranges) - 1] + 1):
+				xs[i] = prop
+	return xs
 
-	print "};"
-	print ""
-	print "_MLIB_DEFINE_BSEARCH(enum uprop_sc, lookup, SC_ZZZZ)"
-	print ""
-	print "enum uprop_sc"
-	print "uprop_get_sc(rune ch)"
-	print "{"
-	print "\treturn ch <= lengthof(lookup_lat1) ? lookup_lat1[ch] : mlib_lookup(ch);"
-	print "}"
-}
-' data/Scripts | sed 's/\s*$//'
+def genfile(cs: list[tuple[bool, ...]], blksize: int) -> None:
+	Cs = cs
+	cs = list(dict.fromkeys(Cs))
+
+	print('''\
+/* This file is autogenerated by gen/prop/sc; DO NOT EDIT. */
+
+#include <stdint.h>
+
+#include "unicode/prop.h"
+''')
+
+	print(f'static constexpr {typename(len(cs) - 1)} stage1[] = {{')
+	for i, c in enumerate(Cs):
+		print(f'%c%{len(str(len(cs) - 1))}d,' % ('\t' if i % 16 == 0 else ' ', cs.index(c)), end='')
+		if i % 16 == 15:
+			print()
+	print('};')
+
+	print()
+
+	ppc = columns(blksize, longest + 1)
+	print(f'static constexpr enum uprop_sc stage2[][{blksize}] = {{')
+	for c in cs:
+		for i in range(blksize // ppc):
+			print('\t{' if i == 0 else '\t ', end='')
+			for j in range(ppc):
+				print(c[i*ppc + j], end='')
+				if i < blksize // ppc - 1 or j < ppc - 1:
+					print(',', end='')
+				if j < ppc - 1:
+					print(' ' * (longest + 1 - len(c[i*ppc + j])), end='')
+			if i < blksize // ppc - 1:
+				print()
+		print('},')
+	print('};')
+
+	print()
+
+	print(f'''\
+enum uprop_sc
+uprop_get_sc(rune ch)
+{{
+	return stage2[stage1[ch / {blksize}]][ch % {blksize}];
+}}''')
+
+def main() -> None:
+	cwd_init()
+	xs = parse('data/Scripts')
+
+	blksize = -1
+	smallest = math.inf
+
+	for bs in powers_of_2():
+		if bs > len(xs):
+			break
+		Cs = [tuple(x) for x in chunks(xs, bs)]
+		cs = set(Cs)
+
+		sz_s1 = len(Cs) * isize(len(cs) - 1)
+		sz_s2 = len(cs) * bs
+		sz = sz_s1 + sz_s2
+
+		if sz < smallest:
+			smallest = sz
+			blksize = bs
+
+	Cs = [tuple(x) for x in chunks(xs, blksize)]
+	with open('lib/unicode/prop/uprop_get_sc.c', 'w') as f:
+		sys.stdout = f
+		genfile(Cs, blksize)
+
+	report_size(len(xs), smallest)
+
+if __name__ == '__main__':
+	main()
