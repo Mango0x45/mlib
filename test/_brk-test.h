@@ -76,7 +76,7 @@ test(struct u8view sv, int id)
 
 	size_t off = 0;
 	char8_t *p = bufalloc(nullptr, 1, total);
-	da_foreach (&items, g) {
+	da_foreach (items, g) {
 		memcpy(p + off, g->buf, g->len);
 		off += g->len;
 	}
@@ -102,7 +102,7 @@ test(struct u8view sv, int id)
 		}
 	}
 
-	da_foreach (&items, wd)
+	da_foreach (items, wd)
 		free(wd->buf);
 	free(items.buf);
 	free(p);

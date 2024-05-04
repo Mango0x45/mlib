@@ -48,6 +48,6 @@
 	} while (false)
 
 #define da_foreach(da, p) \
-	for (auto p = (da)->buf; (size_t)(p - (da)->buf) < (da)->len; p++)
+	for (auto p = (da).buf; (size_t)(p - (da).buf) < (da).len; p++)
 
 #endif /* !MLIB_DYNARR_H */
