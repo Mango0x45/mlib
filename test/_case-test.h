@@ -52,39 +52,37 @@ main(int, char **argv)
 bool
 test(const char8_t *line, int id)
 {
+	struct u8view sv = {line, strlen(line)};
 	struct u8view before, after, flags;
-	before.p = line;
-	after.p = strchr(line, ';') + 1;
-	before.len = after.p - before.p - 1;
-	flags.p = strchr(after.p, ';') + 1;
-	after.len = flags.p - after.p - 1;
-	flags.len = strlen(flags.p);
+	before = u8split(&sv, ';');
+	after  = u8split(&sv, ';');
+	flags  = u8split(&sv, ';');
 
-	enum caseflags cf = u8eq(U8_ARGS(flags), U8_ARGS(U8("ẞ")))  ? CF_ẞ
-	                  : u8eq(U8_ARGS(flags), U8_ARGS(U8("AZ"))) ? CF_LANG_AZ
-	                  : u8eq(U8_ARGS(flags), U8_ARGS(U8("LT"))) ? CF_LANG_LT
-	                  : u8eq(U8_ARGS(flags), U8_ARGS(U8("NL"))) ? CF_LANG_NL
-	                                                            : 0;
+	enum caseflags cf = u8eq(flags, U8("ẞ"))  ? CF_ẞ
+	                  : u8eq(flags, U8("AZ")) ? CF_LANG_AZ
+	                  : u8eq(flags, U8("LT")) ? CF_LANG_LT
+	                  : u8eq(flags, U8("NL")) ? CF_LANG_NL
+	                                          : 0;
 	char8_t *buf = bufalloc(nullptr, 1, after.len);
-	size_t bufsz = FUNC(nullptr, 0, U8_ARGS(before), cf);
+	size_t bufsz = FUNC(nullptr, 0, before, cf);
 	if (bufsz != after.len) {
 		warn("case %d: expected %scased buffer size of %zu but got %zu "
 		     "(flags=‘%.*s’)",
-		     id, STR(CASETYPE), after.len, bufsz, U8_PRI_ARGS(flags));
+		     id, STR(CASETYPE), after.len, bufsz, SV_PRI_ARGS(flags));
 		return false;
 	}
 
-	bufsz = FUNC(buf, bufsz, U8_ARGS(before), cf);
+	bufsz = FUNC(buf, bufsz, before, cf);
 	if (bufsz != after.len) {
 		warn("case %d: expected %scased length of %zu but got %zu "
 		     "(flags=‘%.*s’)",
-		     id, STR(CASETYPE), after.len, bufsz, U8_PRI_ARGS(flags));
+		     id, STR(CASETYPE), after.len, bufsz, SV_PRI_ARGS(flags));
 		return false;
 	}
 
 	if (!memeq(buf, after.p, bufsz)) {
 		warn("case %d: expected ‘%.*s’ but got ‘%.*s’ (flags=‘%.*s’)", id,
-		     U8_PRI_ARGS(after), (int)bufsz, buf, U8_PRI_ARGS(flags));
+		     SV_PRI_ARGS(after), (int)bufsz, buf, SV_PRI_ARGS(flags));
 		return false;
 	}
 
