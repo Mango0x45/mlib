@@ -52,6 +52,8 @@ int u8prev(rune *, const char8_t **, const char8_t *);
 
 [[nodiscard]] size_t u8len(const char8_t *, size_t);
 
+struct u8view u8split(const char8_t **, size_t *, rune);
+
 #define u8chk(s, n)      _MLIB_Q_PTR(char8_t, u8chk, (s), (s), (n))
 #define u8chr(s, n, ch)  _MLIB_Q_PTR(char8_t, u8chr, (s), (s), (n), (ch))
 #define u8rchr(s, n, ch) _MLIB_Q_PTR(char8_t, u8rchr, (s), (s), (n), (ch))
