@@ -1,5 +1,5 @@
-#ifndef BRKTYPE
-#	error "BRKTYPE is not defined!"
+#if !defined(BRKTYPE) || !defined(BRKTYPE_LONG)
+#	error "BRKTYPE and BRKTYPE_LONG must be defined"
 #endif
 
 #define _GNU_SOURCE
@@ -86,8 +86,8 @@ test(struct u8view sv, int id)
 	/* Assert the item count is correct */
 	size_t items_got = CNTFUNC(buf);
 	if (items_got != items.len) {
-		warn("case %d: expected %zu items(s) but got %zu: ‘%s’", id, items.len,
-		     items_got, sv.p);
+		warn("case %d: expected %zu %s(s) but got %zu: ‘%s’", id, items.len,
+		     STR(BRKTYPE_LONG), items_got, sv.p);
 		return false;
 	}
 
@@ -96,8 +96,8 @@ test(struct u8view sv, int id)
 	for (size_t i = 0; ITERFUNC(&it1, &buf_cpy); i++) {
 		item it2 = items.buf[i];
 		if (!u8eq(it1, ((struct u8view){it2.buf, it2.len}))) {
-			warn("case %d: expected item ‘%.*s’ but got ‘%.*s’", id,
-			     (int)it2.len, it2.buf, SV_PRI_ARGS(it1));
+			warn("case %d: expected %s ‘%.*s’ but got ‘%.*s’", id,
+			     STR(BRKTYPE_LONG), (int)it2.len, it2.buf, SV_PRI_ARGS(it1));
 			return false;
 		}
 	}
