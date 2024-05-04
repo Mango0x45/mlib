@@ -11,10 +11,10 @@ LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT.;lorem ipsum dolor sit a
 # Cyrillic alphabet
 СЛАВА УКРАЇНІ ПРОТИ РОСІЙСЬКОЇ АГРЕСІЇ!;слава україні проти російської агресії!;
 
-# In lithuanian we need to retain the dot above ‘i’ and ‘j’ when there’s an
-# accent above the uppercased variant.  Also test with both single-codepoint
-# variants (i.e. U+00CC LATIN CAPITAL I WITH GRAVE) and variants that use
-# combining-characters.
+# In lithuanian we need to retain the dot above ‘i’ and ‘j’ when there’s
+# an accent above the uppercased variant.  Also test with both
+# single-codepoint variants (i.e. U+00CC LATIN CAPITAL I WITH GRAVE) and
+# variants that use combining-characters.
 Į̃;į̃;
 Į̃;į̇̃;LT
 J́;j́;
@@ -30,8 +30,12 @@ RÀSTI, MÈSTI, KÌLO;ràsti, mèsti, ki̇̀lo;LT
 ǇUDEVIT GAJ;ǉudevit gaj;
 ǈudevit Gaj;ǉudevit gaj;
 
-# Add U+0307 COMBINING DOT ABOVE after ‘i’ when lowercasing ‘İ’ in non-Azeri and
-# -Turkish locales
+# Azeri/Turkish ‘ı’ and ‘i’ are different letters
+I;i;
+I;ı;AZ
+
+# Add U+0307 COMBINING DOT ABOVE after ‘i’ when lowercasing ‘İ’ in
+# non-Azeri and -Turkish locales
 İSTANBUL’LUYUM;i̇stanbul’luyum;
 İSTANBUL’LUYUM;istanbul’luyum;AZ
 

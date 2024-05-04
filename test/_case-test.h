@@ -66,21 +66,21 @@ test(const char8_t *line, int id)
 	char8_t *buf = bufalloc(nullptr, 1, after.len);
 	size_t bufsz = FUNC(nullptr, 0, before, cf);
 	if (bufsz != after.len) {
-		warn("case %d: expected %s buffer size of %zu but got %zu (flags=‘%.*s’)",
-		     id, STR(CASETYPE_VERB), after.len, bufsz, SV_PRI_ARGS(flags));
+		warn("case %d: expected %s buffer size of %zu but got %zu",
+		     id, STR(CASETYPE_VERB), after.len, bufsz);
 		return false;
 	}
 
 	bufsz = FUNC(buf, bufsz, before, cf);
 	if (bufsz != after.len) {
-		warn("case %d: expected %scased length of %zu but got %zu (flags=‘%.*s’)",
-		     id, STR(CASETYPE_VERB), after.len, bufsz, SV_PRI_ARGS(flags));
+		warn("case %d: expected %scased length of %zu but got %zu",
+		     id, STR(CASETYPE_VERB), after.len, bufsz);
 		return false;
 	}
 
 	if (!memeq(buf, after.p, bufsz)) {
-		warn("case %d: expected ‘%.*s’ but got ‘%.*s’ (flags=‘%.*s’)",
-		     id, SV_PRI_ARGS(after), (int)bufsz, buf, SV_PRI_ARGS(flags));
+		warn("case %d: expected ‘%.*s’ but got ‘%.*s’",
+		     id, SV_PRI_ARGS(after), (int)bufsz, buf);
 		return false;
 	}
 

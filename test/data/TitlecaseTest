@@ -23,10 +23,10 @@ complex-language and -script;Complex-Language And -Script;
 СЛАВА УКРАЇНІ ПРОТИ РОСІЙСЬКОЇ АГРЕСІЇ!;Слава Україні Проти Російської Агресії!;
 слава україні проти російської агресії!;Слава Україні Проти Російської Агресії!;
 
-# In lithuanian we need to retain the dot above ‘i’ and ‘j’ when there’s an
-# accent above the uppercased variant.  Also test with both single-codepoint
-# variants (i.e. U+00CC LATIN CAPITAL I WITH GRAVE) and variants that use
-# combining-characters.
+# In lithuanian we need to retain the dot above ‘i’ and ‘j’ when there’s
+# an accent above the uppercased variant.  Also test with both
+# single-codepoint variants (i.e. U+00CC LATIN CAPITAL I WITH GRAVE) and
+# variants that use combining-characters.
 i̇̀;İ̀;
 i̇̀;Ì;LT
 RÀSTI, MÈSTI, KÌLO;Ràsti, Mèsti, Kìlo;
