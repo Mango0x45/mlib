@@ -60,16 +60,11 @@ test(const char8_t *line, int id)
 	after.len = flags.p - after.p - 1;
 	flags.len = strlen(flags.p);
 
-	enum caseflags cf = 0;
-	if (u8eq(U8_ARGS(flags), U8_ARGS(U8("ẞ"))))
-		cf |= CF_ẞ;
-	else if (u8eq(U8_ARGS(flags), U8_ARGS(U8("AZ"))))
-		cf |= CF_LANG_AZ;
-	else if (u8eq(U8_ARGS(flags), U8_ARGS(U8("LT"))))
-		cf |= CF_LANG_LT;
-	else if (u8eq(U8_ARGS(flags), U8_ARGS(U8("NL"))))
-		cf |= CF_LANG_NL;
-
+	enum caseflags cf = u8eq(U8_ARGS(flags), U8_ARGS(U8("ẞ")))  ? CF_ẞ
+	                  : u8eq(U8_ARGS(flags), U8_ARGS(U8("AZ"))) ? CF_LANG_AZ
+	                  : u8eq(U8_ARGS(flags), U8_ARGS(U8("LT"))) ? CF_LANG_LT
+	                  : u8eq(U8_ARGS(flags), U8_ARGS(U8("NL"))) ? CF_LANG_NL
+	                                                            : 0;
 	char8_t *buf = bufalloc(nullptr, 1, after.len);
 	size_t bufsz = FUNC(nullptr, 0, U8_ARGS(before), cf);
 	if (bufsz != after.len) {
