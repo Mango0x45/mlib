@@ -23,12 +23,13 @@ readonly FLAGS='
 download 'auxiliary/GraphemeBreakTest.txt'
 download 'auxiliary/WordBreakTest.txt'
 
-grep '^[^#]'                         data/CasefoldTest      >casefold.in
-grep '^[^#]'                         data/LowercaseTest     >lower.in
-grep '^[^#]'                         data/TitlecaseTest     >title.in
-grep '^[^#]'                         data/UppercaseTest     >upper.in
-sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/GraphemeBreakTest >gbrk.in
-sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/WordBreakTest     >wbrk.in
+grep '^[^#]'                         data/CasefoldTest       >casefold.in
+grep '^[^#]'                         data/LowercaseTest      >lower.in
+grep '^[^#]'                         data/TitlecaseTest      >title.in
+grep '^[^#]'                         data/UppercaseTest      >upper.in
+grep '^[^#]'                         data/WordHumanBreakTest >wbrk-human.in
+sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/GraphemeBreakTest  >gbrk.in
+sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/WordBreakTest      >wbrk.in
 
 for src in *.c
 do
