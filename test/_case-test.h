@@ -73,7 +73,7 @@ test(const char8_t *line, int id)
 
 	bufsz = FUNC(buf, bufsz, before, cf);
 	if (bufsz != after.len) {
-		warn("case %d: expected %scased length of %zu but got %zu",
+		warn("case %d: expected %s length of %zu but got %zu",
 		     id, STR(CASETYPE_VERB), after.len, bufsz);
 		return false;
 	}
