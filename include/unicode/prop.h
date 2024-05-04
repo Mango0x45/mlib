@@ -1078,6 +1078,11 @@ enum uprop_sc : uint_least8_t {
 	SC_ZYYY,     /* Common */
 };
 
+struct uprop_sc_view {
+	const enum uprop_sc *p;
+	size_t len;
+};
+
 enum uprop_vo : uint_least8_t {
 	VO_R,  /* Rotated */
 	VO_TR, /* Transformed Rotated */
@@ -1114,7 +1119,6 @@ enum uprop_wb : uint_least8_t {
 /* Not a Unicode property; but a nice-to-have */
 [[_mlib_pure]] struct u8view uprop_blkname(enum uprop_blk);
 
-[[_mlib_pure]] const enum uprop_sc *uprop_get_scx(rune, size_t *);
 [[_mlib_pure]] double uprop_get_nv(rune);
 [[_mlib_pure]] enum uprop_age uprop_get_age(rune);
 [[_mlib_pure]] enum uprop_bc uprop_get_bc(rune);
@@ -1155,6 +1159,7 @@ enum uprop_wb : uint_least8_t {
 [[_mlib_pure]] struct rview uprop_get_uc(rune, struct ucctx);
 [[_mlib_pure]] struct u8view uprop_get_na1(rune);
 [[_mlib_pure]] struct u8view uprop_get_na(rune);
+[[_mlib_pure]] struct uprop_sc_view uprop_get_scx(rune);
 
 /* PROP PREDICATES START */
 [[_mlib_pure]] bool uprop_is_ahex(rune);
