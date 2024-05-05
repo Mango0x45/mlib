@@ -1,5 +1,5 @@
-#ifndef MLIB_MBIOO_H
-#define MLIB_MBIOO_H
+#ifndef MLIB_MBIO_H
+#define MLIB_MBIO_H
 
 #include <stdio.h>
 
@@ -11,4 +11,4 @@ int freadrune(rune *, FILE *);
 constexpr rune MBEOF = 0x110000;
 constexpr rune MBERR = 0x110001;
 
-#endif /* !MLIB_MBIOO_H */
+#endif /* !MLIB_MBIO_H */
