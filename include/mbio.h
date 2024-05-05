@@ -6,9 +6,8 @@
 #include "_charN_t.h"
 #include "_rune.h"
 
-int freadrune(rune *, FILE *);
+int u8fgetr(rune *, FILE *);
 
 constexpr rune MBEOF = 0x110000;
-constexpr rune MBERR = 0x110001;
 
 #endif /* !MLIB_MBIO_H */
