@@ -1,6 +1,5 @@
 #include <stddef.h>
 
-#include "_bsearch.h"
 #include "mbstring.h"
 #include "unicode/_gbrk.h"
 #include "unicode/string.h"
@@ -16,8 +15,6 @@ struct gbrk_state {
 };
 
 static bool u8isgbrk(rune, rune, struct gbrk_state *);
-
-_MLIB_DEFINE_BSEARCH(gbrk_prop, gbrk_prop_tbl, GBP_OTHER)
 
 size_t
 u8gnext(struct u8view *g, struct u8view *sv)
@@ -58,7 +55,8 @@ u8gnext(struct u8view *g, struct u8view *sv)
 bool
 u8isgbrk(rune a, rune b, struct gbrk_state *gs)
 {
-	gbrk_prop ap, bp;
+	enum uprop_gbrk ap, bp;
+	enum uprop_gbrk_indc aip, bip;
 
 	/* GB1 & GB2 */
 	if (!a || !b)
@@ -72,67 +70,73 @@ u8isgbrk(rune a, rune b, struct gbrk_state *gs)
 	}
 
 	/* GB4 */
-	if (a == '\r' || a == '\n' || ((ap = mlib_lookup(a)) & GBP_CTRL))
+	uprop_get_gbrk(&ap, &aip, a);
+	if (a == '\r' || a == '\n' || ap == GBRK_CN)
 		goto do_break;
 
 	/* GB5 */
-	if (b == '\r' || b == '\n' || ((bp = mlib_lookup(b)) & GBP_CTRL))
+	uprop_get_gbrk(&bp, &bip, b);
+	if (b == '\r' || b == '\n' || bp == GBRK_CN)
 		goto do_break;
 
 	/* Setting flags for GB9c */
-	if (ap & GBP_INDC_CNSNT)
+	if (aip == GBRK_INDC_CNSNT)
 		gs->gb9c = GB9C_CNSNT;
-	else if ((ap & GBP_INDC_LNK) && gs->gb9c == GB9C_CNSNT)
+	else if (aip == GBRK_INDC_LNK && gs->gb9c == GB9C_CNSNT)
 		gs->gb9c = GB9C_LNK;
 
 	/* GB6 */
-	if ((ap & GBP_HNGL_L)
-	    && (bp & (GBP_HNGL_L | GBP_HNGL_V | GBP_HNGL_LV | GBP_HNGL_LVT)))
+	if (ap == GBRK_HST_L
+	    && (bp == GBRK_HST_L || bp == GBRK_HST_V || bp == GBRK_HST_LV
+	        || bp == GBRK_HST_LVT))
 	{
 		return false;
 	}
 
 	/* GB7 */
-	if ((ap & (GBP_HNGL_LV | GBP_HNGL_V)) && (bp & (GBP_HNGL_V | GBP_HNGL_T)))
+	if ((ap == GBRK_HST_V || ap == GBRK_HST_LV)
+	    && (bp == GBRK_HST_V || bp == GBRK_HST_T))
+	{
 		return false;
+	}
 
 	/* GB8 */
-	if ((ap & (GBP_HNGL_LVT | GBP_HNGL_T)) && (bp & GBP_HNGL_T))
+	if ((ap == GBRK_HST_LVT || ap == GBRK_HST_T) && bp == GBRK_HST_T)
 		return false;
 
 	/* GB9 */
-	if (bp & (GBP_EXT | GBP_ZWJ)) {
-		if (ap & GBP_PIC)
+	if (bp == GBRK_EX || bp == GBRK_ZWJ) {
+		if (ap == GBRK_EXT_PICT)
 			gs->gb11 = true;
 		return false;
 	}
 
 	/* GB9a */
-	if (bp & GBP_SM)
+	if (bp == GBRK_SM)
 		return false;
 
 	/* GB9b */
-	if (ap & GBP_PREP)
+	if (ap == GBRK_PP)
 		return false;
 
 	/* GB9c */
-	if ((ap & (GBP_INDC_EXT | GBP_INDC_LNK)) && (bp & GBP_INDC_CNSNT)
+	if ((aip == GBRK_INDC_EXT || aip == GBRK_INDC_LNK) && bip == GBRK_INDC_CNSNT
 	    && gs->gb9c == GB9C_LNK)
 	{
 		return false;
 	}
 
 	/* GB11 */
-	if (gs->gb11) {
-		if ((ap & GBP_EXT) && (bp & (GBP_EXT | GBP_ZWJ)))
-			return false;
-		if ((ap & GBP_ZWJ) && (bp & GBP_PIC))
-			return false;
+	if (gs->gb11
+	    && ((ap == GBRK_EX && (bp == GBRK_EX || bp == GBRK_ZWJ))
+	        || (ap == GBRK_ZWJ && bp == GBRK_EXT_PICT)))
+	{
+		return false;
 	}
 
 	/* GB12 & GB13 */
-	if (ap & GBP_RI) {
-		if (gs->gb12 || !(bp & GBP_RI))
+	if (ap == GBRK_RI) {
+		if (gs->gb12 || bp != GBRK_RI)
 			goto do_break;
 		gs->gb12 = true;
 		return false;
