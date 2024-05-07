@@ -2,13 +2,10 @@
    (written by Laslo Hunhold <dev@frign.de>), and my email-correspondance with
    Laslo. */
 
-#include "_bsearch.h"
 #include "macros.h"
 #include "mbstring.h"
 #include "unicode/_wbrk.h"
 #include "unicode/string.h"
-
-_MLIB_DEFINE_BSEARCH(enum wbrk_prop, wbrk_lookup, WBRK_XX)
 
 #define IS_MIDNUMLETQ(xp) ((xp) == WBRK_MB || (xp) == WBRK_SQ)
 #define IS_AHLETTER(xp) \
@@ -18,7 +15,7 @@ _MLIB_DEFINE_BSEARCH(enum wbrk_prop, wbrk_lookup, WBRK_XX)
 
 struct wbrk_state {
 	struct {
-		enum wbrk_prop prev[2], next[2];
+		enum uprop_wbrk prev[2], next[2];
 	} raw, skip;
 	struct u8view raw_v, skip_v, mid_v;
 	int ri_parity : 1;
@@ -193,16 +190,16 @@ mkwbrkstate(struct u8view sv)
 	static_assert(sizeof(ws.skip.next) == sizeof(ws.raw.next));
 
 	rune ch;
-	for (size_t i = 0;
-	     i < lengthof(ws.raw.next) && u8next(&ch, &ws.raw_v) != 0; i++)
+	for (size_t i = 0; i < lengthof(ws.raw.next) && u8next(&ch, &ws.raw_v) != 0;
+	     i++)
 	{
-		ws.raw.next[i] = mlib_lookup(ch);
+		ws.raw.next[i] = uprop_get_wbrk(ch);
 	}
 
 	for (size_t i = 0;
 	     i < lengthof(ws.raw.next) && u8next(&ch, &ws.skip_v) != 0;)
 	{
-		ws.skip.next[i] = mlib_lookup(ch);
+		ws.skip.next[i] = uprop_get_wbrk(ch);
 		if (!IS_IGNORE(ws.skip.next[i]))
 			i++;
 	}
@@ -222,7 +219,7 @@ advance(struct wbrk_state *ws)
 	ws->raw.prev[0] = ws->raw.next[0];
 	ws->raw.next[0] = ws->raw.next[1];
 	ws->raw.next[1] =
-		u8next(&ch, &ws->raw_v) != 0 ? mlib_lookup(ch) : WBRK_EOT;
+		u8next(&ch, &ws->raw_v) != 0 ? uprop_get_wbrk(ch) : WBRK_EOT;
 
 	/* Increment the midpoint */
 	u8next(nullptr, &ws->mid_v);
@@ -239,7 +236,7 @@ advance(struct wbrk_state *ws)
 				ws->skip.next[1] = WBRK_EOT;
 				break;
 			}
-			ws->skip.next[1] = mlib_lookup(ch);
+			ws->skip.next[1] = uprop_get_wbrk(ch);
 		} while (IS_IGNORE(ws->skip.next[1]));
 	}
 
