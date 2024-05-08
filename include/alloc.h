@@ -22,6 +22,7 @@ typedef struct {
 
 [[nodiscard, gnu::returns_nonnull]] void *bufalloc(void *, size_t, size_t);
 [[nodiscard]] void *bufalloc_noterm(void *, size_t, size_t);
+[[nodiscard]] void *heapalloc(void *, void *, size_t, size_t);
 
 [[_mlib_pure, _mlib_inline]]
 static inline arena
