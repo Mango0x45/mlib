@@ -15,7 +15,7 @@
 #define LIBNAME "libmlib"
 
 #define CFLAGS_ALL WARNINGS, "-pipe", "-std=c23", "-Iinclude" GLIB_EXTRAS
-#define CFLAGS_DBG CFLAGS_ALL, "-g", "-ggdb3", "-Og"
+#define CFLAGS_DBG CFLAGS_ALL, "-g", "-ggdb3", "-Og", "-fsanitize=address,undefined"
 #define CFLAGS_RLS CFLAGS_ALL, "-O3", "-flto", "-DNDEBUG" NOT_APPLE_EXTRAS
 
 #define WARNINGS \
