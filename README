@@ -12,12 +12,12 @@ library.  It is a C23 library with no plans to support older standards.
 The headers as of now are:
  • alloc.h — allocators and memory allocation functions
  • bitset.h — bitset implementation
+ • cli.h — CLI-option parsing functions
  • dynarr.h — dynamic array implementation
  • errors.h — err.h-inspired diagnostics functions
  • macros.h — miscellaneous utility macros (MIN/MAX/lengthof/etc.)
  • mbio.h — multibyte file I/O
  • mbstring.h — multibyte-strings
- • optparse.h — option parsing functions
  • rune.h — inttypes.h but for runes
  • unicode/prop.h — unicode character properties
  • unicode/string.h — unicode string functions
@@ -72,6 +72,9 @@ FEATURES:
           memory-allocating functions
     • bitset.h
         • Bitset implementation and operations
+    • cli.h
+        • Thread-safe (non-global) UTF-8-aware option parsing with
+          support for short- and long options
     • dynarr.h
         • Dynamic-array implementation and operations
         • Macro for array iteration
@@ -95,9 +98,6 @@ FEATURES:
         • UTF-8 validation
         • Various string.h analogues with UTF-8 support
         • Random utility macros and -constants
-    • optparse.h
-        • Thread-safe (non-global) UTF-8-aware option parsing with
-          support for short- and long options
     • rune.h
         • Format string macros for the printf() and scanf() families of
           functions

@@ -1,14 +1,13 @@
-#ifndef MLIB_OPTPARSE_H
-#define MLIB_OPTPARSE_H
+#ifndef MLIB_CLI_H
+#define MLIB_CLI_H
 
 #include <stddef.h>
 
 #include "_attrs.h"
-#include "_charN_t.h"
 #include "_rune.h"
 #include "_u8view.h"
 
-struct optparse {
+struct optparser {
 	bool _b;
 	int _subopt;
 	char **_argv;
@@ -18,29 +17,29 @@ struct optparse {
 	struct u8view optarg;
 };
 
-enum op_argkind {
-	OPT_NONE,
-	OPT_OPT,
-	OPT_REQ,
+enum cliarg {
+	CLI_NONE,
+	CLI_OPT,
+	CLI_REQ,
 };
 
-struct op_option {
+struct cli_option {
 	rune shortopt;
 	struct u8view longopt;
-	enum op_argkind argtype;
+	enum cliarg argtype;
 };
 
-[[nodiscard]] rune optparse(struct optparse *, const struct op_option *,
+[[nodiscard]] rune optparse(struct optparser *, const struct cli_option *,
                             size_t);
 
 [[_mlib_inline]]
-static inline struct optparse
+static inline struct optparser
 mkoptparser(char **argv)
 {
-	return (struct optparse){
+	return (struct optparser){
 		._argv = argv,
 		.optind = argv[0] != nullptr,
 	};
 }
 
-#endif /* !MLIB_OPTPARSE_H */
+#endif /* !MLIB_CLI_H */
