@@ -1,3 +1,6 @@
+#include <errno.h>
+#include <stdckdint.h>
+
 #include "_attrs.h"
 #include "mbstring.h"
 #include "unicode/prop.h"
@@ -12,9 +15,9 @@ uprop_ccc_0_or_230(rune ch)
 	return x == 0 || x == 230;
 }
 
-size_t
-u8lower(char8_t *restrict dst, size_t dstn, struct u8view sv,
-        enum caseflags flags)
+char8_t *
+u8lower(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
+        void *alloc_ctx)
 {
 	struct lcctx ctx = {
 		.az_or_tr = flags & CF_LANG_AZ,
@@ -31,6 +34,17 @@ u8lower(char8_t *restrict dst, size_t dstn, struct u8view sv,
 	};
 
 	n = before_dot_cnt = more_above_cnt = 0;
+
+	size_t bufsz;
+	/* TODO: Also use U8LOWER_SCALE */
+	if (ckd_mul(&bufsz, sv.len, (size_t)U8LOWER_SCALE_LT)) {
+		errno = EOVERFLOW;
+		return nullptr;
+	}
+
+	char8_t *dst = alloc(alloc_ctx, nullptr, 0, bufsz, alignof(char8_t));
+	if (dst == nullptr)
+		return nullptr;
 
 	while (u8next(&ch, &sv)) {
 		rune next = 0;
@@ -76,13 +90,8 @@ u8lower(char8_t *restrict dst, size_t dstn, struct u8view sv,
 		ctx.final_sigma = final_sigma.before && final_sigma.after == 0;
 
 		struct rview rv = uprop_get_lc(ch, ctx);
-		for (size_t i = 0; i < rv.len; i++) {
-			if (n >= dstn) {
-				char8_t buf[U8_LEN_MAX];
-				n += rtou8(buf, sizeof(buf), rv.p[i]);
-			} else
-				n += rtou8(dst + n, dstn - n, rv.p[i]);
-		}
+		for (size_t i = 0; i < rv.len; i++)
+			n += rtou8(dst + n, bufsz - n, rv.p[i]);
 
 		ctx.after_I = (ch == 'I') || (ctx.after_I && !uprop_ccc_0_or_230(ch));
 		if (uprop_is_cased(ch))
@@ -91,5 +100,6 @@ u8lower(char8_t *restrict dst, size_t dstn, struct u8view sv,
 			final_sigma.before = false;
 	}
 
-	return n;
+	*dstn = n;
+	return alloc(alloc_ctx, dst, bufsz, n, alignof(char8_t));
 }

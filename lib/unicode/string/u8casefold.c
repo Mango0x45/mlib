@@ -1,24 +1,32 @@
+#include <errno.h>
+#include <stdckdint.h>
+
 #include "mbstring.h"
 #include "unicode/prop.h"
 #include "unicode/string.h"
 
-size_t
-u8casefold(char8_t *restrict dst, size_t dstn, struct u8view sv,
-           enum caseflags flags)
+char8_t *
+u8casefold(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
+           void *alloc_ctx)
 {
-	rune ch;
-	size_t n = 0;
-
-	while (u8next(&ch, &sv)) {
-		struct rview rv = uprop_get_cf(ch, flags & CF_LANG_AZ);
-		for (size_t i = 0; i < rv.len; i++) {
-			if (n >= dstn) {
-				char8_t buf[U8_LEN_MAX];
-				n += rtou8(buf, sizeof(buf), rv.p[i]);
-			} else
-				n += rtou8(dst + n, dstn - n, rv.p[i]);
-		}
+	size_t bufsz;
+	if (ckd_mul(&bufsz, sv.len, (size_t)U8CASEFOLD_SCALE)) {
+		errno = EOVERFLOW;
+		return nullptr;
 	}
 
-	return n;
+	char8_t *dst = alloc(alloc_ctx, nullptr, 0, bufsz, alignof(char8_t));
+	if (dst == nullptr)
+		return nullptr;
+
+	rune ch;
+	size_t n = 0;
+	while (u8next(&ch, &sv)) {
+		struct rview rv = uprop_get_cf(ch, flags & CF_LANG_AZ);
+		for (size_t i = 0; i < rv.len; i++)
+			n += rtou8(dst + n, bufsz - n, rv.p[i]);
+	}
+
+	*dstn = n;
+	return alloc(alloc_ctx, dst, bufsz, n, alignof(char8_t));
 }

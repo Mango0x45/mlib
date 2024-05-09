@@ -52,7 +52,7 @@ main(int, char **argv)
 bool
 test(const char8_t *line, int id)
 {
-	struct u8view sv = {line, strlen(line)};
+	struct u8view mapped, sv = {line, strlen(line)};
 	struct u8view before, after, flags;
 	u8cut(&before, &sv, U";", 1);
 	u8cut(&after,  &sv, U";", 1);
@@ -63,27 +63,21 @@ test(const char8_t *line, int id)
 	                  : u8eq(flags, U8("LT")) ? CF_LANG_LT
 	                  : u8eq(flags, U8("NL")) ? CF_LANG_NL
 	                                          : 0;
-	char8_t *buf = bufalloc(nullptr, 1, after.len);
-	size_t bufsz = FUNC(nullptr, 0, before, cf);
-	if (bufsz != after.len) {
-		warn("case %d: expected %s buffer size of %zu but got %zu",
-		     id, STR(CASETYPE_VERB), after.len, bufsz);
+
+	arena a = mkarena(0);
+	mapped.p = FUNC(&mapped.len, before, cf, alloc_arena, &a);
+
+	if (mapped.p == nullptr) {
+		warn("case %d: got null %s buffer", id, STR(CASETYPE_VERB));
 		return false;
 	}
 
-	bufsz = FUNC(buf, bufsz, before, cf);
-	if (bufsz != after.len) {
-		warn("case %d: expected %s length of %zu but got %zu",
-		     id, STR(CASETYPE_VERB), after.len, bufsz);
+	if (!u8eq(mapped, after)) {
+		warn("case %d: expected ‘%.*s’ but got ‘%.*s’", id, SV_PRI_ARGS(after),
+		     SV_PRI_ARGS(mapped));
 		return false;
 	}
 
-	if (!memeq(buf, after.p, bufsz)) {
-		warn("case %d: expected ‘%.*s’ but got ‘%.*s’",
-		     id, SV_PRI_ARGS(after), (int)bufsz, buf);
-		return false;
-	}
-
-	free(buf);
+	arena_free(&a);
 	return true;
 }
