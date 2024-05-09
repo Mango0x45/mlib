@@ -35,6 +35,13 @@ BUILD INSTRUCTIONS:
 
         $ ./make -r
 
+    By default the build script will build a static library.  This can
+    also be made explicit by passing the -a flag.  If you would like to
+    instead build a shared-object library you may pass the -s flag:
+
+        $ ./make -rs  # Build a shared-object with optimizations
+        $ ./make -as  # Build a shared-object and static library
+
 
 DISCLAIMER:
 

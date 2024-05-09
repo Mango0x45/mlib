@@ -15,11 +15,11 @@
 #define LIBNAME "libmlib"
 
 #define CFLAGS_ALL WARNINGS, "-pipe", "-std=c23", "-Iinclude" GLIB_EXTRAS
-#define CFLAGS_DBG CFLAGS_ALL, "-g", "-ggdb3", "-Og", "-fsanitize=address,undefined"
-#define CFLAGS_RLS CFLAGS_ALL, "-O3", "-flto", "-DNDEBUG" NOT_APPLE_EXTRAS
+#define CFLAGS_DBG "-g", "-ggdb3", "-Og", "-fsanitize=address,undefined"
+#define CFLAGS_RLS "-O3", "-flto", "-DNDEBUG" NOT_APPLE_EXTRAS
 
-#define WARNINGS \
-	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", "-Wvla", \
+#define WARNINGS                                                               \
+	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", "-Wvla",   \
 		"-Wno-pointer-sign", "-Wno-parentheses"
 
 #ifdef __GLIBC__
@@ -34,12 +34,12 @@
 #	define NOT_APPLE_EXTRAS
 #endif
 
-#define CMDRC(c) \
-	do { \
-		int ec; \
-		if ((ec = cmdexec(c)) != EXIT_SUCCESS) \
-			diex("%s terminated with exit-code %d", *(c)._argv, ec); \
-		cmdclr(&(c)); \
+#define CMDRC(c)                                                               \
+	do {                                                                       \
+		int ec;                                                                \
+		if ((ec = cmdexec(c)) != EXIT_SUCCESS)                                 \
+			diex("%s terminated with exit-code %d", *(c)._argv, ec);           \
+		cmdclr(&(c));                                                          \
 	} while (false)
 
 #define flagset(o)  (flags & (1 << ((o) - 'a')))
@@ -58,11 +58,11 @@ main(int argc, char **argv)
 	cbsinit(argc, argv);
 	rebuild();
 
-	while ((opt = getopt(argc, argv, "fj:r")) != -1) {
+	while ((opt = getopt(argc, argv, "afj:rs")) != -1) {
 		switch (opt) {
 		case '?':
 			fprintf(stderr,
-			        "Usage: %s [-j procs] [-fr]\n"
+			        "Usage: %s [-j procs] [-afrs]\n"
 			        "       %s clean | gen | test\n",
 			        *argv, *argv);
 			exit(EXIT_FAILURE);
@@ -93,6 +93,9 @@ main(int argc, char **argv)
 		cmdput(c);
 		CMDRC(c);
 	} else {
+		if (!flagset('a') && !flagset('s'))
+			flags |= 1 << ('a' - 'a');
+
 		cmd_t c = {};
 		glob_t g;
 		tpool_t tp;
@@ -117,8 +120,10 @@ main(int argc, char **argv)
 		for (size_t i = 0; i < g.gl_pathc; i++)
 			g.gl_pathv[i][strlen(g.gl_pathv[i]) - 1] = 'o';
 
-		if (flagset('f')
-		    || foutdatedv(LIBNAME ".a", (const char **)g.gl_pathv, g.gl_pathc))
+		if (flagset('a')
+		    && (flagset('f')
+		        || foutdatedv(LIBNAME ".a", (const char **)g.gl_pathv,
+		                      g.gl_pathc)))
 		{
 			cmdadd(&c, "ar", "rcs", LIBNAME ".a");
 			cmdaddv(&c, g.gl_pathv, g.gl_pathc);
@@ -126,8 +131,10 @@ main(int argc, char **argv)
 			CMDRC(c);
 		}
 
-		if (flagset('f')
-		    || foutdatedv(LIBNAME ".so", (const char **)g.gl_pathv, g.gl_pathc))
+		if (flagset('s')
+		    && (flagset('f')
+		        || foutdatedv(LIBNAME ".so", (const char **)g.gl_pathv,
+		                      g.gl_pathc)))
 		{
 			struct strv sv = {};
 			env_or_default(&sv, "CC", CC);
@@ -162,7 +169,7 @@ work(void *p)
 		else
 			env_or_default(&sv, "CFLAGS", CFLAGS_DBG);
 		cmdaddv(&c, sv.buf, sv.len);
-		cmdadd(&c, "-Iinclude", "-fPIC", "-o", dst, "-c", src);
+		cmdadd(&c, CFLAGS_ALL, "-Iinclude", "-fPIC", "-o", dst, "-c", src);
 		fprintf(stderr, "CC\t%s\n", dst);
 		CMDRC(c);
 	}
