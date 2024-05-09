@@ -65,14 +65,16 @@ FEATURES:
     The following is a non-exhaustive list of features.
 
     • alloc.h
-        • Arena allocator
+        • Arena allocation functions
         • realloc() wrapper with overflow checking
         • realloc() wrapper with overflow checking that crashes on failure
+        • Arena- and heap allocator functions to pass as callbacks to
+          memory-allocating functions
     • bitset.h
         • Bitset implementation and operations
     • dynarr.h
         • Dynamic-array implementation and operations
-        • Macros for iterating forwards and backwards
+        • Macro for array iteration
     • errors.h
         • Functions for getting and setting the program name
         • Functions for printing diagnostics and optionally crashing with
@@ -83,6 +85,7 @@ FEATURES:
         • Better assertion macro
         • More readable strcmp()/memcmp()/etc. wrappers for equality checking
         • Static array length macro
+        • STR() and CONCAT() to aid metaprogramming
     • mbio.h
         • Read individual runes from files
     • mbstring.h
@@ -106,13 +109,15 @@ FEATURES:
           context-struct argument)
     • unicode/string.h
         • Iteration and counting of graphemes and words in a string
-        • Unicode-aware case-mapping of strings with truncation checking
+        • Unicode-aware case-mapping of strings with custom allocator
+          support
         • Case-mapping supports optional language-specific quirks for
-          Azeri, German, Lithuanian, and Turkish.
+          Azeri, Dutch, German, Lithuanian, and Turkish.
 
 
 PLANNED FEATURES:
 
+    • Custom allocator support        (dynarr.h)
     • Line- and sentence segmentation (unicode/string.h)
     • String collation                (unicode/string.h)
     • Unicode normalization           (unicode/string.h)
