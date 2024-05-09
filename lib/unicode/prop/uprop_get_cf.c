@@ -1458,9 +1458,10 @@ uprop_get_cf(rune ch, bool az_or_tr)
 {
 	if (ch == U'İ')
 		return az_or_tr ? M('i') : M('i', 0x307);
-	struct rview rv = stage2[stage1[ch / 64]][ch % 64];;
+	struct rview rv = stage2[stage1[ch / 64]][ch % 64];
 	if (rv.p != nullptr)
 		return rv;
+	/* TODO: This returns a pointer to a stack-allocated array; fix this! */
 	ch = uprop_get_scf(ch, az_or_tr);
 	return M(ch);
 }
