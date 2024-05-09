@@ -47,6 +47,7 @@ uprop_get_lc(rune ch, struct lcctx ctx)
 			return M(U'ı');
 	}
 
+	/* TODO: This returns a pointer to a stack-allocated array; fix this! */
 	ch = uprop_get_slc(ch);
 	return M(ch);
 }

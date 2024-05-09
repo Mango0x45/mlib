@@ -1466,6 +1466,7 @@ uprop_get_tc(rune ch, struct tcctx ctx)
 	struct rview rv = stage2[stage1[ch / 64]][ch % 64];
 	if (rv.p != nullptr)
 		return rv;
+	/* TODO: This returns a pointer to a stack-allocated array; fix this! */
 	ch = uprop_get_stc(ch);
 	return M(ch);
 }

@@ -17699,5 +17699,6 @@ struct rview
 uprop_get_nfkc_cf(rune ch)
 {
 	struct rview rv = stage2[stage1[ch / 256]][ch % 256];
+	/* TODO: This returns a pointer to a stack-allocated array; fix this! */
 	return rv.len == 1 && rv.p[0] == SENTINAL ? M(ch) : rv;
 }

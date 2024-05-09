@@ -1147,6 +1147,7 @@ uprop_get_uc(rune ch, struct ucctx ctx)
 	struct rview rv = stage2[stage1[ch / 128]][ch % 128];
 	if (rv.p != nullptr)
 		return rv;
+	/* TODO: This returns a pointer to a stack-allocated array; fix this! */
 	ch = uprop_get_suc(ch);
 	return M(ch);
 }
