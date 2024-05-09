@@ -11,6 +11,9 @@ arena_realloc(arena *a, void *ptr, size_t old, size_t new, size_t elemsz,
 {
 	ASSUME(a != nullptr);
 
+	if (ptr == nullptr)
+		return arena_alloc(a, new, elemsz, align);
+
 	if (old == new)
 		return ptr;
 
@@ -55,7 +58,5 @@ arena_realloc(arena *a, void *ptr, size_t old, size_t new, size_t elemsz,
 
 	/* At this point we just make a new allocation and copy the data over */
 	void *dst = arena_alloc(a, new, elemsz, align);
-	if (dst == nullptr || ptr == nullptr)
-		return nullptr;
-	return memcpy(dst, ptr, new * elemsz);
+	return dst == nullptr ? nullptr : memcpy(dst, ptr, new * elemsz);
 }

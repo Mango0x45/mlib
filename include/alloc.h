@@ -20,9 +20,9 @@ typedef struct {
 	size_t _init;
 } arena;
 
+/* Heap allocation functions */
 [[nodiscard, gnu::returns_nonnull]] void *bufalloc(void *, size_t, size_t);
 [[nodiscard]] void *bufalloc_noterm(void *, size_t, size_t);
-[[nodiscard]] void *heapalloc(void *, void *, size_t, size_t);
 
 [[_mlib_pure, _mlib_inline]]
 static inline arena
@@ -43,5 +43,8 @@ void arena_free(arena *);
 #define arena_new(a, T, n) ((T *)arena_alloc((a), (n), sizeof(T), alignof(T)))
 #define arena_resz(a, T, p, n)                                                 \
 	((T *)arena_realloc((a), (p), (n), sizeof(T), alignof(T)))
+
+[[nodiscard]] void *alloc_arena(void *, void *, size_t, size_t, size_t);
+[[nodiscard]] void *alloc_heap(void *, void *, size_t, size_t, size_t);
 
 #endif /* !MLIB_ALLOC_H */

@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 
+#include "_alloc_fn.h"
 #include "_charN_t.h"
 #include "_u8view.h"
 
@@ -29,14 +30,14 @@ size_t u8gnext(struct u8view *, struct u8view *);
 size_t u8wnext(struct u8view *, struct u8view *);
 size_t u8wnext_human(struct u8view *, struct u8view *);
 
-[[mlib_warn_trunc]] size_t u8casefold(char8_t *restrict, size_t, struct u8view,
-                                      enum caseflags);
-[[mlib_warn_trunc]] size_t u8lower(char8_t *restrict, size_t, struct u8view,
-                                   enum caseflags);
-[[mlib_warn_trunc]] size_t u8title(char8_t *restrict, size_t, struct u8view,
-                                   enum caseflags);
-[[mlib_warn_trunc]] size_t u8upper(char8_t *restrict, size_t, struct u8view,
-                                   enum caseflags);
+[[mlib_warn_trunc]]
+size_t u8casefold(char8_t *restrict, size_t, struct u8view, enum caseflags);
+[[mlib_warn_trunc]]
+size_t u8lower(char8_t *restrict, size_t, struct u8view, enum caseflags);
+[[mlib_warn_trunc]]
+size_t u8title(char8_t *restrict, size_t, struct u8view, enum caseflags);
+[[nodiscard]]
+char8_t *u8upper(size_t *, struct u8view, enum caseflags, alloc_fn, void *);
 
 constexpr double U8LOWER_SCALE = 1.5;
 constexpr double U8LOWER_SCALE_LT = 3;
