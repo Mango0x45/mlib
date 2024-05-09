@@ -11,7 +11,7 @@
 
 struct _region {
 	size_t len, cap;
-	void *data;
+	void *data, *last;
 	struct _region *next;
 };
 
@@ -31,12 +31,17 @@ mkarena(size_t n)
 	return (arena){._init = n ? n : MLIB_ARENA_BLKSIZE};
 }
 
+/* Arena allocation functions */
 [[nodiscard, gnu::malloc, gnu::alloc_size(2, 3), gnu::alloc_align(4)]]
 void *arena_alloc(arena *, size_t, size_t, size_t);
-
+[[nodiscard]]
+void *arena_realloc(arena *, void *, size_t, size_t, size_t, size_t);
 void arena_zero(arena *);
 void arena_free(arena *);
 
+/* Arena allocation macro wrappers */
 #define arena_new(a, T, n) ((T *)arena_alloc((a), (n), sizeof(T), alignof(T)))
+#define arena_resz(a, T, p, n)                                                 \
+	((T *)arena_realloc((a), (p), (n), sizeof(T), alignof(T)))
 
 #endif /* !MLIB_ALLOC_H */

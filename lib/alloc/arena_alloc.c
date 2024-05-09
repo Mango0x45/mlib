@@ -36,6 +36,7 @@ mkregion(size_t cap)
 		errno = save;
 		return nullptr;
 	}
+	r->last = r->data;
 	return r;
 }
 
@@ -63,6 +64,7 @@ arena_alloc(arena *a, size_t sz, size_t n, size_t align)
 		if (nlen <= r->cap) {
 			void *ret = (char *)r->data + off;
 			r->len = nlen;
+			r->last = ret;
 			return ret;
 		}
 	}

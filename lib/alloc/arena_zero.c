@@ -9,6 +9,7 @@ arena_zero(arena *a)
 	struct _region *cur = a->_head;
 	while (cur != nullptr) {
 		cur->len = 0;
+		cur->last = cur->data;
 		cur = cur->next;
 	}
 }
