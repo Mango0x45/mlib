@@ -3,7 +3,6 @@
 #include "macros.h"
 #include "unicode/prop.h"
 
-#define M(...) ((struct rview)_(__VA_ARGS__))
 #define _(...) \
 	{(const rune []){__VA_ARGS__}, lengthof(((const rune []){__VA_ARGS__}))}
 
@@ -1457,16 +1456,18 @@ struct rview
 uprop_get_tc(rune ch, struct tcctx ctx)
 {
 	constexpr rune COMB_DOT_ABOVE = 0x307;
+	static thread_local rune hack;
 
-	if (ch == 'i' && ctx.az_or_tr)
-		return M(U'İ');
+	if (ch == 'i' && ctx.az_or_tr) {
+		hack = U'İ';
+		return (struct rview){&hack, 1};
+	}
 	if (ch == COMB_DOT_ABOVE && ctx.lt && ctx.after_soft_dotted)
-		return M();
+		return (struct rview){nullptr, 0};
 
 	struct rview rv = stage2[stage1[ch / 64]][ch % 64];
 	if (rv.p != nullptr)
 		return rv;
-	/* TODO: This returns a pointer to a stack-allocated array; fix this! */
-	ch = uprop_get_stc(ch);
-	return M(ch);
+	hack = uprop_get_stc(ch);
+	return (struct rview){&hack, 1};
 }

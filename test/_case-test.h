@@ -72,6 +72,7 @@ test(const char8_t *line, int id)
 	if (!u8eq(mapped, after)) {
 		warn("case %d: expected ‘%.*s’ but got ‘%.*s’", id, SV_PRI_ARGS(after),
 		     SV_PRI_ARGS(mapped));
+		arena_free(&a);
 		return false;
 	}
 

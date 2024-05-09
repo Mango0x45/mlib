@@ -3,7 +3,6 @@
 #include "macros.h"
 #include "unicode/prop.h"
 
-#define M(...) ((struct rview)_(__VA_ARGS__))
 #define _(...) \
 	{(const rune []){__VA_ARGS__}, lengthof(((const rune []){__VA_ARGS__}))}
 
@@ -17698,7 +17697,10 @@ static const struct rview stage2[][256] = {
 struct rview
 uprop_get_nfkc_scf(rune ch)
 {
+	static thread_local rune hack;
 	struct rview rv = stage2[stage1[ch / 256]][ch % 256];
-	/* TODO: This returns a pointer to a stack-allocated array; fix this! */
-	return rv.len == 1 && rv.p[0] == SENTINAL ? M(ch) : rv;
+	if (rv.len != 1 || rv.p[0] != SENTINAL)
+		return rv;
+	hack = ch;
+	return (struct rview){&hack, 1};
 }
