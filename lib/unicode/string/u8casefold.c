@@ -1,6 +1,7 @@
 #include <errno.h>
 #include <stdckdint.h>
 
+#include "macros.h"
 #include "mbstring.h"
 #include "unicode/prop.h"
 #include "unicode/string.h"
@@ -9,6 +10,9 @@ char8_t *
 u8casefold(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
            void *alloc_ctx)
 {
+	ASSUME(dstn != nullptr);
+	ASSUME(alloc != nullptr);
+
 	size_t bufsz;
 	if (ckd_mul(&bufsz, sv.len, (size_t)U8CASEFOLD_SCALE)) {
 		errno = EOVERFLOW;

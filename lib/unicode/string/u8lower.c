@@ -2,6 +2,7 @@
 #include <stdckdint.h>
 
 #include "_attrs.h"
+#include "macros.h"
 #include "mbstring.h"
 #include "unicode/prop.h"
 #include "unicode/string.h"
@@ -19,6 +20,9 @@ char8_t *
 u8lower(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
         void *alloc_ctx)
 {
+	ASSUME(dstn != nullptr);
+	ASSUME(alloc != nullptr);
+
 	struct lcctx ctx = {
 		.az_or_tr = flags & CF_LANG_AZ,
 		.lt = flags & CF_LANG_LT,

@@ -2,6 +2,7 @@
 #include <stdckdint.h>
 
 #include "_attrs.h"
+#include "macros.h"
 #include "mbstring.h"
 #include "unicode/prop.h"
 #include "unicode/string.h"
@@ -20,6 +21,9 @@ char8_t *
 u8title(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
         void *alloc_ctx)
 {
+	ASSUME(dstn != nullptr);
+	ASSUME(alloc != nullptr);
+
 	struct tcctx ctx_t;
 	struct lcctx ctx_l;
 
