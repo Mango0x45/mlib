@@ -88,6 +88,8 @@ main(int argc, char **argv)
 			       "bool-props.py", ")", "-exec", "{}", ";");
 		} else if (streq(*argv, "test"))
 			cmdadd(&c, "./test/run-tests");
+		else if (streq(*argv, "manstall"))
+			diex("TODO: not implemented");
 		else
 			diex("invalid subcommand — ‘%s’", *argv);
 		cmdput(c);
