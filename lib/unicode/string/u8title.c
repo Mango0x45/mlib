@@ -53,8 +53,6 @@ u8title(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
 	}
 
 	char8_t *dst = alloc(alloc_ctx, nullptr, 0, bufsz, alignof(char8_t));
-	if (dst == nullptr)
-		return nullptr;
 
 	while (u8next(&ch, &sv)) {
 		if (sv.p > word.p + word.len) {

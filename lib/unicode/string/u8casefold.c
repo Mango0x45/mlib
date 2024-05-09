@@ -20,8 +20,6 @@ u8casefold(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
 	}
 
 	char8_t *dst = alloc(alloc_ctx, nullptr, 0, bufsz, alignof(char8_t));
-	if (dst == nullptr)
-		return nullptr;
 
 	rune ch;
 	size_t n = 0;

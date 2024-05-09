@@ -65,12 +65,9 @@ test(const char8_t *line, int id)
 	                                          : 0;
 
 	arena a = mkarena(0);
-	mapped.p = FUNC(&mapped.len, before, cf, alloc_arena, &a);
-
-	if (mapped.p == nullptr) {
-		warn("case %d: got null %s buffer", id, STR(CASETYPE_VERB));
-		return false;
-	}
+	mapped.p = FUNC(&mapped.len, before, cf, alloc_arena, &(struct arena_ctx){
+		.a = &a,
+	});
 
 	if (!u8eq(mapped, after)) {
 		warn("case %d: expected ‘%.*s’ but got ‘%.*s’", id, SV_PRI_ARGS(after),

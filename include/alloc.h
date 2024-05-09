@@ -1,6 +1,7 @@
 #ifndef MLIB_ALLOC_H
 #define MLIB_ALLOC_H
 
+#include <setjmp.h>
 #include <stddef.h>
 
 #include "_attrs.h"
@@ -43,6 +44,15 @@ void arena_free(arena *);
 #define arena_new(a, T, n) ((T *)arena_alloc((a), (n), sizeof(T), alignof(T)))
 #define arena_resz(a, T, p, n)                                                 \
 	((T *)arena_realloc((a), (p), (n), sizeof(T), alignof(T)))
+
+/* Memory allocator callbacks for memory-allocating functions */
+struct arena_ctx {
+	arena *a;
+	jmp_buf *jmp;
+};
+struct heap_ctx {
+	jmp_buf *jmp;
+};
 
 [[nodiscard]] void *alloc_arena(void *, void *, size_t, size_t, size_t);
 [[nodiscard]] void *alloc_heap(void *, void *, size_t, size_t, size_t);
