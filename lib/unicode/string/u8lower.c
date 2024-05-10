@@ -46,7 +46,7 @@ u8lower(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
 		return nullptr;
 	}
 
-	char8_t *dst = alloc(alloc_ctx, nullptr, 0, bufsz, alignof(char8_t));
+	char8_t *dst = alloc(alloc_ctx, nullptr, 0, bufsz, 1, alignof(char8_t));
 
 	while (u8next(&ch, &sv)) {
 		rune next = 0;
@@ -103,5 +103,5 @@ u8lower(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
 	}
 
 	*dstn = n;
-	return alloc(alloc_ctx, dst, bufsz, n, alignof(char8_t));
+	return alloc(alloc_ctx, dst, bufsz, n, 1, alignof(char8_t));
 }

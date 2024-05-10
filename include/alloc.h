@@ -54,7 +54,7 @@ struct heap_ctx {
 	jmp_buf *jmp;
 };
 
-[[nodiscard]] void *alloc_arena(void *, void *, size_t, size_t, size_t);
-[[nodiscard]] void *alloc_heap(void *, void *, size_t, size_t, size_t);
+[[nodiscard]] void *alloc_arena(void *, void *, size_t, size_t, size_t, size_t);
+[[nodiscard]] void *alloc_heap(void *, void *, size_t, size_t, size_t, size_t);
 
 #endif /* !MLIB_ALLOC_H */

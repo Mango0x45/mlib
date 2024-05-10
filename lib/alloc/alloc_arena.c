@@ -5,13 +5,14 @@
 #include "macros.h"
 
 void *
-alloc_arena(void *raw_ctx, void *ptr, size_t old, size_t new, size_t align)
+alloc_arena(void *raw_ctx, void *ptr, size_t old, size_t new, size_t elemsz,
+            size_t align)
 {
 	struct arena_ctx *ctx = raw_ctx;
 	ASSUME(ctx != nullptr);
 	ASSUME(ctx->a != nullptr);
 
-	void *p = arena_realloc(ctx->a, ptr, old, new, 1, align);
+	void *p = arena_realloc(ctx->a, ptr, old, new, elemsz, align);
 	if (new == 0 || p != nullptr)
 		return p;
 
