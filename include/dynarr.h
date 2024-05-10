@@ -14,11 +14,15 @@
 		void *ctx;                                                             \
 	}
 
-void *dapush(void *, void *, size_t, size_t);
+void *daextend(void *, void *, size_t, size_t, size_t);
 
-#define dapush(da, ...)                                                        \
-	dapush((da), ((typeof(__VA_ARGS__)[1]){__VA_ARGS__}), sizeof(__VA_ARGS__), \
-	       alignof(__VA_ARGS__))
+#define dapush(da, x)                                                          \
+	((typeof((da)->buf))(daextend)((da), (typeof(x)[1]){(x)}, 1, sizeof(x),    \
+	                               alignof(x)))
+
+#define daextend(da, xs, n)                                                    \
+	((typeof((da)->buf))daextend((da), (xs), (n), sizeof(*(xs)),               \
+	                             alignof(*(xs))))
 
 #define DAGROW(da, n)                                                          \
 	do {                                                                       \
@@ -26,15 +30,6 @@ void *dapush(void *, void *, size_t, size_t);
 			(a)->cap = (n);                                                    \
 			(a)->buf = bufalloc((a)->buf, (a)->cap, sizeof(*(a)->buf));        \
 		}                                                                      \
-	} while (false)
-
-#define DAPUSH(da, x)                                                          \
-	do {                                                                       \
-		if ((da)->len >= (da)->cap) {                                          \
-			(da)->cap = (da)->cap ? (da)->cap * 2 : 1;                         \
-			(da)->buf = bufalloc((da)->buf, (da)->cap, sizeof(*(da)->buf));    \
-		}                                                                      \
-		(da)->buf[(da)->len++] = (x);                                          \
 	} while (false)
 
 #define DAEXTEND(da, xs, n)                                                    \
