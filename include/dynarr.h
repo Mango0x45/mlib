@@ -3,9 +3,22 @@
 
 #include <string.h>
 
+#include "_alloc_fn.h"
 #include "alloc.h"
 
-#define dynarr(T) struct { T *buf; size_t len, cap; }
+#define dynarr(T)                                                              \
+	struct {                                                                   \
+		T *buf;                                                                \
+		size_t len, cap;                                                       \
+		alloc_fn alloc;                                                        \
+		void *ctx;                                                             \
+	}
+
+void *dapush(void *, void *, size_t, size_t);
+
+#define dapush(da, ...)                                                        \
+	dapush((da), ((typeof(__VA_ARGS__)[1]){__VA_ARGS__}), sizeof(__VA_ARGS__), \
+	       alignof(__VA_ARGS__))
 
 #define DAGROW(da, n)                                                          \
 	do {                                                                       \
