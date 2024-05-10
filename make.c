@@ -11,7 +11,7 @@
 #define CBS_PTHREAD
 #include "cbs.h"
 
-#define CC      "gcc"
+#define CC      "cc"
 #define LIBNAME "libmlib"
 
 #define CFLAGS_ALL WARNINGS, "-pipe", "-std=c23", "-Iinclude" GLIB_EXTRAS
