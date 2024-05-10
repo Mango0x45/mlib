@@ -15,6 +15,7 @@
 	}
 
 void *daextend(void *, void *, size_t, size_t, size_t);
+void *dagrow(void *, size_t, size_t, size_t);
 
 #define dapush(da, x)                                                          \
 	((typeof((da)->buf))(daextend)((da), (typeof(x)[1]){(x)}, 1, sizeof(x),    \
@@ -24,13 +25,9 @@ void *daextend(void *, void *, size_t, size_t, size_t);
 	((typeof((da)->buf))daextend((da), (xs), (n), sizeof(*(xs)),               \
 	                             alignof(*(xs))))
 
-#define DAGROW(da, n)                                                          \
-	do {                                                                       \
-		if ((n) > (a)->cap) {                                                  \
-			(a)->cap = (n);                                                    \
-			(a)->buf = bufalloc((a)->buf, (a)->cap, sizeof(*(a)->buf));        \
-		}                                                                      \
-	} while (false)
+#define dagrow(da, n)                                                          \
+	((typeof((da)->buf))dagrow((da), (n), sizeof(*(da)->buf),                  \
+	                           alignof(*(da)->buf)))
 
 #define DAEXTEND(da, xs, n)                                                    \
 	do {                                                                       \
