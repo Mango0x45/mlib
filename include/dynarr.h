@@ -1,6 +1,7 @@
 #ifndef MLIB_DYNARR_H
 #define MLIB_DYNARR_H
 
+#include <stdbit.h>
 #include <string.h>
 
 #include "_alloc_fn.h"
@@ -14,31 +15,35 @@
 		void *ctx;                                                             \
 	}
 
-void *daextend(void *, void *, size_t, size_t, size_t);
-void *dagrow(void *, size_t, size_t, size_t);
-
-#define dapush(da, x)                                                          \
-	((typeof((da)->buf))(daextend)((da), (typeof(x)[1]){(x)}, 1, sizeof(x),    \
-	                               alignof(x)))
-
-#define daextend(da, xs, n)                                                    \
-	((typeof((da)->buf))daextend((da), (xs), (n), sizeof(*(xs)),               \
-	                             alignof(*(xs))))
-
-#define dagrow(da, n)                                                          \
-	((typeof((da)->buf))dagrow((da), (n), sizeof(*(da)->buf),                  \
-	                           alignof(*(da)->buf)))
+#define DAPUSH(da, x)                                                          \
+	do {                                                                       \
+		if (++(da)->len > (da)->cap) {                                         \
+			size_t ncap = stdc_bit_ceil((da)->len);                            \
+			(da)->buf = (da)->alloc((da)->ctx, (da)->buf, (da)->cap, ncap,     \
+			                        sizeof(*(da)->buf), alignof(*(da)->buf));  \
+			(da)->cap = ncap;                                                  \
+		}                                                                      \
+		(da)->buf[(da)->len - 1] = (x);                                        \
+	} while (false)
 
 #define DAEXTEND(da, xs, n)                                                    \
 	do {                                                                       \
-		if ((da)->len + (n) >= (da)->cap) {                                    \
-			do                                                                 \
-				(da)->cap = (da)->cap ? (da)->cap * 2 : 1;                     \
-			while ((da)->len + (n) >= (da)->cap);                              \
-			(da)->buf = bufalloc((da)->buf, (da)->cap, sizeof(*(da)->buf));    \
+		if (((da)->len += (n)) > (da)->cap) {                                  \
+			size_t ncap = stdc_bit_ceil((da)->len);                            \
+			(da)->buf = (da)->alloc((da)->ctx, (da)->buf, (da)->cap, ncap,     \
+			                        sizeof(*(da)->buf), alignof(*(da)->buf));  \
+			(da)->cap = ncap;                                                  \
 		}                                                                      \
-		memcpy((da)->buf + (da)->len, (xs), (n));                              \
-		(da)->len += (n);                                                      \
+		memcpy((da)->buf + (da)->len - (n), (xs), (n) * sizeof(*(da)->buf));   \
+	} while (false)
+
+#define DAGROW(da, n)                                                          \
+	do {                                                                       \
+		if ((n) > (da)->cap) {                                                 \
+			(da)->buf = (da)->alloc((da)->ctx, (da)->buf, (da)->cap, (n),      \
+			                        sizeof(*(da)->buf), alignof(*(da)->buf));  \
+			(da)->cap = (n);                                                   \
+		}                                                                      \
 	} while (false)
 
 #define DAPOP(da) ((da)->buf[--(da)->len])
