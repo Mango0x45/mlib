@@ -31,7 +31,7 @@ u8norm_nfd(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx)
 	   check for overflow when computing bufsz because alloc() will handle the
 	   overflow error for us. */
 	size_t bufsz = src.len * NFD_SCALE;
-	uint8_t *dst = alloc(ctx, nullptr, 0, src.len, NFD_SCALE, alignof(char8_t));
+	char8_t *dst = alloc(ctx, nullptr, 0, src.len, NFD_SCALE, alignof(char8_t));
 
 	*dstn = 0;
 	for (rune ch; u8next(&ch, &src) != 0; decomp(dst, dstn, bufsz, ch))
