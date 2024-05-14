@@ -80,8 +80,8 @@ test(struct u8view sv, int id)
 		DAPUSH(&columns, ((struct u8view){s.buf, s.len}));
 	}
 
-	for (size_t i = 0; i < 3; i++) {
-		size_t base = 2;
+	for (size_t i = 0; i < 5; i++) {
+		size_t base = i < 3 ? 2 : 4;
 		struct u8view normd = {};
 		normd.p = u8norm_nfd(&normd.len, columns.buf[i], alloc_arena, &ctx);
 		if (!u8eq(columns.buf[base], normd)) {
