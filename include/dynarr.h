@@ -7,6 +7,18 @@
 #include "_alloc_fn.h"
 #include "alloc.h"
 
+/* This is required because alignof() only portably works with types and not
+   expressions… */
+/* clang-format off */
+#ifdef __GNUC__
+#	define _mlib_da_alignof(expr) __extension__ alignof(expr)
+#else
+#	include <stddef.h>
+#	define _mlib_da_alignof(expr) \
+		((size_t) &((struct {char x; typeof(expr) y;} *)0)->y)
+#endif
+/* clang-format on */
+
 #define dynarr(T)                                                              \
 	struct {                                                                   \
 		T *buf;                                                                \
@@ -19,8 +31,9 @@
 	do {                                                                       \
 		if (++(da)->len > (da)->cap) {                                         \
 			size_t ncap = stdc_bit_ceil((da)->len);                            \
-			(da)->buf = (da)->alloc((da)->ctx, (da)->buf, (da)->cap, ncap,     \
-			                        sizeof(*(da)->buf), alignof(*(da)->buf));  \
+			(da)->buf =                                                        \
+				(da)->alloc((da)->ctx, (da)->buf, (da)->cap, ncap,             \
+			                sizeof(*(da)->buf), _mlib_da_alignof(*(da)->buf)); \
 			(da)->cap = ncap;                                                  \
 		}                                                                      \
 		(da)->buf[(da)->len - 1] = (x);                                        \
@@ -30,8 +43,9 @@
 	do {                                                                       \
 		if (((da)->len += (n)) > (da)->cap) {                                  \
 			size_t ncap = stdc_bit_ceil((da)->len);                            \
-			(da)->buf = (da)->alloc((da)->ctx, (da)->buf, (da)->cap, ncap,     \
-			                        sizeof(*(da)->buf), alignof(*(da)->buf));  \
+			(da)->buf =                                                        \
+				(da)->alloc((da)->ctx, (da)->buf, (da)->cap, ncap,             \
+			                sizeof(*(da)->buf), _mlib_da_alignof(*(da)->buf)); \
 			(da)->cap = ncap;                                                  \
 		}                                                                      \
 		memcpy((da)->buf + (da)->len - (n), (xs), (n) * sizeof(*(da)->buf));   \
@@ -40,8 +54,9 @@
 #define DAGROW(da, n)                                                          \
 	do {                                                                       \
 		if ((n) > (da)->cap) {                                                 \
-			(da)->buf = (da)->alloc((da)->ctx, (da)->buf, (da)->cap, (n),      \
-			                        sizeof(*(da)->buf), alignof(*(da)->buf));  \
+			(da)->buf =                                                        \
+				(da)->alloc((da)->ctx, (da)->buf, (da)->cap, (n),              \
+			                sizeof(*(da)->buf), _mlib_da_alignof(*(da)->buf)); \
 			(da)->cap = (n);                                                   \
 		}                                                                      \
 	} while (false)
