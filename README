@@ -130,9 +130,10 @@ FEATURES:
 
 PLANNED FEATURES:
 
-    • Line- and sentence segmentation     (unicode/string.h)
-    • String collation                    (unicode/string.h)
-    • NFC-, and NFKC string normalization (unicode/string.h)
+    • Line- and sentence segmentation            (unicode/string.h)
+    • String collation                           (unicode/string.h)
+    • NFC-, and NFKC string normalization        (unicode/string.h)
+    • Merger of normalization functions into one (unicode/string.h)
 
 
 BUGS:
