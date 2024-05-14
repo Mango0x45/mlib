@@ -1152,6 +1152,7 @@ enum uprop_wb : uint_least8_t {
 [[_mlib_pure]] rune uprop_get_stc(rune);
 [[_mlib_pure]] rune uprop_get_suc(rune);
 [[_mlib_pure]] struct rview uprop_get_cf(rune, bool);
+[[_mlib_pure]] struct rview uprop_get_dm(rune);
 [[_mlib_pure]] struct rview uprop_get_lc(rune, struct lcctx);
 [[_mlib_pure]] struct rview uprop_get_nfkc_cf(rune);
 [[_mlib_pure]] struct rview uprop_get_nfkc_scf(rune);
