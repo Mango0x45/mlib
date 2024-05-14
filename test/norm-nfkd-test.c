@@ -1,2 +1,2 @@
-#define NORMTYPE nfd
+#define NORMTYPE nfkd
 #include "_norm-test.h"

@@ -34,8 +34,8 @@ size_t u8wnext_human(struct u8view *, struct u8view *);
                                alloc_fn, void *);
 [[nodiscard]] char8_t *u8upper(size_t *, struct u8view, enum caseflags,
                                alloc_fn, void *);
-[[nodiscard]] char8_t *u8norm_nfc(size_t *, struct u8view, alloc_fn, void *);
 [[nodiscard]] char8_t *u8norm_nfd(size_t *, struct u8view, alloc_fn, void *);
+[[nodiscard]] char8_t *u8norm_nfkd(size_t *, struct u8view, alloc_fn, void *);
 
 /* Encoding-generic macros */
 #define ucsgcnt(sv)       _Generic((sv), struct u8view: u8gcnt)((sv))
@@ -57,10 +57,10 @@ size_t u8wnext_human(struct u8view *, struct u8view *);
 #define ucsupper(dstn, sv, flags, alloc, ctx)                                  \
 	_Generic((sv), struct u8view: u8upper)((dstn), (sv), (flags), (alloc),     \
 	                                       (ctx))
-#define ucsnorm_nfc(dstn, sv, alloc, ctx)                                      \
-	_Generic((sv), struct u8view: u8norm_nfc)((dstn), (sv), (alloc), (ctx))
 #define ucsnorm_nfd(dstn, sv, alloc, ctx)                                      \
 	_Generic((sv), struct u8view: u8norm_nfd)((dstn), (sv), (alloc), (ctx))
+#define ucsnorm_nfkd(dstn, sv, alloc, ctx)                                     \
+	_Generic((sv), struct u8view: u8norm_nfkd)((dstn), (sv), (alloc), (ctx))
 
 constexpr double U8CASEFOLD_SCALE = 3;
 constexpr double U8LOWER_SCALE = 1.5;

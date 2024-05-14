@@ -121,16 +121,16 @@ FEATURES:
           Azeri, Dutch, German, Lithuanian, and Turkish.
         • Iteration and counting of graphemes, words, and human-precieved
           words in a string
-        • NFD string normalization
+        • NFD- and NFKD string normalization
         • Unicode-aware case-mapping of strings with custom allocator
           support
 
 
 PLANNED FEATURES:
 
-    • Line- and sentence segmentation            (unicode/string.h)
-    • String collation                           (unicode/string.h)
-    • NFC-, NFKC-, and NFKD string normalization (unicode/string.h)
+    • Line- and sentence segmentation     (unicode/string.h)
+    • String collation                    (unicode/string.h)
+    • NFC-, and NFKC string normalization (unicode/string.h)
 
 
 BUGS:

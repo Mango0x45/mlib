@@ -32,7 +32,7 @@ grep '^[^#]'                           data/UppercaseTest      >upper.in
 grep '^[^#]'                           data/WordHumanBreakTest >wbrk-human.in
 sed -En 's/\s+//g; s/÷?#.*//g; /./p'   data/GraphemeBreakTest  >gbrk.in
 sed -En 's/\s+//g; s/÷?#.*//g; /./p'   data/WordBreakTest      >wbrk.in
-sed -En 's/(#|^@).*//; s/\s+$//; /./p' data/NormalizationTest  >norm-nfd.in
+sed -En 's/(#|^@).*//; s/\s+$//; /./p' data/NormalizationTest  >norm.in
 
 for src in *.c
 do
