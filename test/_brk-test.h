@@ -54,6 +54,7 @@ main(int, char **argv)
 bool
 test(struct u8view sv, int id)
 {
+	bool rv = true;
 	size_t total = 0;
 
 	arena a = mkarena(0);
@@ -94,7 +95,8 @@ test(struct u8view sv, int id)
 	if (items_got != items.len) {
 		warn("case %d: expected %zu %s(s) but got %zu: ‘%s’", id, items.len,
 		     STR(BRKTYPE_LONG), items_got, sv.p);
-		return false;
+		rv = false;
+		goto out;
 	}
 
 	/* Assert the individual items are correct */
@@ -104,11 +106,13 @@ test(struct u8view sv, int id)
 		if (!u8eq(it1, ((struct u8view){it2.buf, it2.len}))) {
 			warn("case %d: expected %s ‘%.*s’ but got ‘%.*s’", id,
 			     STR(BRKTYPE_LONG), (int)it2.len, it2.buf, SV_PRI_ARGS(it1));
-			return false;
+			rv = false;
+			goto out;
 		}
 	}
 
+out:
 	arena_free(&a);
 	free(p);
-	return true;
+	return rv;
 }
