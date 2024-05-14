@@ -5,9 +5,6 @@
 #include "unicode/prop.h"
 #include "unicode/string.h"
 
-#include <stdio.h>
-
-static size_t quickchk_spn(struct u8view);
 static void decomp(char8_t *, size_t *, size_t, rune);
 
 /* Computed using a gen/scale-norm.c */
@@ -36,18 +33,9 @@ u8norm_nfd(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx)
 	size_t bufsz = src.len * NFD_SCALE;
 	uint8_t *dst = alloc(ctx, nullptr, 0, src.len, NFD_SCALE, alignof(char8_t));
 
-	/* Copy over the initial codepoints that are already in NFD; if the entire
-	   string is in NFD then just return it immediately */
-	size_t spn = quickchk_spn(src);
-	memcpy(dst, src.p, spn);
-	*dstn = spn;
-	if (spn == src.len)
-		return dst;
-	VSHFT(&src, spn);
-
-	rune ch;
-	while (u8next(&ch, &src) != 0)
-		decomp(dst, dstn, bufsz, ch);
+	*dstn = 0;
+	for (rune ch; u8next(&ch, &src) != 0; decomp(dst, dstn, bufsz, ch))
+		;
 	return alloc(ctx, dst, src.len, *dstn, 1, alignof(char8_t));
 }
 
@@ -104,23 +92,3 @@ out:
 }
 
 #undef WRITE
-
-size_t
-quickchk_spn(struct u8view src)
-{
-	rune ch;
-	size_t spn = 0;
-	enum uprop_ccc prv, cur;
-
-	prv = cur = CCC_NR;
-
-	for (int w; w = u8next(&ch, &src); spn += w) {
-		if (uprop_get_nfd_qc(ch) == NFD_QC_N)
-			break;
-		if ((cur = uprop_get_ccc(ch)) < prv)
-			break;
-		prv = cur;
-	}
-
-	return spn;
-}
