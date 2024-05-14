@@ -37,6 +37,8 @@ size_t u8wnext_human(struct u8view *, struct u8view *);
 [[nodiscard]] char8_t *u8upper(size_t *, struct u8view, enum caseflags,
                                alloc_fn, void *);
 
+[[nodiscard]] char8_t *u8norm_nfd(size_t *, struct u8view, alloc_fn, void *);
+
 constexpr double U8CASEFOLD_SCALE = 3;
 constexpr double U8LOWER_SCALE = 1.5;
 constexpr double U8LOWER_SCALE_LT = 3;
