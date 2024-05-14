@@ -26,7 +26,7 @@ main(void)
 		double n = scale(ch);
 		maxscale = MAX(n, maxscale);
 	}
-	printf("NFD\t%g\n", maxscale);
+	printf("%g\n", maxscale);
 }
 
 double
@@ -43,7 +43,11 @@ scale2(rune ch)
 {
 	if (uprop_get_hst(ch) != HST_NA)
 		return hscnt(ch);
+#if 0 /* NFKD */
+	if (uprop_get_dt(ch) == DT_NONE)
+#elif 1 /* NFD */
 	if (uprop_get_dt(ch) != DT_CAN)
+#endif
 		return bcnt(ch);
 	int acc = 0;
 	struct rview rv = uprop_get_dm(ch);
