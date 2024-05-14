@@ -12,7 +12,7 @@ download()
 
 readonly FLAGS='
 	-std=c23 -I../include
-	-Og -ggdb3
+	-O0 -g -ggdb3
 	-Wall -Wextra -Wpedantic
 	-Wno-pointer-sign
 	-Wno-attributes
@@ -34,7 +34,7 @@ sed -En 's/\s+//g; s/÷?#.*//g; /./p' data/WordBreakTest      >wbrk.in
 
 for src in *.c
 do
-	gcc $FLAGS -o "${src%.*}" "$src" ../libmlib.a 
+	cc $FLAGS -o "${src%.*}" "$src" ../libmlib.a
 done
 
 trap "$(

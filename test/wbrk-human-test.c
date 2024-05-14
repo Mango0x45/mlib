@@ -50,7 +50,7 @@ test(struct u8view sv, int id)
 	u8cut(&src, &sv, U";", 1);
 
 	struct u8view w;
-	dynarr(struct u8view) ws = {};
+	dynarr(struct u8view) ws = {.alloc = alloc_heap};
 
 	while (u8cut(&w, &sv, U"|", 1) != MBEND)
 		DAPUSH(&ws, w);

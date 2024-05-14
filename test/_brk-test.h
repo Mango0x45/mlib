@@ -56,8 +56,14 @@ test(struct u8view sv, int id)
 {
 	size_t total = 0;
 
+	arena a = mkarena(0);
+	struct arena_ctx ctx = {.a = &a};
+
 	typedef dynarr(char8_t) item;
-	dynarr(item) items = {};
+	dynarr(item) items = {
+		.alloc = alloc_arena,
+		.ctx = &ctx,
+	};
 
 	rune op;
 	struct u8view sv_cpy = sv;
@@ -70,7 +76,7 @@ test(struct u8view sv, int id)
 		total += w;
 
 		if (op == U'÷')
-			DAPUSH(&items, (item){});
+			DAPUSH(&items, ((item){.alloc = alloc_arena, .ctx = &ctx}));
 		DAEXTEND(&items.buf[items.len - 1], buf, w);
 	}
 
@@ -102,10 +108,7 @@ test(struct u8view sv, int id)
 		}
 	}
 
-	da_foreach (items, wd)
-		free(wd->buf);
-	free(items.buf);
+	arena_free(&a);
 	free(p);
-
 	return true;
 }
