@@ -34,12 +34,12 @@ u8norm_nfd(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx)
 	char8_t *dst = alloc(ctx, nullptr, 0, src.len, NFD_SCALE, alignof(char8_t));
 
 	*dstn = 0;
-	for (rune ch; u8next(&ch, &src) != 0; decomp(dst, dstn, bufsz, ch))
+	for (rune ch; ucsnext(&ch, &src) != 0; decomp(dst, dstn, bufsz, ch))
 		;
 	return alloc(ctx, dst, src.len, *dstn, 1, alignof(char8_t));
 }
 
-#define WRITE(ch) *dstn += rtou8(dst + *dstn, bufsz - *dstn, (ch))
+#define WRITE(ch) *dstn += rtoucs(dst + *dstn, bufsz - *dstn, (ch))
 
 void
 decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch)
@@ -72,12 +72,12 @@ decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch)
 		int w;
 		rune hc;
 		char8_t *p = dst + *dstn;
-		while (w = u8prev(&hc, (const char8_t **)&p, dst)) {
+		while (w = ucsprev(&hc, (const char8_t **)&p, dst)) {
 			enum uprop_ccc ccc2 = uprop_get_ccc(hc);
 			if (ccc2 == CCC_NR || ccc2 <= ccc) {
 out:
 				char8_t tmp[U8_LEN_MAX];
-				int w2 = rtou8(tmp, sizeof(tmp), ch);
+				int w2 = rtoucs(tmp, sizeof(tmp), ch);
 				p += w;
 				memmove(p + w2, p, dst + *dstn - p);
 				memcpy(p, tmp, w2);
