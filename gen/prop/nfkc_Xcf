@@ -45,7 +45,6 @@ def genfile(cs: list[tuple[bool, ...]], blksize: int, _type: str) -> None:
 #include "macros.h"
 #include "unicode/prop.h"
 
-#define M(...) ((struct rview)_(__VA_ARGS__))
 #define _(...) \\
 	{(const rune []){__VA_ARGS__}, lengthof(((const rune []){__VA_ARGS__}))}
 
@@ -83,8 +82,12 @@ constexpr rune SENTINAL = 0x110000;
 struct rview
 uprop_get_nfkc_{_type}(rune ch)
 {{
+	static thread_local rune hack;
 	struct rview rv = stage2[stage1[ch / {blksize}]][ch % {blksize}];
-	return rv.len == 1 && rv.p[0] == SENTINAL ? M(ch) : rv;
+	if (rv.len != 1 || rv.p[0] != SENTINAL)
+		return rv;
+	hack = ch;
+	return (struct rview){{&hack, 1}};
 }}''')
 
 def main(_type: str) -> None:
@@ -101,7 +104,7 @@ def main(_type: str) -> None:
 		cs = set(Cs)
 
 		sz_s1 = len(Cs) * isize(len(cs) - 1)
-		sz_s2 = len(cs) * bs
+		sz_s2 = len(cs) * bs * 16  # (rune *) + size_t
 		sz = sz_s1 + sz_s2
 
 		if sz < smallest:
