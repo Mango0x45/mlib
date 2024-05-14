@@ -5,10 +5,14 @@
 
 #include "_charN_t.h"
 #include "_rune.h"
-#include "_u8view.h"
+#include "_uNview.h"
 
-#define U8(...) \
+#define U8(...)                                                                \
 	((struct u8view){__VA_OPT__(u8##__VA_ARGS__, sizeof(u8##__VA_ARGS__) - 1)})
+#define U16(...)                                                               \
+	((struct u16view){__VA_OPT__(u##__VA_ARGS__, sizeof(u##__VA_ARGS__) - 1)})
+#define U32(...)                                                               \
+	((struct u32view){__VA_OPT__(U##__VA_ARGS__, sizeof(U##__VA_ARGS__) - 1)})
 
 #define VSHFT(sv, n) ((sv)->p += (n), (sv)->len -= (n))
 
@@ -28,7 +32,7 @@ constexpr rune U8_4B_MAX = 0x10FFFF;
 
 constexpr rune MBEND = 0x110000;
 
-#define PRIsU8          ".*s"
+#define PRIsSV          ".*s"
 #define SV_PRI_ARGS(sv) ((int)(sv).len), ((sv).p)
 
 int rtou8(char8_t *, size_t, rune);
@@ -46,5 +50,27 @@ int u8tor(rune *, const char8_t *);
 [[nodiscard]] size_t u8spn(struct u8view, const rune *, size_t);
 rune u8cut(struct u8view *restrict, struct u8view *restrict, const rune *,
            size_t);
+
+/* Encoding-generic macros */
+#define rtoucs(buf, bufsz, ch)                                                 \
+	_Generic((buf), char8_t *: rtou8)((buf), (bufsz), (ch))
+#define ucsnext(ch, sv) _Generic((sv), struct u8view: u8next)((ch), (sv))
+#define ucsprev(ch, sv, start)                                                 \
+	_Generic((sv), const char8_t **: u8prev)((ch), (sv), (start))
+#define ucstor(ch, p)                                                          \
+	_Generic((p), char8_t *: u8tor, const char8_t *: u8tor)((ch), (p))
+#define ucshaspfx(sv, pfx) _Generic((sv), struct u8view: u8haspfx)((sv), (pfx))
+#define ucshassfx(sv, sfx) _Generic((sv), struct u8view: u8hassfx)((sv), (sfx))
+#define ucschk(sv)         _Generic((sv), struct u8view: u8chk)((sv))
+#define ucschr(sv, ch)     _Generic((sv), struct u8view: u8chr)((sv), (ch))
+#define ucsrchr(sv, ch)    _Generic((sv), struct u8view: u8rchr)((sv), (ch))
+#define ucscmp(lhs, rhs)   _Generic((lhs), struct u8view: u8cmp)((lhs), (rhs))
+#define ucscspn(sv, delims, ndelims)                                           \
+	_Generic((sv), struct u8view: u8cspn)((sv), (delims), (ndelims))
+#define ucslen(sv) _Generic((sv), struct u8view: u8len)((sv))
+#define ucsspn(sv, delims, ndelims)                                            \
+	_Generic((sv), struct u8view: u8spn)((sv), (delims), (ndelims))
+#define ucscut(x, y, seps, nseps)                                              \
+	_Generic((y), struct u8view *: u8cut)(x, y, seps, nseps)
 
 #endif /* !MLIB_MBSTRING_H */

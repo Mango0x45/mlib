@@ -104,8 +104,8 @@ rune
 shortopt(struct optparser *st, const struct cli_option *opts, size_t nopts)
 {
 	rune ch;
-	const char *opt = st->_argv[st->optind];
-	st->_subopt += u8tor(&ch, opt + st->_subopt + 1);
+	const char8_t *opt = st->_argv[st->optind];
+	st->_subopt += ucstor(&ch, opt + st->_subopt + 1);
 	if (ch == '\0') {
 		st->_subopt = 0;
 		st->optind++;

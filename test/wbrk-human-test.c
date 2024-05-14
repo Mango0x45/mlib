@@ -47,26 +47,26 @@ bool
 test(struct u8view sv, int id)
 {
 	struct u8view src;
-	u8cut(&src, &sv, U";", 1);
+	ucscut(&src, &sv, U";", 1);
 
 	struct u8view w;
 	dynarr(struct u8view) ws = {.alloc = alloc_heap};
 
-	while (u8cut(&w, &sv, U"|", 1) != MBEND)
+	while (ucscut(&w, &sv, U"|", 1) != MBEND)
 		DAPUSH(&ws, w);
 	if (w.len > 0)
 		DAPUSH(&ws, w);
 
 	/* Assert the word count is correct */
 	size_t n;
-	if ((n = u8wcnt_human(src)) != ws.len) {
+	if ((n = ucswcnt_human(src)) != ws.len) {
 		warn("case %d: expected %zu words but got %zu", id, ws.len, n);
 		return false;
 	}
 
 	/* Assert the individual words are correct */
-	for (size_t i = 0; u8wnext_human(&w, &src) != 0; i++) {
-		if (!u8eq(w, ws.buf[i])) {
+	for (size_t i = 0; ucswnext_human(&w, &src) != 0; i++) {
+		if (!ucseq(w, ws.buf[i])) {
 			warn("case %d: expected word %zu to be ‘%.*s’ but got ‘%.*s’", id,
 			     i, SV_PRI_ARGS(ws.buf[i]), SV_PRI_ARGS(w));
 			return false;

@@ -15,8 +15,8 @@
 #include <unicode/string.h>
 
 #define TESTFILE STR(BRKTYPE) "brk.in"
-#define ITERFUNC CONCAT(CONCAT(u8, BRKTYPE), next)
-#define CNTFUNC  CONCAT(CONCAT(u8, BRKTYPE), cnt)
+#define ITERFUNC CONCAT(CONCAT(ucs, BRKTYPE), next)
+#define CNTFUNC  CONCAT(CONCAT(ucs, BRKTYPE), cnt)
 
 static bool test(struct u8view, int);
 
@@ -68,12 +68,12 @@ test(struct u8view sv, int id)
 
 	rune op;
 	struct u8view sv_cpy = sv;
-	while ((op = u8cut(nullptr, &sv_cpy, U"×÷", 2)) != MBEND) {
+	while ((op = ucscut(nullptr, &sv_cpy, U"×÷", 2)) != MBEND) {
 		rune ch;
 		sscanf(sv_cpy.p, "%" SCNxRUNE, &ch);
 
 		char8_t buf[U8_LEN_MAX];
-		int w = rtou8(buf, sizeof(buf), ch);
+		int w = rtoucs(buf, sizeof(buf), ch);
 		total += w;
 
 		if (op == U'÷')
@@ -103,7 +103,7 @@ test(struct u8view sv, int id)
 	struct u8view it1, buf_cpy = buf;
 	for (size_t i = 0; ITERFUNC(&it1, &buf_cpy); i++) {
 		item it2 = items.buf[i];
-		if (!u8eq(it1, ((struct u8view){it2.buf, it2.len}))) {
+		if (!ucseq(it1, ((struct u8view){it2.buf, it2.len}))) {
 			warn("case %d: expected %s ‘%.*s’ but got ‘%.*s’", id,
 			     STR(BRKTYPE_LONG), (int)it2.len, it2.buf, SV_PRI_ARGS(it1));
 			rv = false;

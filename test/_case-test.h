@@ -14,7 +14,7 @@
 #include <unicode/string.h>
 
 #define TESTFILE STR(CASETYPE) ".in"
-#define FUNC     CONCAT(u8, CASETYPE)
+#define FUNC     CONCAT(ucs, CASETYPE)
 
 static bool test(const char8_t *, int);
 
@@ -54,22 +54,22 @@ test(const char8_t *line, int id)
 {
 	struct u8view mapped, sv = {line, strlen(line)};
 	struct u8view before, after, flags;
-	u8cut(&before, &sv, U";", 1);
-	u8cut(&after,  &sv, U";", 1);
-	u8cut(&flags,  &sv, U";", 1);
+	ucscut(&before, &sv, U";", 1);
+	ucscut(&after,  &sv, U";", 1);
+	ucscut(&flags,  &sv, U";", 1);
 
-	enum caseflags cf = u8eq(flags, U8("ẞ"))  ? CF_ẞ
-	                  : u8eq(flags, U8("AZ")) ? CF_LANG_AZ
-	                  : u8eq(flags, U8("LT")) ? CF_LANG_LT
-	                  : u8eq(flags, U8("NL")) ? CF_LANG_NL
+	enum caseflags cf = ucseq(flags, U8("ẞ"))  ? CF_ẞ
+	                  : ucseq(flags, U8("AZ")) ? CF_LANG_AZ
+	                  : ucseq(flags, U8("LT")) ? CF_LANG_LT
+	                  : ucseq(flags, U8("NL")) ? CF_LANG_NL
 	                                          : 0;
 
 	arena a = mkarena(0);
-	mapped.p = FUNC(&mapped.len, before, cf, alloc_arena, &(struct arena_ctx){
+	mapped.p = FUNC(&mapped.len, before, cf, alloc_arena, &((struct arena_ctx){
 		.a = &a,
-	});
+	}));
 
-	if (!u8eq(mapped, after)) {
+	if (!ucseq(mapped, after)) {
 		warn("case %d: expected ‘%.*s’ but got ‘%.*s’", id, SV_PRI_ARGS(after),
 		     SV_PRI_ARGS(mapped));
 		arena_free(&a);

@@ -60,7 +60,7 @@ test(struct u8view sv, int id)
 	};
 
 	struct u8view column;
-	while (u8cut(&column, &sv, U";", 1) != MBEND) {
+	while (ucscut(&column, &sv, U";", 1) != MBEND) {
 		dynarr(char8_t) s = {
 			.alloc = alloc_arena,
 			.ctx = &ctx,
@@ -70,10 +70,10 @@ test(struct u8view sv, int id)
 		struct u8view cp;
 		do {
 			rune ch;
-			_ = u8cut(&cp, &column, U" ", 1);
+			_ = ucscut(&cp, &column, U" ", 1);
 			sscanf(cp.p, "%" SCNxRUNE, &ch);
 			char8_t buf[U8_LEN_MAX];
-			int w = rtou8(buf, sizeof(buf), ch);
+			int w = rtoucs(buf, sizeof(buf), ch);
 			DAEXTEND(&s, buf, w);
 		} while (_ != MBEND);
 
@@ -83,8 +83,8 @@ test(struct u8view sv, int id)
 	for (size_t i = 0; i < 5; i++) {
 		size_t base = i < 3 ? 2 : 4;
 		struct u8view normd = {};
-		normd.p = u8norm_nfd(&normd.len, columns.buf[i], alloc_arena, &ctx);
-		if (!u8eq(columns.buf[base], normd)) {
+		normd.p = ucsnorm_nfd(&normd.len, columns.buf[i], alloc_arena, &ctx);
+		if (!ucseq(columns.buf[base], normd)) {
 			warn("case %d: expected c%zu to be ‘%.*s’ but got ‘%.*s’", id,
 			     i + 1, SV_PRI_ARGS(columns.buf[base]), SV_PRI_ARGS(normd));
 			rv = false;

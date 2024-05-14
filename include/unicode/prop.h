@@ -6,7 +6,7 @@
 
 #include "_attrs.h"
 #include "_rune.h"
-#include "_u8view.h"
+#include "_uNview.h"
 
 struct rview {
 	const rune *p;
