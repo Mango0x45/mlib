@@ -8,17 +8,29 @@ from lib import *
 
 def parse(file: str) -> list[bool]:
 	xs = [False] * 0x110000
-	if sys.argv[1] == 'Indic_Conjunct_Break':
-		sys.argv[1] = 'InCB;'
+
+	sys.argv[1] = ({
+		'Composition_Exclusion': '',
+		'Indic_Conjunct_Break': 'InCB;',
+	}).get(sys.argv[1], sys.argv[1])
+
 	with open(file, 'r') as f:
 		for line in f.readlines():
 			if (
-				len(line) == 0
+				len(line.strip()) == 0
 				or line[0] == '#'
 				or sys.argv[1] not in line
 			):
 				continue
-			parts = [int(x, 16) for x in line.split(';')[0].strip().split('..')]
+			parts = [
+				int(x, 16) for x in (
+					line
+						.split('#')[0]
+						.split(';')[0]
+						.strip()
+						.split('..')
+				)
+			]
 			for i in range(parts[0], parts[len(parts) - 1] + 1):
 				xs[i] = True
 	return xs

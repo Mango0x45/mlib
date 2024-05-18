@@ -62,10 +62,15 @@ extpict=Extended_Pictographic
 
 props4='
 cwkcf=Changes_When_NFKC_Casefolded
+comp_ex=Full_Composition_Exclusion
 '
 
 props5='
 bidi_m=Bidi_Mirrored
+'
+
+props6='
+ce=Composition_Exclusion
 '
 
 manual='
@@ -87,16 +92,18 @@ gen()
 	IFS='
 '
 	parallel-moreutils -- $(
-		for prop in $props1; do gen $prop PropList & done
-		for prop in $props2; do gen $prop DerivedCoreProperties & done
-		for prop in $props3; do gen $prop emoji-data & done
+		for prop in $props1; do gen $prop PropList                  & done
+		for prop in $props2; do gen $prop DerivedCoreProperties     & done
+		for prop in $props3; do gen $prop emoji-data                & done
 		for prop in $props4; do gen $prop DerivedNormalizationProps & done
-		for prop in $props5; do gen $prop DerivedBinaryProperties & done
+		for prop in $props5; do gen $prop DerivedBinaryProperties   & done
+		for prop in $props6; do gen $prop CompositionExclusions     & done
 	)
 )
 
 printf '[[_mlib_pure]] bool uprop_is_%s(rune);\n' \
-	$(printf '%s\n' $props1 $props2 $props3 $props4 $props5 | cut -d= -f1) \
+	$(printf '%s\n' $props1 $props2 $props3 $props4 $props5 $props6 \
+	  | cut -d= -f1) \
 | gawk '
 	/PROP PREDICATES END/ { no = 0 }
 	FILENAME != "-" && !no { print }

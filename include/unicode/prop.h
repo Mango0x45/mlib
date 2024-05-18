@@ -1168,7 +1168,9 @@ enum uprop_wb : uint_least8_t {
 [[_mlib_pure]] bool uprop_is_bidi_c(rune);
 [[_mlib_pure]] bool uprop_is_bidi_m(rune);
 [[_mlib_pure]] bool uprop_is_cased(rune);
+[[_mlib_pure]] bool uprop_is_ce(rune);
 [[_mlib_pure]] bool uprop_is_ci(rune);
+[[_mlib_pure]] bool uprop_is_comp_ex(rune);
 [[_mlib_pure]] bool uprop_is_cwcf(rune);
 [[_mlib_pure]] bool uprop_is_cwcm(rune);
 [[_mlib_pure]] bool uprop_is_cwkcf(rune);
