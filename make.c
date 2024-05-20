@@ -58,11 +58,11 @@ main(int argc, char **argv)
 	cbsinit(argc, argv);
 	rebuild();
 
-	while ((opt = getopt(argc, argv, "afj:rs")) != -1) {
+	while ((opt = getopt(argc, argv, "afj:prs")) != -1) {
 		switch (opt) {
 		case '?':
 			fprintf(stderr,
-			        "Usage: %s [-j procs] [-afrs]\n"
+			        "Usage: %s [-j procs] [-afprs]\n"
 			        "       %s clean | gen | test\n",
 			        *argv, *argv);
 			exit(EXIT_FAILURE);
@@ -129,7 +129,10 @@ main(int argc, char **argv)
 		{
 			cmdadd(&c, "ar", "rcs", LIBNAME ".a");
 			cmdaddv(&c, g.gl_pathv, g.gl_pathc);
-			fprintf(stderr, "AR\t%s\n", LIBNAME ".a");
+			if (flagset('p'))
+				cmdput(c);
+			else
+				fprintf(stderr, "AR\t%s\n", LIBNAME ".a");
 			CMDRC(c);
 		}
 
@@ -143,7 +146,10 @@ main(int argc, char **argv)
 			cmdaddv(&c, sv.buf, sv.len);
 			cmdadd(&c, "-shared", "-o", LIBNAME ".so");
 			cmdaddv(&c, g.gl_pathv, g.gl_pathc);
-			fprintf(stderr, "CC\t%s\n", LIBNAME ".so");
+			if (flagset('p'))
+				cmdput(c);
+			else
+				fprintf(stderr, "CC\t%s\n", LIBNAME ".so");
 			CMDRC(c);
 		}
 
@@ -172,7 +178,10 @@ work(void *p)
 			env_or_default(&sv, "CFLAGS", CFLAGS_DBG);
 		cmdaddv(&c, sv.buf, sv.len);
 		cmdadd(&c, CFLAGS_ALL, "-fPIC", "-o", dst, "-c", src);
-		fprintf(stderr, "CC\t%s\n", dst);
+		if (flagset('p'))
+			cmdput(c);
+		else
+			fprintf(stderr, "CC\t%s\n", dst);
 		CMDRC(c);
 	}
 
