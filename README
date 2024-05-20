@@ -123,7 +123,7 @@ FEATURES:
         • Encoding-generic macros (ucs*() instead of u8*())
         • Iteration and counting of graphemes, words, and human-precieved
           words in a string
-        • NFD- and NFKD string normalization
+        • NFC-, NFD-, NFKC-, and NFKD string normalization
         • Unicode-aware case-mapping of strings with custom allocator
           support
 
@@ -132,8 +132,8 @@ PLANNED FEATURES:
 
     • Line- and sentence segmentation            (unicode/string.h)
     • String collation                           (unicode/string.h)
-    • NFC-, and NFKC string normalization        (unicode/string.h)
-    • Merger of normalization functions into one (unicode/string.h)
+    • Use gperf to generate hashtables for       (unicode/string.h)
+      unicode composition?
 
 
 BUGS:

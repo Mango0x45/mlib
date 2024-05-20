@@ -15,7 +15,6 @@
 #include <unicode/string.h>
 
 #define TESTFILE "norm.in"
-#define FUNC     CONCAT(ucsnorm_, NORMTYPE)
 
 static bool test(struct u8view, int);
 
@@ -39,10 +38,8 @@ main(int, char **argv)
 		if (line[nr - 1] == '\n')
 			line[--nr] = '\0';
 
-		if (!test((struct u8view){line, (size_t)nr}, id)) {
+		if (!test((struct u8view){line, (size_t)nr}, id))
 			rv = EXIT_FAILURE;
-			break;
-		}
 	}
 	if (ferror(fp))
 		err("getline: %s:", TESTFILE);
@@ -87,12 +84,21 @@ test(struct u8view sv, int id)
 
 	for (size_t i = 0; i < 5; i++) {
 		size_t base;
-		if (streq(STR(NORMTYPE), "nfkd"))
+		const char *nt = STR(NORMTYPE);
+		if (streq(nt, "NT_NFC"))
+			base = i < 3 ? 1 : 3;
+		else if (streq(nt, "NT_NFD"))
+			base = i < 3 ? 2 : 4;
+		else if (streq(nt, "NT_NFKC"))
+			base = 3;
+		else if (streq(nt, "NT_NFKD"))
 			base = 4;
 		else
-			base = i < 3 ? 2 : 4;
+			err("invalid NORMTYPE ‘%s’", nt);
+
 		struct u8view normd = {};
-		normd.p = FUNC(&normd.len, columns.buf[i], alloc_arena, &ctx);
+		normd.p =
+			ucsnorm(&normd.len, columns.buf[i], alloc_arena, &ctx, NORMTYPE);
 		if (!ucseq(columns.buf[base], normd)) {
 			warn("case %d: expected c%zu to be ‘%.*s’ but got ‘%.*s’", id,
 			     i + 1, SV_PRI_ARGS(columns.buf[base]), SV_PRI_ARGS(normd));

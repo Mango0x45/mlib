@@ -1,2 +1,2 @@
-#define NORMTYPE NT_NFD
+#define NORMTYPE NT_NFC
 #include "_norm-test.h"
