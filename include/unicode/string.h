@@ -18,14 +18,14 @@ enum [[clang::flag_enum]] caseflags {
 	CF_ẞ       = 1 << 3, /* Use ‘ẞ’ as the uppercase of ‘ß’; alias for CF_SS */
 };
 
-enum normtype {
+enum normform {
 	/* If bit 0 is set, then composition is performed after decomposition.  If
 	   bit-1 is set then compatibility (de)composition is used as opposed to
 	   canonical (de)composition. */
-	NT_NFD  = 0b00,
-	NT_NFC  = 0b01,
-	NT_NFKD = 0b10,
-	NT_NFKC = 0b11,
+	NF_NFD  = 0b00,
+	NF_NFC  = 0b01,
+	NF_NFKD = 0b10,
+	NF_NFKC = 0b11,
 };
 
 /* clang-format on */
@@ -45,7 +45,7 @@ size_t u8wnext_human(struct u8view *, struct u8view *);
 [[nodiscard]] char8_t *u8upper(size_t *, struct u8view, enum caseflags,
                                alloc_fn, void *);
 [[nodiscard]] char8_t *u8norm(size_t *, struct u8view, alloc_fn, void *,
-                              enum normtype);
+                              enum normform);
 
 /* Encoding-generic macros */
 #define ucsgcnt(sv)       _Generic((sv), struct u8view: u8gcnt)((sv))
@@ -67,8 +67,8 @@ size_t u8wnext_human(struct u8view *, struct u8view *);
 #define ucsupper(dstn, sv, flags, alloc, ctx)                                  \
 	_Generic((sv), struct u8view: u8upper)((dstn), (sv), (flags), (alloc),     \
 	                                       (ctx))
-#define ucsnorm(dstn, sv, alloc, ctx, nt)                                      \
-	_Generic((sv), struct u8view: u8norm)((dstn), (sv), (alloc), (ctx), (nt))
+#define ucsnorm(dstn, sv, alloc, ctx, nf)                                      \
+	_Generic((sv), struct u8view: u8norm)((dstn), (sv), (alloc), (ctx), (nf))
 
 constexpr double U8CASEFOLD_SCALE = 3;
 constexpr double U8LOWER_SCALE = 1.5;

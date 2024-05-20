@@ -8,7 +8,7 @@
 
 #define BETWEEN(x, y, z) ((x) <= (y) && (y) <= (z))
 
-static void decomp(char8_t *, size_t *, size_t, rune, enum normtype);
+static void decomp(char8_t *, size_t *, size_t, rune, enum normform);
 static void compbuf(char8_t *, size_t *);
 
 /* Computed using a gen/scale-norm.c */
@@ -28,23 +28,23 @@ constexpr int SCNT = LCNT * NCNT;
 
 char8_t *
 u8norm(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx,
-       enum normtype nt)
+       enum normform nf)
 {
 	ASSUME(dstn != nullptr);
 	ASSUME(alloc != nullptr);
-	ASSUME(BETWEEN(0, nt, 4));
+	ASSUME(BETWEEN(0, nf, 4));
 
 	/* Pre-allocate a buffer with some initial capacity; there is no need to
 	   check for overflow when computing bufsz because alloc() will handle the
 	   overflow error for us. */
-	int scale = (nt & 0b10) ? NFKD_SCALE : NFD_SCALE;
+	int scale = (nf & 0b10) ? NFKD_SCALE : NFD_SCALE;
 	size_t bufsz = src.len * scale;
 	char8_t *dst = alloc(ctx, nullptr, 0, src.len, scale, alignof(char8_t));
 
 	*dstn = 0;
-	for (rune ch; ucsnext(&ch, &src) != 0; decomp(dst, dstn, bufsz, ch, nt))
+	for (rune ch; ucsnext(&ch, &src) != 0; decomp(dst, dstn, bufsz, ch, nf))
 		;
-	if (nt & 0b01)
+	if (nf & 0b01)
 		compbuf(dst, dstn);
 	return alloc(ctx, dst, src.len, *dstn, 1, alignof(char8_t));
 }
@@ -52,7 +52,7 @@ u8norm(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx,
 #define WRITE(ch) *dstn += rtoucs(dst + *dstn, bufsz - *dstn, (ch))
 
 void
-decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch, enum normtype nt)
+decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch, enum normform nf)
 {
 	if (uprop_get_hst(ch) != HST_NA) {
 		int si = ch - SBASE;
@@ -68,12 +68,12 @@ decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch, enum normtype nt)
 		WRITE(v);
 		if (t != TBASE)
 			WRITE(t);
-	} else if (((nt & 0b10) && uprop_get_dt(ch) != DT_NONE)
-	           || ((nt & 0b10) == 0 && uprop_get_dt(ch) == DT_CAN))
+	} else if (((nf & 0b10) && uprop_get_dt(ch) != DT_NONE)
+	           || ((nf & 0b10) == 0 && uprop_get_dt(ch) == DT_CAN))
 	{
 		struct rview rv = uprop_get_dm(ch);
 		for (size_t i = 0; i < rv.len; i++)
-			decomp(dst, dstn, bufsz, rv.p[i], nt);
+			decomp(dst, dstn, bufsz, rv.p[i], nf);
 	} else {
 		enum uprop_ccc ccc = uprop_get_ccc(ch);
 		if (ccc == CCC_NR) {

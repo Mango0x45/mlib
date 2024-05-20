@@ -85,13 +85,13 @@ test(struct u8view sv, int id)
 	for (size_t i = 0; i < 5; i++) {
 		size_t base;
 		const char *nt = STR(NORMTYPE);
-		if (streq(nt, "NT_NFC"))
+		if (streq(nt, "NF_NFC"))
 			base = i < 3 ? 1 : 3;
-		else if (streq(nt, "NT_NFD"))
+		else if (streq(nt, "NF_NFD"))
 			base = i < 3 ? 2 : 4;
-		else if (streq(nt, "NT_NFKC"))
+		else if (streq(nt, "NF_NFKC"))
 			base = 3;
-		else if (streq(nt, "NT_NFKD"))
+		else if (streq(nt, "NF_NFKD"))
 			base = 4;
 		else
 			err("invalid NORMTYPE ‘%s’", nt);
