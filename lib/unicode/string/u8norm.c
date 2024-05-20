@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <string.h>
 
 #include "macros.h"
@@ -8,8 +9,9 @@
 
 #define BETWEEN(x, y, z) ((x) <= (y) && (y) <= (z))
 
-static void decomp(char8_t *, size_t *, size_t, rune, enum normform);
-static void compbuf(char8_t *, size_t *);
+typedef uint_least8_t (*qcfn)(rune);
+
+constexpr uint_least8_t YES = 1;
 
 /* Computed using a gen/scale-norm.c */
 constexpr int NFD_SCALE = 3;
@@ -26,6 +28,16 @@ constexpr int TCNT = 28;
 constexpr int NCNT = VCNT * TCNT;
 constexpr int SCNT = LCNT * NCNT;
 
+static void decomp(char8_t *, size_t *, size_t, rune, enum normform);
+static void compbuf(char8_t *, size_t *);
+
+static const qcfn qc_lookup[] = {
+	[NF_NFC] = (qcfn)uprop_get_nfc_qc,
+	[NF_NFD] = (qcfn)uprop_get_nfd_qc,
+	[NF_NFKC] = (qcfn)uprop_get_nfkc_qc,
+	[NF_NFKD] = (qcfn)uprop_get_nfkd_qc,
+};
+
 char8_t *
 u8norm(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx,
        enum normform nf)
@@ -34,6 +46,22 @@ u8norm(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx,
 	ASSUME(alloc != nullptr);
 	ASSUME(BETWEEN(0, nf, 4));
 
+	{
+		qcfn f = qc_lookup[nf];
+		struct u8view sv = src;
+		enum uprop_ccc prvcc = 0, curcc;
+		for (rune ch; ucsnext(&ch, &sv) != 0; prvcc = curcc) {
+			curcc = uprop_get_ccc(ch);
+			if ((prvcc > curcc && curcc != CCC_NR) || (f(ch) != YES))
+				goto no;
+		}
+
+		*dstn = src.len;
+		char8_t *dst = alloc(ctx, nullptr, 0, src.len, 1, alignof(char8_t));
+		return memcpy(dst, src.p, src.len);
+	}
+
+no:
 	/* Pre-allocate a buffer with some initial capacity; there is no need to
 	   check for overflow when computing bufsz because alloc() will handle the
 	   overflow error for us. */

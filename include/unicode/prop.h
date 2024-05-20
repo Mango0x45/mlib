@@ -864,9 +864,9 @@ enum uprop_lb : uint_least8_t {
 };
 
 enum uprop_nfc_qc : uint_least8_t {
-	NFC_QC_M, /* Maybe */
 	NFC_QC_N, /* No */
 	NFC_QC_Y, /* Yes */
+	NFC_QC_M, /* Maybe */
 };
 
 enum uprop_nfd_qc : uint_least8_t {
@@ -875,9 +875,9 @@ enum uprop_nfd_qc : uint_least8_t {
 };
 
 enum uprop_nfkc_qc : uint_least8_t {
-	NFKC_QC_M, /* Maybe */
 	NFKC_QC_N, /* No */
 	NFKC_QC_Y, /* Yes */
+	NFKC_QC_M, /* Maybe */
 };
 
 enum uprop_nfkd_qc : uint_least8_t {
