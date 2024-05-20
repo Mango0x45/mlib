@@ -171,7 +171,7 @@ work(void *p)
 		else
 			env_or_default(&sv, "CFLAGS", CFLAGS_DBG);
 		cmdaddv(&c, sv.buf, sv.len);
-		cmdadd(&c, CFLAGS_ALL, "-Iinclude", "-fPIC", "-o", dst, "-c", src);
+		cmdadd(&c, CFLAGS_ALL, "-fPIC", "-o", dst, "-c", src);
 		fprintf(stderr, "CC\t%s\n", dst);
 		CMDRC(c);
 	}
