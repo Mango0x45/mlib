@@ -55,8 +55,8 @@ rune u8cut(struct u8view *restrict, struct u8view *restrict, const rune *,
 #define rtoucs(buf, bufsz, ch)                                                 \
 	_Generic((buf), char8_t *: rtou8)((buf), (bufsz), (ch))
 #define ucsnext(ch, sv) _Generic((sv), struct u8view *: u8next)((ch), (sv))
-#define ucsprev(ch, sv, start)                                                 \
-	_Generic((sv), const char8_t **: u8prev)((ch), (sv), (start))
+#define ucsprev(ch, p, start)                                                  \
+	_Generic((p), const char8_t **: u8prev)((ch), (p), (start))
 #define ucstor(ch, p)                                                          \
 	_Generic((p), char8_t *: u8tor, const char8_t *: u8tor)((ch), (p))
 #define ucshaspfx(sv, pfx) _Generic((sv), struct u8view: u8haspfx)((sv), (pfx))
