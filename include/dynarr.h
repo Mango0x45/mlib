@@ -19,12 +19,15 @@
 #endif
 /* clang-format on */
 
+#define dafields(T)                                                            \
+	T *buf;                                                                    \
+	size_t len, cap;                                                           \
+	alloc_fn alloc;                                                            \
+	void *ctx;
+
 #define dynarr(T)                                                              \
 	struct {                                                                   \
-		T *buf;                                                                \
-		size_t len, cap;                                                       \
-		alloc_fn alloc;                                                        \
-		void *ctx;                                                             \
+		dafields(T)                                                            \
 	}
 
 #define DAPUSH(da, x)                                                          \
