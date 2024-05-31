@@ -30,7 +30,7 @@ enum normform {
 
 /* clang-format on */
 
-[[nodiscard]] size_t u8wdth(struct u8view);
+[[nodiscard]] size_t u8wdth(struct u8view, int);
 [[nodiscard]] size_t u8gcnt(struct u8view);
 [[nodiscard]] size_t u8wcnt(struct u8view);
 [[nodiscard]] size_t u8wcnt_human(struct u8view);
@@ -49,7 +49,7 @@ size_t u8wnext_human(struct u8view *, struct u8view *);
                               enum normform);
 
 /* Encoding-generic macros */
-#define ucswdth(sv)       _Generic((sv), struct u8view: u8wdth)((sv))
+#define ucswdth(sv, ts)   _Generic((sv), struct u8view: u8wdth)((sv), (ts))
 #define ucsgcnt(sv)       _Generic((sv), struct u8view: u8gcnt)((sv))
 #define ucswcnt(sv)       _Generic((sv), struct u8view: u8wcnt)((sv))
 #define ucswcnt_human(sv) _Generic((sv), struct u8view: u8wcnt_human)((sv))
