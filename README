@@ -121,6 +121,7 @@ FEATURES:
         • Case-mapping supports optional language-specific quirks for
           Azeri, Dutch, German, Lithuanian, and Turkish.
         • Encoding-generic macros (ucs*() instead of u8*())
+        • Estimate width in columns of a string
         • Iteration and counting of graphemes, words, and human-precieved
           words in a string
         • NFC-, NFD-, NFKC-, and NFKD string normalization

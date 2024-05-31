@@ -1144,6 +1144,7 @@ enum uprop_wb : uint_least8_t {
 [[_mlib_pure]] enum uprop_sc uprop_get_sc(rune);
 [[_mlib_pure]] enum uprop_vo uprop_get_vo(rune);
 [[_mlib_pure]] enum uprop_wb uprop_get_wb(rune);
+[[_mlib_pure]] int uprop_get_wdth(rune);
 [[_mlib_pure]] rune uprop_get_bmg(rune);
 [[_mlib_pure]] rune uprop_get_bpb(rune);
 [[_mlib_pure]] rune uprop_get_equideo(rune);
