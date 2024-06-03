@@ -13,6 +13,11 @@
 	((struct u16view){__VA_OPT__(u##__VA_ARGS__, sizeof(u##__VA_ARGS__) - 1)})
 #define U32(...)                                                               \
 	((struct u32view){__VA_OPT__(U##__VA_ARGS__, sizeof(U##__VA_ARGS__) - 1)})
+/* clang-format off */
+#define U8C(s)  {u8##s, sizeof(u8##s) - 1}
+#define U16C(s) { u##s, sizeof (u##s) - 1}
+#define U32C(s) { U##s, sizeof (U##s) - 1}
+/* clang-format on */
 
 #define VSHFT(sv, n) ((sv)->p += (n), (sv)->len -= (n))
 
