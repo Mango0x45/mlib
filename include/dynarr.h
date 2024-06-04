@@ -23,11 +23,11 @@
 	T *buf;                                                                    \
 	size_t len, cap;                                                           \
 	alloc_fn alloc;                                                            \
-	void *ctx;
+	void *ctx
 
 #define dynarr(T)                                                              \
 	struct {                                                                   \
-		dafields(T)                                                            \
+		dafields(T);                                                           \
 	}
 
 #define DAPUSH(da, x)                                                          \
