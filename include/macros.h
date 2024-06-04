@@ -24,9 +24,9 @@
 #	define ASSUME(p) ((p) ? (void)0 : unreachable())
 #else
 #	include "errors.h"
-#	define ASSUME(p) \
-		((p) ? (void)0 \
-		     : err("%s:%s:%d: assumption ‘%s’ failed", __FILE__, __func__, \
+#	define ASSUME(p)                                                          \
+		((p) ? (void)0                                                         \
+		     : err("%s:%s:%d: assumption ‘%s’ failed", __FILE__, __func__,     \
 		           __LINE__, #p))
 #endif
 

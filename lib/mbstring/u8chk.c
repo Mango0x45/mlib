@@ -1,5 +1,5 @@
-#include "rune.h"
 #include "mbstring.h"
+#include "rune.h"
 
 const char8_t *
 u8chk(struct u8view sv)

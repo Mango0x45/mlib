@@ -8,9 +8,9 @@
 #include "unicode/string.h"
 
 #define IS_MIDNUMLETQ(xp) ((xp) == WBRK_MB || (xp) == WBRK_SQ)
-#define IS_AHLETTER(xp) \
+#define IS_AHLETTER(xp)                                                        \
 	((xp) == WBRK_LE || (xp) == WBRK_EXTPICT_LE || (xp) == WBRK_HL)
-#define IS_IGNORE(xp) \
+#define IS_IGNORE(xp)                                                          \
 	((xp) == WBRK_EXTEND || (xp) == WBRK_FO || (xp) == WBRK_ZWJ)
 
 struct wbrk_state {
@@ -218,8 +218,8 @@ advance(struct wbrk_state *ws)
 	ws->raw.prev[1] = ws->raw.prev[0];
 	ws->raw.prev[0] = ws->raw.next[0];
 	ws->raw.next[0] = ws->raw.next[1];
-	ws->raw.next[1] =
-		u8next(&ch, &ws->raw_v) != 0 ? uprop_get_wbrk(ch) : WBRK_EOT;
+	ws->raw.next[1] = u8next(&ch, &ws->raw_v) != 0 ? uprop_get_wbrk(ch)
+	                                               : WBRK_EOT;
 
 	/* Increment the midpoint */
 	u8next(nullptr, &ws->mid_v);

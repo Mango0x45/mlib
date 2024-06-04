@@ -112,16 +112,16 @@ u8title(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
 				rune next = 0;
 				if (sv.len > 0)
 					u8tor(&next, sv.p);
-				nl_IJ =
-					(ch == 'i' || ch == 'I') && (next == 'j' || next == 'J');
+				nl_IJ = (ch == 'i' || ch == 'I')
+				     && (next == 'j' || next == 'J');
 			}
 		}
 
 		for (size_t i = 0; i < rv.len; i++)
 			n += rtou8(dst + n, bufsz - n, rv.p[i]);
 
-		ctx_l.after_I =
-			(ch == 'I') || (ctx_l.after_I && !uprop_ccc_0_or_230(ch));
+		ctx_l.after_I = (ch == 'I')
+		             || (ctx_l.after_I && !uprop_ccc_0_or_230(ch));
 		if (uprop_is_cased(ch))
 			final_sigma.before = true;
 		else if (!uprop_is_ci(ch))
