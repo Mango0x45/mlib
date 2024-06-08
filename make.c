@@ -85,7 +85,8 @@ main(int argc, char **argv)
 		} else if (streq(*argv, "gen")) {
 			cmdadd(&c, "find", "gen", "-mindepth", "2", "-type", "f",
 			       "-executable", "-not", "(", "-name", "scale", "-or", "-name",
-			       "bool-props.py", ")", "-exec", "{}", ";");
+			       "bool-props.py", "-or", "-name", "wdth.c", ")", "-exec",
+			       "{}", ";");
 		} else if (streq(*argv, "test"))
 			cmdadd(&c, "./test/run-tests");
 		else if (streq(*argv, "manstall"))
