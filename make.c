@@ -1,54 +1,65 @@
+#ifdef __STDC_NO_ATOMICS__
+#	error "Atomics aren’t supported"
+#endif
+
 #define _GNU_SOURCE
 #include <errno.h>
-#if __has_include(<features.h>)
-#	include <features.h>
-#endif
 #include <glob.h>
+#include <libgen.h>
+#include <stdarg.h>
+#include <stdatomic.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#define CBS_PTHREAD
+#if __has_include(<features.h>)
+#	include <features.h>
+#endif
+
 #include "cbs.h"
 
-#define CC      "cc"
 #define LIBNAME "libmlib"
+#define flagset(o) (flags & UINT32_C(1)<<(o)-'a')
 
-#define CFLAGS_ALL WARNINGS, "-pipe", "-std=c23", "-Iinclude" GLIB_EXTRAS
-#define CFLAGS_DBG "-g", "-ggdb3", "-O0", "-fsanitize=address,undefined"
-#define CFLAGS_RLS "-O3", "-flto", "-DNDEBUG" NOT_APPLE_EXTRAS
+[[noreturn, gnu::format(printf, 1, 2)]]
+static void err(const char *, ...);
+static void cc(void *);
 
-#define WARNINGS                                                               \
-	"-Wall", "-Wextra", "-Wpedantic", "-Werror", "-Wno-attributes", "-Wvla",   \
-		"-Wno-pointer-sign", "-Wno-parentheses"
+static atomic_int rv;
+static uint32_t flags;
+static const char *argv0;
 
+static char *cflags_req[] = {
+	"-Wall",
+	"-Wextra",
+	"-Wpedantic",
+	"-Wvla",
+	"-Wno-attributes",
+	"-Wno-pointer-sign",
+	"-Wno-parentheses",
+	"-Iinclude",
+	"-pipe",
+	"-std=c23",
 #ifdef __GLIBC__
-#	define GLIB_EXTRAS , "-D_GNU_SOURCE"
-#else
-#	define GLIB_EXTRAS
+	"-D_GNU_SOURCE",
 #endif
+};
 
-#ifndef __APPLE__
-#	define NOT_APPLE_EXTRAS , "-march=native", "-mtune=native"
-#else
-#	define NOT_APPLE_EXTRAS
-#endif
+static char *cflags_dbg[] = {
+	"-fsanitize=address,undefined",
+	"-ggdb3",
+	"-O0",
+};
 
-#define CMDRC(c)                                                               \
-	do {                                                                       \
-		int ec;                                                                \
-		if ((ec = cmdexec(c)) != EXIT_SUCCESS)                                 \
-			diex("%s terminated with exit-code %d", *(c)._argv, ec);           \
-		cmdclr(&(c));                                                          \
-	} while (false)
-
-#define flagset(o)  (flags & (1 << ((o) - 'a')))
-#define streq(x, y) (!strcmp(x, y))
-
-static int globerr(const char *, int);
-static void work(void *);
-
-static unsigned long flags;
+static char *cflags_rls[] = {
+	"-DNDEBUG",
+	"-flto",
+	"-march=native",
+	"-mtune=native",
+	"-O3",
+};
 
 int
 main(int argc, char **argv)
@@ -58,140 +69,129 @@ main(int argc, char **argv)
 	cbsinit(argc, argv);
 	rebuild();
 
-	while ((opt = getopt(argc, argv, "afj:prs")) != -1) {
+	argv0 = basename(argv[0]);
+
+	while ((opt = getopt(argc, argv, "afj:rs")) != -1) {
 		switch (opt) {
 		case '?':
 			fprintf(stderr,
-			        "Usage: %s [-j procs] [-afprs]\n"
-			        "       %s clean | gen | test\n",
-			        *argv, *argv);
+				"Usage: %s [-j procs] [-afrs]\n"
+				"       %s clean | gen | test\n",
+				*argv, *argv);
 			exit(EXIT_FAILURE);
 		case 'j':
 			procs = atoi(optarg);
 			break;
 		default:
-			flags |= 1 << (opt - 'a');
+			flags |= UINT32_C(1) << opt-'a';
 		}
 	}
+
+	if (!flagset('a') && !flagset('s'))
+		flags |= 1 << 'a'-'a';
 
 	argc -= optind;
 	argv += optind;
 
 	if (argc >= 1) {
-		cmd_t c = {};
-		if (streq(*argv, "clean")) {
-			cmdadd(&c, "find", ".", "(", "-name", "*.[ao]", "-or", "-name",
-			       "*.so", ")", "-delete");
-		} else if (streq(*argv, "gen")) {
-			cmdadd(&c, "find", "gen", "-mindepth", "2", "-type", "f",
-			       "-executable", "-not", "(", "-name", "scale", "-or", "-name",
-			       "bool-props.py", "-or", "-name", "wdth.c", ")", "-exec",
-			       "{}", ";");
-		} else if (streq(*argv, "test"))
-			cmdadd(&c, "./test/run-tests");
-		else if (streq(*argv, "manstall"))
-			diex("TODO: not implemented");
-		else
-			diex("invalid subcommand — ‘%s’", *argv);
-		cmdput(c);
-		CMDRC(c);
-	} else {
-		if (!flagset('a') && !flagset('s'))
-			flags |= 1 << ('a' - 'a');
-
-		cmd_t c = {};
-		glob_t g;
-		tpool_t tp;
-
-		if (glob("lib/*/*.c", 0, globerr, &g))
-			die("glob");
-		if (glob("lib/unicode/*/*.c", GLOB_APPEND, globerr, &g))
-			die("glob");
-
-		if (procs == -1 && (procs = nproc()) == -1) {
-			if (errno)
-				die("nproc");
-			procs = 8;
-		}
-
-		tpinit(&tp, procs);
-		for (size_t i = 0; i < g.gl_pathc; i++)
-			tpenq(&tp, work, g.gl_pathv[i], nullptr);
-		tpwait(&tp);
-		tpfree(&tp);
-
-		for (size_t i = 0; i < g.gl_pathc; i++)
-			g.gl_pathv[i][strlen(g.gl_pathv[i]) - 1] = 'o';
-
-		if (flagset('a')
-		    && (flagset('f')
-		        || foutdatedv(LIBNAME ".a", (const char **)g.gl_pathv,
-		                      g.gl_pathc)))
-		{
-			cmdadd(&c, "ar", "rcs", LIBNAME ".a");
-			cmdaddv(&c, g.gl_pathv, g.gl_pathc);
-			if (flagset('p'))
-				cmdput(c);
-			else
-				fprintf(stderr, "AR\t%s\n", LIBNAME ".a");
-			CMDRC(c);
-		}
-
-		if (flagset('s')
-		    && (flagset('f')
-		        || foutdatedv(LIBNAME ".so", (const char **)g.gl_pathv,
-		                      g.gl_pathc)))
-		{
-			struct strv sv = {};
-			env_or_default(&sv, "CC", CC);
-			cmdaddv(&c, sv.buf, sv.len);
-			cmdadd(&c, "-shared", "-o", LIBNAME ".so");
-			cmdaddv(&c, g.gl_pathv, g.gl_pathc);
-			if (flagset('p'))
-				cmdput(c);
-			else
-				fprintf(stderr, "CC\t%s\n", LIBNAME ".so");
-			CMDRC(c);
-		}
-
-		globfree(&g);
+		return EXIT_SUCCESS;
 	}
 
-	return EXIT_SUCCESS;
+	glob_t g;
+	if (glob("lib/*/*.c", 0, nullptr, &g))
+		err("glob:");
+	if (glob("lib/unicode/*/*.c", GLOB_APPEND, nullptr, &g))
+		err("glob:");
+
+	if (procs == -1 && (procs = nproc()) == -1) {
+		if (errno != 0)
+			err("nproc:");
+		procs = 1;
+	}
+
+	tpool tp;
+	tpinit(&tp, procs);
+	for (size_t i = 0; i < g.gl_pathc; i++)
+		tpenq(&tp, cc, g.gl_pathv[i], nullptr);
+	tpwait(&tp);
+	tpfree(&tp);
+
+	if (rv != EXIT_SUCCESS)
+		exit(rv);
+
+	for (size_t i = 0; i < g.gl_pathc; i++)
+		g.gl_pathv[i][strlen(g.gl_pathv[i]) - 1] = 'o';
+
+	if (flagset('a') && (flagset('f') || foutdated(LIBNAME ".a", g.gl_pathv, g.gl_pathc)))
+	{
+		struct strs cmd = {};
+		strspushl(&cmd, "ar", "rcs", LIBNAME ".a");
+		strspush(&cmd, g.gl_pathv, g.gl_pathc);
+		cmdput(cmd);
+		if (cmdexec(cmd) != EXIT_FAILURE) {
+			rv = EXIT_FAILURE;
+			goto out;
+		}
+		strsfree(&cmd);
+	}
+
+	if (flagset('s') && (flagset('f') || foutdated(LIBNAME ".so", g.gl_pathv, g.gl_pathc)))
+	{
+		struct strs cmd = {};
+		strspushenvl(&cmd, "CC", "cc");
+		strspushl(&cmd, "-shared", "-o", LIBNAME ".so");
+		strspush(&cmd, g.gl_pathv, g.gl_pathc);
+		cmdput(cmd);
+		if (cmdexec(cmd) != EXIT_FAILURE)
+			rv = EXIT_FAILURE;
+		strsfree(&cmd);
+	}
+
+out:
+	globfree(&g);
+	return rv;
 }
 
 void
-work(void *p)
+cc(void *_arg)
 {
-	char *dst, *src = p;
-	cmd_t c = {};
-	struct strv sv = {};
+	char *arg = _arg;
+	char *obj = swpext(arg, "o");
 
-	if (!(dst = strdup(src)))
-		die("strdup");
-	dst[strlen(dst) - 1] = 'o';
+	if (!flagset('f') && !foutdatedl(obj, arg))
+		goto out;
 
-	if (flagset('f') || foutdated(dst, src)) {
-		env_or_default(&sv, "CC", CC);
-		if (flagset('r'))
-			env_or_default(&sv, "CFLAGS", CFLAGS_RLS);
-		else
-			env_or_default(&sv, "CFLAGS", CFLAGS_DBG);
-		cmdaddv(&c, sv.buf, sv.len);
-		cmdadd(&c, CFLAGS_ALL, "-fPIC", "-o", dst, "-c", src);
-		if (flagset('p'))
-			cmdput(c);
-		else
-			fprintf(stderr, "CC\t%s\n", dst);
-		CMDRC(c);
-	}
+	struct strs cmd = {};
+	strspushenvl(&cmd, "CC", "cc");
+	strspush(&cmd, cflags_req, lengthof(cflags_req));
+	if (flagset('r'))
+		strspushenv(&cmd, "CFLAGS", cflags_rls, lengthof(cflags_rls));
+	else
+		strspushenv(&cmd, "CFLAGS", cflags_dbg, lengthof(cflags_dbg));
+	strspushl(&cmd, "-fPIC", "-o", obj, "-c", arg);
+	cmdput(cmd);
 
-	free(dst);
+	if (cmdexec(cmd) != EXIT_SUCCESS)
+		rv = EXIT_FAILURE;
+
+	strsfree(&cmd);
+out:
+	free(obj);
 }
 
-int
-globerr(const char *s, int e)
+void
+err(const char *fmt, ...)
 {
-	errno = e;
-	die("glob: %s", s);
+	va_list ap;
+	va_start(ap, fmt);
+	int save = errno;
+	flockfile(stderr);
+	fprintf(stderr, "%s: ", argv0);
+	vfprintf(stderr, fmt, ap);
+	if (fmt[strlen(fmt) - 1] == ':')
+		fprintf(stderr, " %s", strerror(save));
+	fputc('\n', stderr);
+	funlockfile(stderr);
+	va_end(ap);
+	exit(EXIT_FAILURE);
 }
