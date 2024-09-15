@@ -5,7 +5,9 @@
 #define _GNU_SOURCE
 #include <errno.h>
 #include <glob.h>
+#include <langinfo.h>
 #include <libgen.h>
+#include <locale.h>
 #include <stdarg.h>
 #include <stdatomic.h>
 #include <stdint.h>
@@ -68,12 +70,14 @@ main(int argc, char **argv)
 
 	cbsinit(argc, argv);
 	rebuild();
+	setlocale(LC_ALL, "");
 
 	argv0 = basename(argv[0]);
 
 	while ((opt = getopt(argc, argv, "afj:rs")) != -1) {
 		switch (opt) {
 		case '?':
+usage:
 			fprintf(stderr,
 				"Usage: %s [-j procs] [-afrs]\n"
 				"       %s clean | gen | test\n",
@@ -93,8 +97,39 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	if (argc >= 1) {
-		return EXIT_SUCCESS;
+	if (argc > 1)
+		goto usage;
+
+	if (argc == 1) {
+		struct strs cmd = {};
+		if (strcmp(argv[0], "clean") == 0) {
+			strspushl(&cmd, "find", ".",
+				"(",
+					"-name", "*.[ao]",
+					"-or", "-name", "*.so",
+				")",
+				"-delete");
+		} else if (strcmp(argv[0], "gen") == 0) {
+			strspushl(&cmd, "find", "gen",
+				"-mindepth", "2",
+				"-type", "f",
+			    "-executable",
+				"-not", "(",
+					"-name", "scale",
+					"-or", "-name", "bool-props.py",
+					"-or", "-name", "wdth.c",
+				")",
+				"-exec", "{}", ";");
+		} else if (strcmp(argv[0], "test") == 0) {
+			strspushl(&cmd, "./test/run-tests");
+		} else {
+			if (strcmp(nl_langinfo(CODESET), "UTF-8") == 0)
+				err("invalid subcommand — ‘%s’", argv[0]);
+			err("invalid subcommand -- `%s'", argv[0]);
+		}
+
+		cmdput(cmd);
+		return cmdexec(cmd);
 	}
 
 	glob_t g;
