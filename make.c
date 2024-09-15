@@ -157,7 +157,8 @@ usage:
 	for (size_t i = 0; i < g.gl_pathc; i++)
 		g.gl_pathv[i][strlen(g.gl_pathv[i]) - 1] = 'o';
 
-	if (flagset('a') && (flagset('f') || foutdated(LIBNAME ".a", g.gl_pathv, g.gl_pathc)))
+	if (flagset('a')
+		&& (flagset('f') || foutdated(LIBNAME ".a", g.gl_pathv, g.gl_pathc)))
 	{
 		struct strs cmd = {};
 		strspushl(&cmd, "ar", "rcs", LIBNAME ".a");
@@ -170,7 +171,8 @@ usage:
 		strsfree(&cmd);
 	}
 
-	if (flagset('s') && (flagset('f') || foutdated(LIBNAME ".so", g.gl_pathv, g.gl_pathc)))
+	if (flagset('s')
+		&& (flagset('f') || foutdated(LIBNAME ".so", g.gl_pathv, g.gl_pathc)))
 	{
 		struct strs cmd = {};
 		strspushenvl(&cmd, "CC", "cc");

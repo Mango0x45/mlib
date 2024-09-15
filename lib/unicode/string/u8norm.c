@@ -39,7 +39,7 @@ static const qcfn qc_lookup[] = {
 };
 
 char8_t *
-u8norm(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx,
+u8norm(size_t *dstn, u8view_t src, alloc_fn alloc, void *ctx,
        enum normform nf)
 {
 	ASSUME(dstn != nullptr);
@@ -48,7 +48,7 @@ u8norm(size_t *dstn, struct u8view src, alloc_fn alloc, void *ctx,
 
 	{
 		qcfn f = qc_lookup[nf];
-		struct u8view sv = src;
+		u8view_t sv = src;
 		enum uprop_ccc prvcc = 0, curcc;
 		for (rune ch; ucsnext(&ch, &sv) != 0; prvcc = curcc) {
 			curcc = uprop_get_ccc(ch);
@@ -143,7 +143,7 @@ compbuf(char8_t *dst, size_t *dstn)
 {
 	int wC, wL;
 	rune C, L;
-	struct u8view sv = {dst, *dstn};
+	u8view_t sv = {dst, *dstn};
 
 	while ((wL = ucsnext(&L, &sv)) != 0) {
 		if (uprop_get_ccc(L) != CCC_NR)
@@ -151,7 +151,7 @@ compbuf(char8_t *dst, size_t *dstn)
 		char8_t *after_L = (char8_t *)sv.p;
 
 		enum uprop_ccc prevcc = 0;
-		struct u8view sv_ = sv;
+		u8view_t sv_ = sv;
 
 		while ((wC = ucsnext(&C, &sv_)) != 0) {
 			enum uprop_ccc curcc = uprop_get_ccc(C);

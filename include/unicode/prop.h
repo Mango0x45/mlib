@@ -1117,7 +1117,7 @@ enum uprop_wb : uint_least8_t {
 };
 
 /* Not a Unicode property; but a nice-to-have */
-[[_mlib_pure]] struct u8view uprop_blkname(enum uprop_blk);
+[[_mlib_pure]] u8view_t uprop_blkname(enum uprop_blk);
 
 [[_mlib_pure]] double uprop_get_nv(rune);
 [[_mlib_pure]] enum uprop_age uprop_get_age(rune);
@@ -1159,8 +1159,8 @@ enum uprop_wb : uint_least8_t {
 [[_mlib_pure]] struct rview uprop_get_nfkc_scf(rune);
 [[_mlib_pure]] struct rview uprop_get_tc(rune, struct tcctx);
 [[_mlib_pure]] struct rview uprop_get_uc(rune, struct ucctx);
-[[_mlib_pure]] struct u8view uprop_get_na1(rune);
-[[_mlib_pure]] struct u8view uprop_get_na(rune);
+[[_mlib_pure]] u8view_t uprop_get_na1(rune);
+[[_mlib_pure]] u8view_t uprop_get_na(rune);
 [[_mlib_pure]] struct uprop_sc_view uprop_get_scx(rune);
 
 /* PROP PREDICATES START */

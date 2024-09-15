@@ -7,7 +7,7 @@
 #include "unicode/string.h"
 
 char8_t *
-u8upper(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
+u8upper(size_t *dstn, u8view_t sv, enum caseflags flags, alloc_fn alloc,
         void *alloc_ctx)
 {
 	ASSUME(dstn != nullptr);

@@ -64,7 +64,7 @@ memrchr4(const char8_t *h, size_t k, const char8_t *n)
 }
 
 const char8_t *
-u8rchr(struct u8view sv, rune ch)
+u8rchr(u8view_t sv, rune ch)
 {
 	char8_t buf[U8_LEN_MAX];
 	int n = rtou8(buf, ch, sizeof(buf));

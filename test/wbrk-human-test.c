@@ -10,7 +10,7 @@
 
 #define TESTFILE "wbrk-human.in"
 
-static bool test(struct u8view, int);
+static bool test(u8view_t, int);
 
 int
 main(int, char **argv)
@@ -32,7 +32,7 @@ main(int, char **argv)
 		if (line[nr - 1] == '\n')
 			line[--nr] = '\0';
 
-		if (!test((struct u8view){line, nr}, id))
+		if (!test((u8view_t){line, nr}, id))
 			rv = EXIT_FAILURE;
 	}
 	if (ferror(fp))
@@ -44,13 +44,13 @@ main(int, char **argv)
 }
 
 bool
-test(struct u8view sv, int id)
+test(u8view_t sv, int id)
 {
-	struct u8view src;
+	u8view_t src;
 	ucscut(&src, &sv, U";", 1);
 
-	struct u8view w;
-	dynarr(struct u8view) ws = {.alloc = alloc_heap};
+	u8view_t w;
+	dynarr(u8view_t) ws = {.alloc = alloc_heap};
 
 	while (ucscut(&w, &sv, U"|", 1) != MBEND)
 		DAPUSH(&ws, w);

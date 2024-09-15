@@ -52,8 +52,8 @@ main(int, char **argv)
 bool
 test(const char8_t *line, int id)
 {
-	struct u8view mapped, sv = {line, strlen(line)};
-	struct u8view before, after, flags;
+	u8view_t mapped, sv = {line, strlen(line)};
+	u8view_t before, after, flags;
 	ucscut(&before, &sv, U";", 1);
 	ucscut(&after,  &sv, U";", 1);
 	ucscut(&flags,  &sv, U";", 1);

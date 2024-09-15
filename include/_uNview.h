@@ -1,23 +1,23 @@
-#ifndef MLIB__U8VIEW_H
-#define MLIB__U8VIEW_H
+#ifndef MLIB__UNVIEW_H
+#define MLIB__UNVIEW_H
 
 #include <stddef.h>
 
 #include "_charN_t.h"
 
-struct u8view {
+typedef struct {
 	const char8_t *p;
 	size_t len;
-};
+} u8view_t;
 
-struct u16view {
+typedef struct {
 	const char16_t *p;
 	size_t len;
-};
+} u16view_t;
 
-struct u32view {
+typedef struct {
 	const char32_t *p;
 	size_t len;
-};
+} u32view_t;
 
-#endif /* !MLIB__U8VIEW_H */
+#endif /* !MLIB__UNVIEW_H */

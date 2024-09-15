@@ -14,19 +14,19 @@
 #define IS_SHORTOPT(s) ((s).len >= 2 && (s).p[0] == '-' && (s).p[1] != '-')
 
 #define error(st, msg, x)                                                      \
-	_Generic((x), struct u8view: error_s, rune: error_r)((st), (msg), (x))
+	_Generic((x), u8view_t: error_s, rune: error_r)((st), (msg), (x))
 
 static rune error_r(struct optparser *, const char *, rune);
-static rune error_s(struct optparser *, const char *, struct u8view);
+static rune error_s(struct optparser *, const char *, u8view_t);
 static rune shortopt(struct optparser *, const struct cli_option *, size_t);
 
 rune
 optparse(struct optparser *st, const struct cli_option *opts, size_t nopts)
 {
 	st->errmsg[0] = '\0';
-	st->optarg = (struct u8view){};
+	st->optarg = (u8view_t){};
 
-	struct u8view opt = {.p = st->_argv[st->optind]};
+	u8view_t opt = {.p = st->_argv[st->optind]};
 	if (opt.p == nullptr)
 		return 0;
 	opt.len = strlen(opt.p);
@@ -48,13 +48,13 @@ optparse(struct optparser *st, const struct cli_option *opts, size_t nopts)
 
 	const struct cli_option *o = nullptr;
 	const char8_t *eq_p = u8chr(opt, '=');
-	struct u8view opt_no_eq = {
+	u8view_t opt_no_eq = {
 		.p = opt.p,
 		.len = eq_p == nullptr ? opt.len : (size_t)(eq_p - opt.p),
 	};
 
 	for (size_t i = 0; i < nopts; i++) {
-		struct u8view lo = opts[i].longopt;
+		u8view_t lo = opts[i].longopt;
 		if (lo.p == nullptr || !u8haspfx(lo, opt_no_eq))
 			continue;
 		if (o != nullptr)
@@ -72,10 +72,10 @@ optparse(struct optparser *st, const struct cli_option *opts, size_t nopts)
 		break;
 	case CLI_OPT:
 		if (eq_p == nullptr)
-			st->optarg = (struct u8view){};
+			st->optarg = (u8view_t){};
 		else {
 			ASSUME(opt.len > opt_no_eq.len);
-			st->optarg = (struct u8view){
+			st->optarg = (u8view_t){
 				.p = eq_p + 1,
 				.len = opt.len - opt_no_eq.len + 1,
 			};
@@ -89,7 +89,7 @@ optparse(struct optparser *st, const struct cli_option *opts, size_t nopts)
 			st->optarg.len = strlen(st->optarg.p);
 		} else {
 			ASSUME(opt.len > opt_no_eq.len);
-			st->optarg = (struct u8view){
+			st->optarg = (u8view_t){
 				.p = eq_p + 1,
 				.len = opt.len - opt_no_eq.len + 1,
 			};
@@ -124,11 +124,11 @@ shortopt(struct optparser *st, const struct cli_option *opts, size_t nopts)
 			goto out;
 		}
 		if (opts[i].argtype == CLI_OPT) {
-			st->optarg = (struct u8view){};
+			st->optarg = (u8view_t){};
 			goto out;
 		}
 		if (st->_argv[st->optind + 1] == nullptr) {
-			st->optarg = (struct u8view){};
+			st->optarg = (u8view_t){};
 			return error(st, CLI_MSG_MISSING, ch);
 		}
 		st->optarg.p = st->_argv[st->optind + 1];
@@ -142,7 +142,7 @@ out:
 }
 
 rune
-error_s(struct optparser *st, const char *msg, struct u8view s)
+error_s(struct optparser *st, const char *msg, u8view_t s)
 {
 	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
 	         SV_PRI_ARGS(s));

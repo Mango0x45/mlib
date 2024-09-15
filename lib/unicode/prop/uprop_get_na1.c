@@ -7,7 +7,7 @@
 #define _(...) \
 	{(const char8_t []){__VA_ARGS__}, sizeof((const char8_t []){__VA_ARGS__})}
 
-static const struct u8view lookup[] = {
+static const u8view_t lookup[] = {
 	[RUNE_C(0x000000)] = _('N', 'U', 'L', 'L'),
 	[RUNE_C(0x000001)] = _('S', 'T', 'A', 'R', 'T', ' ', 'O', 'F', ' ', 'H', 'E', 'A', 'D', 'I', 'N', 'G'),
 	[RUNE_C(0x000002)] = _('S', 'T', 'A', 'R', 'T', ' ', 'O', 'F', ' ', 'T', 'E', 'X', 'T'),
@@ -1988,8 +1988,8 @@ static const struct u8view lookup[] = {
 	[RUNE_C(0x00FFE4)] = _('F', 'U', 'L', 'L', 'W', 'I', 'D', 'T', 'H', ' ', 'B', 'R', 'O', 'K', 'E', 'N', ' ', 'V', 'E', 'R', 'T', 'I', 'C', 'A', 'L', ' ', 'B', 'A', 'R'),
 };
 
-struct u8view
+u8view_t
 uprop_get_na1(rune ch)
 {
-	return ch < lengthof(lookup) ? lookup[ch] : (struct u8view){};
+	return ch < lengthof(lookup) ? lookup[ch] : (u8view_t){};
 }

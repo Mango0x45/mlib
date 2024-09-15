@@ -2,7 +2,7 @@
 #include "rune.h"
 
 const char8_t *
-u8chk(struct u8view sv)
+u8chk(u8view_t sv)
 {
 	int w;
 	rune ch;

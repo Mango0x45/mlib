@@ -11,7 +11,7 @@
 #define streq(x, y)    (!strcmp((x), (y)))
 #define u8eq(x, y)     (!u8cmp((x), (y)))
 
-#define ucseq(lhs, rhs) (!_Generic((lhs), struct u8view: u8cmp)((lhs), (rhs)))
+#define ucseq(lhs, rhs) (!_Generic((lhs), u8view_t: u8cmp)((lhs), (rhs)))
 
 #define _MLIB_STR(s)       #s
 #define _MLIB_CONCAT(x, y) x##y

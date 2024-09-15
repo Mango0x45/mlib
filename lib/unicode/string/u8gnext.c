@@ -17,7 +17,7 @@ struct gbrk_state {
 static bool u8isgbrk(rune, rune, struct gbrk_state *);
 
 size_t
-u8gnext(struct u8view *g, struct u8view *sv)
+u8gnext(u8view_t *g, u8view_t *sv)
 {
 	int m;
 	rune ch1;

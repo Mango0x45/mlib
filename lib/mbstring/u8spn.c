@@ -1,7 +1,7 @@
 #include "mbstring.h"
 
 size_t
-u8spn(struct u8view sv, const rune *p, size_t n)
+u8spn(u8view_t sv, const rune *p, size_t n)
 {
 	rune ch;
 	size_t k = 0, w;

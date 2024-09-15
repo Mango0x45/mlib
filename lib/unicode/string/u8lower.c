@@ -17,7 +17,7 @@ uprop_ccc_0_or_230(rune ch)
 }
 
 char8_t *
-u8lower(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
+u8lower(size_t *dstn, u8view_t sv, enum caseflags flags, alloc_fn alloc,
         void *alloc_ctx)
 {
 	ASSUME(dstn != nullptr);
@@ -57,7 +57,7 @@ u8lower(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
 			if (before_dot_cnt == 0 || more_above_cnt == 0) {
 				rune ch = 0;
 				before_dot_cnt = more_above_cnt = 0;
-				struct u8view cpy = sv;
+				u8view_t cpy = sv;
 
 				do {
 					before_dot_cnt++;
@@ -76,7 +76,7 @@ u8lower(size_t *dstn, struct u8view sv, enum caseflags flags, alloc_fn alloc,
 
 		if (final_sigma.after == 0) {
 			rune ch = 0;
-			struct u8view cpy = sv;
+			u8view_t cpy = sv;
 
 			do
 				final_sigma.after++;

@@ -4,15 +4,15 @@
 #include "unicode/string.h"
 
 size_t
-u8wnext_human(struct u8view *dst, struct u8view *sv)
+u8wnext_human(u8view_t *dst, u8view_t *sv)
 {
 	ASSUME(sv != nullptr);
 	ASSUME(sv->p != nullptr);
 
-	struct u8view w;
+	u8view_t w;
 	while (u8wnext(&w, sv)) {
 		rune ch;
-		struct u8view cpy = w;
+		u8view_t cpy = w;
 		while (u8next(&ch, &cpy)) {
 			if (uprop_get_gc(ch) & (GC_L | GC_N)) {
 				if (dst != nullptr)

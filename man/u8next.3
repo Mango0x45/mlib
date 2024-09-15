@@ -10,7 +10,7 @@
 .Sh SYNOPSIS
 .In mbstring.h
 .Ft int
-.Fn u8next "rune *ch" "struct u8view sv"
+.Fn u8next "rune *ch" "u8view_t sv"
 .Ft int
 .Fn u8prev "rune *ch" "const char8_t **s" "const char8_t *start"
 .Sh DESCRIPTION
@@ -60,7 +60,7 @@ iterate over and print all the codepoints in
 
 int w;
 rune ch;
-struct u8view sv = U8("Ta’ Ħaġrat");
+u8view_t sv = U8("Ta’ Ħaġrat");
 
 while (w = u8next(&ch, &sv))
 	printf("U+%04" PRIXRUNE ": ‘%.*s’\en", ch, w, sv.p - w);
@@ -75,7 +75,7 @@ function to iterate backwards.
 
 int w;
 rune ch;
-struct u8view sv = U8("Ta’ Ħaġrat");
+u8view_t sv = U8("Ta’ Ħaġrat");
 const char8_t *s = sv.p + sv.len;
 
 while (w = u8prev(&ch, &s, sv.p))

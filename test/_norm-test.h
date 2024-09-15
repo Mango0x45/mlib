@@ -16,7 +16,7 @@
 
 #define TESTFILE "norm.in"
 
-static bool test(struct u8view, int);
+static bool test(u8view_t, int);
 
 int
 main(int, char **argv)
@@ -38,7 +38,7 @@ main(int, char **argv)
 		if (line[nr - 1] == '\n')
 			line[--nr] = '\0';
 
-		if (!test((struct u8view){line, (size_t)nr}, id))
+		if (!test((u8view_t){line, (size_t)nr}, id))
 			rv = EXIT_FAILURE;
 	}
 	if (ferror(fp))
@@ -50,18 +50,18 @@ main(int, char **argv)
 }
 
 bool
-test(struct u8view sv, int id)
+test(u8view_t sv, int id)
 {
 	bool rv = true;
 	arena a = mkarena(0);
 	struct arena_ctx ctx = {.a = &a};
 
-	dynarr(struct u8view) columns = {
+	dynarr(u8view_t) columns = {
 		.alloc = alloc_arena,
 		.ctx = &ctx,
 	};
 
-	struct u8view column;
+	u8view_t column;
 	while (ucscut(&column, &sv, U";", 1) != MBEND) {
 		dynarr(char8_t) s = {
 			.alloc = alloc_arena,
@@ -69,7 +69,7 @@ test(struct u8view sv, int id)
 		};
 
 		rune _;
-		struct u8view cp;
+		u8view_t cp;
 		do {
 			rune ch;
 			_ = ucscut(&cp, &column, U" ", 1);
@@ -79,7 +79,7 @@ test(struct u8view sv, int id)
 			DAEXTEND(&s, buf, w);
 		} while (_ != MBEND);
 
-		DAPUSH(&columns, ((struct u8view){s.buf, s.len}));
+		DAPUSH(&columns, ((u8view_t){s.buf, s.len}));
 	}
 
 	for (size_t i = 0; i < 5; i++) {
@@ -96,7 +96,7 @@ test(struct u8view sv, int id)
 		else
 			err("invalid NORMTYPE ‘%s’", nt);
 
-		struct u8view normd = {};
+		u8view_t normd = {};
 		normd.p =
 			ucsnorm(&normd.len, columns.buf[i], alloc_arena, &ctx, NORMTYPE);
 		if (!ucseq(columns.buf[base], normd)) {

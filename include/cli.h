@@ -14,7 +14,7 @@ struct optparser {
 
 	int optind;
 	char errmsg[128];
-	struct u8view optarg;
+	u8view_t optarg;
 };
 
 enum cliarg {
@@ -25,7 +25,7 @@ enum cliarg {
 
 struct cli_option {
 	rune shortopt;
-	struct u8view longopt;
+	u8view_t longopt;
 	enum cliarg argtype;
 };
 

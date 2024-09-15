@@ -1,7 +1,7 @@
 #include "mbstring.h"
 
 int
-u8next(rune *ch, struct u8view *sv)
+u8next(rune *ch, u8view_t *sv)
 {
 	int n = 0;
 

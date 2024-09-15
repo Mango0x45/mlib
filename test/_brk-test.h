@@ -18,7 +18,7 @@
 #define ITERFUNC CONCAT(CONCAT(ucs, BRKTYPE), next)
 #define CNTFUNC  CONCAT(CONCAT(ucs, BRKTYPE), cnt)
 
-static bool test(struct u8view, int);
+static bool test(u8view_t, int);
 
 int
 main(int, char **argv)
@@ -40,7 +40,7 @@ main(int, char **argv)
 		if (line[nr - 1] == '\n')
 			line[--nr] = '\0';
 
-		if (!test((struct u8view){line, (size_t)nr}, id))
+		if (!test((u8view_t){line, (size_t)nr}, id))
 			rv = EXIT_FAILURE;
 	}
 	if (ferror(fp))
@@ -52,7 +52,7 @@ main(int, char **argv)
 }
 
 bool
-test(struct u8view sv, int id)
+test(u8view_t sv, int id)
 {
 	bool rv = true;
 	size_t total = 0;
@@ -67,7 +67,7 @@ test(struct u8view sv, int id)
 	};
 
 	rune op;
-	struct u8view sv_cpy = sv;
+	u8view_t sv_cpy = sv;
 	while ((op = ucscut(nullptr, &sv_cpy, U"×÷", 2)) != MBEND) {
 		rune ch;
 		sscanf(sv_cpy.p, "%" SCNxRUNE, &ch);
@@ -88,7 +88,7 @@ test(struct u8view sv, int id)
 		off += g->len;
 	}
 
-	struct u8view buf = {p, total};
+	u8view_t buf = {p, total};
 
 	/* Assert the item count is correct */
 	size_t items_got = CNTFUNC(buf);
@@ -100,10 +100,10 @@ test(struct u8view sv, int id)
 	}
 
 	/* Assert the individual items are correct */
-	struct u8view it1, buf_cpy = buf;
+	u8view_t it1, buf_cpy = buf;
 	for (size_t i = 0; ITERFUNC(&it1, &buf_cpy); i++) {
 		item it2 = items.buf[i];
-		if (!ucseq(it1, ((struct u8view){it2.buf, it2.len}))) {
+		if (!ucseq(it1, ((u8view_t){it2.buf, it2.len}))) {
 			warn("case %d: expected %s ‘%.*s’ but got ‘%.*s’", id,
 			     STR(BRKTYPE_LONG), (int)it2.len, it2.buf, SV_PRI_ARGS(it1));
 			rv = false;

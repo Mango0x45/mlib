@@ -17,7 +17,7 @@ BEGIN {
 	print "#define _(...) \\"
 	print "\t{(const char8_t []){__VA_ARGS__}, sizeof((const char8_t []){__VA_ARGS__})}"
 	print ""
-	print "static const struct u8view lookup[] = {"
+	print "static const u8view_t lookup[] = {"
 }
 
 length($11) > 0 {
@@ -29,10 +29,10 @@ length($11) > 0 {
 END {
 	print "};"
 	print ""
-	print "struct u8view"
+	print "u8view_t"
 	print "uprop_get_na1(rune ch)"
 	print "{"
-	print "\treturn ch < lengthof(lookup) ? lookup[ch] : (struct u8view){};"
+	print "\treturn ch < lengthof(lookup) ? lookup[ch] : (u8view_t){};"
 	print "}"
 }
 ' data/UnicodeData

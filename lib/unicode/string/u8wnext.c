@@ -17,16 +17,16 @@ struct wbrk_state {
 	struct {
 		enum uprop_wbrk prev[2], next[2];
 	} raw, skip;
-	struct u8view raw_v, skip_v, mid_v;
+	u8view_t raw_v, skip_v, mid_v;
 	int ri_parity : 1;
 };
 
 static bool advance(struct wbrk_state *);
-static size_t findwbrk(struct u8view);
-static struct wbrk_state mkwbrkstate(struct u8view);
+static size_t findwbrk(u8view_t);
+static struct wbrk_state mkwbrkstate(u8view_t);
 
 size_t
-u8wnext(struct u8view *w, struct u8view *sv)
+u8wnext(u8view_t *w, u8view_t *sv)
 {
 	ASSUME(sv != nullptr);
 	ASSUME(sv->p != nullptr);
@@ -36,7 +36,7 @@ u8wnext(struct u8view *w, struct u8view *sv)
 
 	size_t off = findwbrk(*sv);
 	if (w != nullptr)
-		*w = (struct u8view){sv->p, off};
+		*w = (u8view_t){sv->p, off};
 
 	ASSUME(sv->len >= off);
 	VSHFT(sv, off);
@@ -44,7 +44,7 @@ u8wnext(struct u8view *w, struct u8view *sv)
 }
 
 size_t
-findwbrk(struct u8view sv)
+findwbrk(u8view_t sv)
 {
 	ASSUME(sv.p != nullptr);
 
@@ -177,7 +177,7 @@ findwbrk(struct u8view sv)
 }
 
 struct wbrk_state
-mkwbrkstate(struct u8view sv)
+mkwbrkstate(u8view_t sv)
 {
 	struct wbrk_state ws = {
 		.raw = {{WBRK_EOT, WBRK_EOT}, {WBRK_EOT, WBRK_EOT}},

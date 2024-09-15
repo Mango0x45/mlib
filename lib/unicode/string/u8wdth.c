@@ -3,7 +3,7 @@
 #include "unicode/string.h"
 
 size_t
-u8wdth(struct u8view sv, int ts)
+u8wdth(u8view_t sv, int ts)
 {
 	rune ch;
 	size_t n = 0;

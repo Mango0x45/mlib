@@ -6,7 +6,7 @@
    y.len both being 0 */
 
 int
-u8cmp(struct u8view x, struct u8view y)
+u8cmp(u8view_t x, u8view_t y)
 {
 	if (x.len != y.len)
 		return x.len > y.len ? +1 : -1;

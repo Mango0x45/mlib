@@ -4,7 +4,7 @@
 #define _(...) \
 	{(const char8_t []){__VA_ARGS__}, sizeof((const char8_t []){__VA_ARGS__})}
 
-static const struct u8view lookup[] = {
+static const u8view_t lookup[] = {
 	[BLK_NB]                                  = _('N', 'o', ' ', 'B', 'l', 'o', 'c', 'k'),
 	[BLK_ADLAM]                               = _('A', 'd', 'l', 'a', 'm'),
 	[BLK_AEGEAN_NUMBERS]                      = _('A', 'e', 'g', 'e', 'a', 'n', ' ', 'N', 'u', 'm', 'b', 'e', 'r', 's'),
@@ -336,7 +336,7 @@ static const struct u8view lookup[] = {
 	[BLK_ZNAMENNY_MUSIC]                      = _('Z', 'n', 'a', 'm', 'e', 'n', 'n', 'y', ' ', 'M', 'u', 's', 'i', 'c', 'a', 'l', ' ', 'N', 'o', 't', 'a', 't', 'i', 'o', 'n'),
 };
 
-struct u8view
+u8view_t
 uprop_blkname(enum uprop_blk blk)
 {
 	ASSUME(blk < lengthof(lookup));

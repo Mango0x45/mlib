@@ -9,7 +9,7 @@
 .Sh SYNOPSIS
 .In mbstring.h
 .Ft size_t
-.Fn u8len "struct u8view sv"
+.Fn u8len "u8view_t sv"
 .Sh DESCRIPTION
 The
 .Fn u8len
@@ -32,7 +32,7 @@ will return 22 as a result of use of multibyte-characters in
 .Fa sv .
 .Bd -literal -offset indent
 size_t n;
-struct u8view sv = U8(\(dq„Der Große Duden“\(dq);
+u8view_t sv = U8(\(dq„Der Große Duden“\(dq);
 
 n = u8len(sv);            /* 17 */
 n = strlen((char *)sv.p); /* 22 */

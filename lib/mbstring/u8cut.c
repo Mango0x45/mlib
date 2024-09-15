@@ -2,7 +2,7 @@
 #include "mbstring.h"
 
 rune
-u8cut(struct u8view *restrict x, struct u8view *restrict y, const rune *seps,
+u8cut(u8view_t *restrict x, u8view_t *restrict y, const rune *seps,
       size_t n)
 {
 	ASSUME(y != nullptr);

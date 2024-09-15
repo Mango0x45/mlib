@@ -30,47 +30,47 @@ enum normform {
 
 /* clang-format on */
 
-[[nodiscard]] size_t u8wdth(struct u8view, int);
-[[nodiscard]] size_t u8gcnt(struct u8view);
-[[nodiscard]] size_t u8wcnt(struct u8view);
-[[nodiscard]] size_t u8wcnt_human(struct u8view);
-size_t u8gnext(struct u8view *, struct u8view *);
-size_t u8wnext(struct u8view *, struct u8view *);
-size_t u8wnext_human(struct u8view *, struct u8view *);
-[[nodiscard]] char8_t *u8casefold(size_t *, struct u8view, enum caseflags,
+[[nodiscard]] size_t u8wdth(u8view_t, int);
+[[nodiscard]] size_t u8gcnt(u8view_t);
+[[nodiscard]] size_t u8wcnt(u8view_t);
+[[nodiscard]] size_t u8wcnt_human(u8view_t);
+size_t u8gnext(u8view_t *, u8view_t *);
+size_t u8wnext(u8view_t *, u8view_t *);
+size_t u8wnext_human(u8view_t *, u8view_t *);
+[[nodiscard]] char8_t *u8casefold(size_t *, u8view_t, enum caseflags,
                                   alloc_fn, void *);
-[[nodiscard]] char8_t *u8lower(size_t *, struct u8view, enum caseflags,
+[[nodiscard]] char8_t *u8lower(size_t *, u8view_t, enum caseflags,
                                alloc_fn, void *);
-[[nodiscard]] char8_t *u8title(size_t *, struct u8view, enum caseflags,
+[[nodiscard]] char8_t *u8title(size_t *, u8view_t, enum caseflags,
                                alloc_fn, void *);
-[[nodiscard]] char8_t *u8upper(size_t *, struct u8view, enum caseflags,
+[[nodiscard]] char8_t *u8upper(size_t *, u8view_t, enum caseflags,
                                alloc_fn, void *);
-[[nodiscard]] char8_t *u8norm(size_t *, struct u8view, alloc_fn, void *,
+[[nodiscard]] char8_t *u8norm(size_t *, u8view_t, alloc_fn, void *,
                               enum normform);
 
 /* Encoding-generic macros */
-#define ucswdth(sv, ts)   _Generic((sv), struct u8view: u8wdth)((sv), (ts))
-#define ucsgcnt(sv)       _Generic((sv), struct u8view: u8gcnt)((sv))
-#define ucswcnt(sv)       _Generic((sv), struct u8view: u8wcnt)((sv))
-#define ucswcnt_human(sv) _Generic((sv), struct u8view: u8wcnt_human)((sv))
-#define ucsgnext(g, sv)   _Generic((sv), struct u8view *: u8gnext)((g), (sv))
-#define ucswnext(g, sv)   _Generic((sv), struct u8view *: u8wnext)((g), (sv))
+#define ucswdth(sv, ts)   _Generic((sv), u8view_t: u8wdth)((sv), (ts))
+#define ucsgcnt(sv)       _Generic((sv), u8view_t: u8gcnt)((sv))
+#define ucswcnt(sv)       _Generic((sv), u8view_t: u8wcnt)((sv))
+#define ucswcnt_human(sv) _Generic((sv), u8view_t: u8wcnt_human)((sv))
+#define ucsgnext(g, sv)   _Generic((sv), u8view_t *: u8gnext)((g), (sv))
+#define ucswnext(g, sv)   _Generic((sv), u8view_t *: u8wnext)((g), (sv))
 #define ucswnext_human(g, sv)                                                  \
-	_Generic((sv), struct u8view *: u8wnext_human)((g), (sv))
+	_Generic((sv), u8view_t *: u8wnext_human)((g), (sv))
 #define ucscasefold(dstn, sv, flags, alloc, ctx)                               \
-	_Generic((sv), struct u8view: u8casefold)((dstn), (sv), (flags), (alloc),  \
+	_Generic((sv), u8view_t: u8casefold)((dstn), (sv), (flags), (alloc),  \
 	                                          (ctx))
 #define ucslower(dstn, sv, flags, alloc, ctx)                                  \
-	_Generic((sv), struct u8view: u8lower)((dstn), (sv), (flags), (alloc),     \
+	_Generic((sv), u8view_t: u8lower)((dstn), (sv), (flags), (alloc),     \
 	                                       (ctx))
 #define ucstitle(dstn, sv, flags, alloc, ctx)                                  \
-	_Generic((sv), struct u8view: u8title)((dstn), (sv), (flags), (alloc),     \
+	_Generic((sv), u8view_t: u8title)((dstn), (sv), (flags), (alloc),     \
 	                                       (ctx))
 #define ucsupper(dstn, sv, flags, alloc, ctx)                                  \
-	_Generic((sv), struct u8view: u8upper)((dstn), (sv), (flags), (alloc),     \
+	_Generic((sv), u8view_t: u8upper)((dstn), (sv), (flags), (alloc),     \
 	                                       (ctx))
 #define ucsnorm(dstn, sv, alloc, ctx, nf)                                      \
-	_Generic((sv), struct u8view: u8norm)((dstn), (sv), (alloc), (ctx), (nf))
+	_Generic((sv), u8view_t: u8norm)((dstn), (sv), (alloc), (ctx), (nf))
 
 constexpr double U8CASEFOLD_SCALE = 3;
 constexpr double U8LOWER_SCALE = 1.5;
