@@ -62,8 +62,12 @@ static char *cflags_dbg[] = {
 static char *cflags_rls[] = {
 	"-DNDEBUG",
 	"-flto",
+#ifdef __APPLE__
+	"-mcpu=native",
+#else
 	"-march=native",
 	"-mtune=native",
+#endif
 	"-O3",
 };
 
