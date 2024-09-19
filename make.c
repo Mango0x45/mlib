@@ -51,7 +51,11 @@ static char *cflags_req[] = {
 
 static char *cflags_dbg[] = {
 	"-fsanitize=address,undefined",
+#if __GNUC__ && __APPLE__
+	"-ggdb2",
+#else
 	"-ggdb3",
+#endif
 	"-O0",
 };
 
