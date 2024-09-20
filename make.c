@@ -164,7 +164,7 @@ usage:
 		strspushl(&cmd, "ar", "rcs", LIBNAME ".a");
 		strspush(&cmd, g.gl_pathv, g.gl_pathc);
 		cmdput(cmd);
-		if (cmdexec(cmd) != EXIT_FAILURE) {
+		if (cmdexec(cmd) != EXIT_SUCCESS) {
 			rv = EXIT_FAILURE;
 			goto out;
 		}
@@ -179,7 +179,7 @@ usage:
 		strspushl(&cmd, "-shared", "-o", LIBNAME ".so");
 		strspush(&cmd, g.gl_pathv, g.gl_pathc);
 		cmdput(cmd);
-		if (cmdexec(cmd) != EXIT_FAILURE)
+		if (cmdexec(cmd) != EXIT_SUCCESS)
 			rv = EXIT_FAILURE;
 		strsfree(&cmd);
 	}
