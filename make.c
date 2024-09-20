@@ -51,15 +51,23 @@ static char *cflags_req[] = {
 
 static char *cflags_dbg[] = {
 	"-fsanitize=address,undefined",
+#if __GNUC__ && __APPLE__
+	"-ggdb2",
+#else
 	"-ggdb3",
+#endif
 	"-O0",
 };
 
 static char *cflags_rls[] = {
 	"-DNDEBUG",
 	"-flto",
+#ifdef __APPLE__
+	"-mcpu=native",
+#else
 	"-march=native",
 	"-mtune=native",
+#endif
 	"-O3",
 };
 
