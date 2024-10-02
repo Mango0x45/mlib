@@ -58,24 +58,23 @@ test(const char8_t *line, int id)
 	ucscut(&after,  &sv, U";", 1);
 	ucscut(&flags,  &sv, U";", 1);
 
-	enum caseflags cf = ucseq(flags, U8("ẞ"))  ? CF_ẞ
-	                  : ucseq(flags, U8("AZ")) ? CF_LANG_AZ
-	                  : ucseq(flags, U8("LT")) ? CF_LANG_LT
-	                  : ucseq(flags, U8("NL")) ? CF_LANG_NL
-	                                          : 0;
+	caseflags_t cf = ucseq(flags, U8("ẞ"))  ? CF_ẞ
+	               : ucseq(flags, U8("AZ")) ? CF_LANG_AZ
+	               : ucseq(flags, U8("LT")) ? CF_LANG_LT
+	               : ucseq(flags, U8("NL")) ? CF_LANG_NL
+	               : /* no flags */           0;
 
-	arena a = mkarena(0);
-	mapped.p = FUNC(&mapped.len, before, cf, alloc_arena, &((struct arena_ctx){
-		.a = &a,
-	}));
+	arena_ctx_t ctx = {};
+	allocator_t mem = init_arena_allocator(&ctx, nullptr);
+	mapped.p = FUNC(&mapped.len, before, cf, mem);
 
 	if (!ucseq(mapped, after)) {
 		warn("case %d: expected ‘%.*s’ but got ‘%.*s’", id, SV_PRI_ARGS(after),
 		     SV_PRI_ARGS(mapped));
-		arena_free(&a);
+		deleteall(mem);
 		return false;
 	}
 
-	arena_free(&a);
+	deleteall(mem);
 	return true;
 }

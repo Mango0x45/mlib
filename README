@@ -11,9 +11,9 @@ library.  It is a C23 library with no plans to support older standards.
 
 The headers as of now are:
  • alloc.h          — allocators and memory allocation functions
+ • array.h          — dynamic array implementation
  • bitset.h         — bitset implementation
  • cli.h            — CLI-option parsing functions
- • dynarr.h         — dynamic array implementation
  • errors.h         — err.h-inspired diagnostics functions
  • macros.h         — miscellaneous utility macros (MIN/MAX/lengthof/etc.)
  • mbio.h           — multibyte file I/O

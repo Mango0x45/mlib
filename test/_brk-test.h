@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 #include <alloc.h>
-#include <dynarr.h>
+#include <array.h>
 #include <errors.h>
 #include <macros.h>
 #include <mbstring.h>
@@ -57,14 +57,10 @@ test(u8view_t sv, int id)
 	bool rv = true;
 	size_t total = 0;
 
-	arena a = mkarena(0);
-	struct arena_ctx ctx = {.a = &a};
+	arena_ctx_t ctx = {};
+	allocator_t mem = init_arena_allocator(&ctx, nullptr);
 
-	typedef dynarr(char8_t) item;
-	dynarr(item) items = {
-		.alloc = alloc_arena,
-		.ctx = &ctx,
-	};
+	char8_t **items = array_new(mem, typeof(*items), 64);
 
 	rune op;
 	u8view_t sv_cpy = sv;
@@ -77,23 +73,26 @@ test(u8view_t sv, int id)
 		total += w;
 
 		if (op == U'÷')
-			DAPUSH(&items, ((item){.alloc = alloc_arena, .ctx = &ctx}));
-		DAEXTEND(&items.buf[items.len - 1], buf, w);
+			array_push(&items, array_new(mem, char8_t, 64));
+		array_extend(items[array_len(items) - 1], buf, w);
 	}
 
 	size_t off = 0;
-	char8_t *p = bufalloc(nullptr, 1, total);
-	da_foreach (items, g) {
-		memcpy(p + off, g->buf, g->len);
-		off += g->len;
+	char8_t *p = malloc(total);
+	if (p == nullptr)
+		err("malloc:");
+	for (ptrdiff_t i = 0; i < array_len(items); i++) {
+		char8_t *g = items[i];
+		memcpy(p + off, g, array_len(g));
+		off += array_len(g);
 	}
 
 	u8view_t buf = {p, total};
 
 	/* Assert the item count is correct */
-	size_t items_got = CNTFUNC(buf);
-	if (items_got != items.len) {
-		warn("case %d: expected %zu %s(s) but got %zu: ‘%s’", id, items.len,
+	ptrdiff_t items_got = CNTFUNC(buf);
+	if (items_got != array_len(items)) {
+		warn("case %d: expected %zu %s(s) but got %zu: ‘%s’", id, array_len(items),
 		     STR(BRKTYPE_LONG), items_got, sv.p);
 		rv = false;
 		goto out;
@@ -102,17 +101,17 @@ test(u8view_t sv, int id)
 	/* Assert the individual items are correct */
 	u8view_t it1, buf_cpy = buf;
 	for (size_t i = 0; ITERFUNC(&it1, &buf_cpy); i++) {
-		item it2 = items.buf[i];
-		if (!ucseq(it1, ((u8view_t){it2.buf, it2.len}))) {
+		char8_t *it2 = items[i];
+		if (!ucseq(it1, ((u8view_t){it2, array_len(it2)}))) {
 			warn("case %d: expected %s ‘%.*s’ but got ‘%.*s’", id,
-			     STR(BRKTYPE_LONG), (int)it2.len, it2.buf, SV_PRI_ARGS(it1));
+			     STR(BRKTYPE_LONG), (int)array_len(it2), it2, SV_PRI_ARGS(it1));
 			rv = false;
 			goto out;
 		}
 	}
 
 out:
-	arena_free(&a);
+	deleteall(mem);
 	free(p);
 	return rv;
 }

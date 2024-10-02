@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <dynarr.h>
+#include <alloc.h>
+#include <array.h>
 #include <errors.h>
 #include <macros.h>
 #include <mbstring.h>
@@ -49,30 +50,33 @@ test(u8view_t sv, int id)
 	u8view_t src;
 	ucscut(&src, &sv, U";", 1);
 
+	allocator_t mem = init_heap_allocator(nullptr);
+
 	u8view_t w;
-	dynarr(u8view_t) ws = {.alloc = alloc_heap};
+	u8view_t *ws = array_new(mem, typeof(*ws), 64);
 
 	while (ucscut(&w, &sv, U"|", 1) != MBEND)
-		DAPUSH(&ws, w);
+		array_push(&ws, w);
 	if (w.len > 0)
-		DAPUSH(&ws, w);
+		array_push(&ws, w);
 
 	/* Assert the word count is correct */
 	size_t n;
-	if ((n = ucswcnt_human(src)) != ws.len) {
-		warn("case %d: expected %zu words but got %zu", id, ws.len, n);
+	/* TODO: Fix return type and remove cast */
+	if ((ptrdiff_t)(n = ucswcnt_human(src)) != array_len(ws)) {
+		warn("case %d: expected %tu words but got %zu", id, array_len(ws), n);
 		return false;
 	}
 
 	/* Assert the individual words are correct */
 	for (size_t i = 0; ucswnext_human(&w, &src) != 0; i++) {
-		if (!ucseq(w, ws.buf[i])) {
+		if (!ucseq(w, ws[i])) {
 			warn("case %d: expected word %zu to be ‘%.*s’ but got ‘%.*s’", id,
-			     i, SV_PRI_ARGS(ws.buf[i]), SV_PRI_ARGS(w));
+			     i, SV_PRI_ARGS(ws[i]), SV_PRI_ARGS(w));
 			return false;
 		}
 	}
 
-	free(ws.buf);
+	array_free(ws);
 	return true;
 }

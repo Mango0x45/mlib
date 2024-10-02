@@ -2,6 +2,7 @@
 #include <stdckdint.h>
 
 #include "_attrs.h"
+#include "alloc.h"
 #include "macros.h"
 #include "mbstring.h"
 #include "unicode/prop.h"
@@ -17,11 +18,9 @@ uprop_ccc_0_or_230(rune ch)
 }
 
 char8_t *
-u8lower(size_t *dstn, u8view_t sv, enum caseflags flags, alloc_fn alloc,
-        void *alloc_ctx)
+u8lower(size_t *dstn, u8view_t sv, caseflags_t flags, allocator_t mem)
 {
 	ASSUME(dstn != nullptr);
-	ASSUME(alloc != nullptr);
 
 	struct lcctx ctx = {
 		.az_or_tr = flags & CF_LANG_AZ,
@@ -46,7 +45,7 @@ u8lower(size_t *dstn, u8view_t sv, enum caseflags flags, alloc_fn alloc,
 		return nullptr;
 	}
 
-	char8_t *dst = alloc(alloc_ctx, nullptr, 0, bufsz, 1, alignof(char8_t));
+	char8_t *dst = new(mem, typeof(*dst), bufsz);
 
 	while (u8next(&ch, &sv)) {
 		rune next = 0;
@@ -103,5 +102,5 @@ u8lower(size_t *dstn, u8view_t sv, enum caseflags flags, alloc_fn alloc,
 	}
 
 	*dstn = n;
-	return alloc(alloc_ctx, dst, bufsz, n, 1, alignof(char8_t));
+	return resz(mem, dst, bufsz, n);
 }

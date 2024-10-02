@@ -1,60 +1,95 @@
 #ifndef MLIB_ALLOC_H
 #define MLIB_ALLOC_H
 
-#include <setjmp.h>
-#include <stddef.h>
-
+#include "_allocator.h"
 #include "_attrs.h"
 
-#ifndef MLIB_ARENA_BLKSIZE
-#	define MLIB_ARENA_BLKSIZE (8 * 1024)
-#endif
+typedef enum {
+	ALLOC_OOM,
+} alloc_err_t;
 
-struct _region {
-	size_t len, cap;
-	void *data, *last;
-	struct _region *next;
-};
+typedef struct arena_blk arena_blk_t;
 
 typedef struct {
-	struct _region *_head;
-	size_t _init;
-} arena;
+	ptrdiff_t blksz;
+	struct arena_blk *_head;
+} arena_ctx_t;
 
-/* Heap allocation functions */
-[[nodiscard, gnu::returns_nonnull]] void *bufalloc(void *, size_t, size_t);
-[[nodiscard]] void *bufalloc_noterm(void *, size_t, size_t);
+typedef struct {
+	void     *buf;
+	ptrdiff_t len;
+} st_buf_t;
 
-[[_mlib_pure, _mlib_inline]]
-static inline arena
-mkarena(size_t n)
+#define new(mem, T, n)                                                          \
+	((typeof(T) *)((mem).alloc((mem),                                           \
+		ALLOC_NEW,                                                              \
+		nullptr,                                                                \
+		0,                                                                      \
+		(n),                                                                    \
+		sizeof(T),                                                              \
+		alignof(T))))
+#define resz(mem, p, o, n)                                                      \
+	((typeof(p))((mem).alloc((mem),                                             \
+		ALLOC_RESIZE,                                                           \
+		(p),                                                                    \
+		(o),                                                                    \
+		(n),                                                                    \
+		sizeof(*(p)),                                                           \
+		alignof(typeof(*(p))))))
+#define delete(mem, p, sz)                                                      \
+	(mem).alloc((mem),                                                          \
+		ALLOC_FREE,                                                             \
+		(p),                                                                    \
+		(sz),                                                                   \
+		0,                                                                      \
+		sizeof(*(p)),                                                           \
+		alignof(typeof(*p)))
+#define deleteall(mem)                                                          \
+	((mem).alloc((mem),                                                         \
+		ALLOC_FREEALL,                                                          \
+		nullptr,                                                                \
+		0,                                                                      \
+		0,                                                                      \
+		0,                                                                      \
+		0))
+
+void *arena_alloc(allocator_t mem, alloc_mode_t mode, void *ptr,
+				  ptrdiff_t oldnmemb, ptrdiff_t newnmemb, ptrdiff_t elemsz,
+				  ptrdiff_t align);
+void *heap_alloc(allocator_t mem, alloc_mode_t mode, void *ptr,
+				 ptrdiff_t oldnmemb, ptrdiff_t newnmemb, ptrdiff_t elemsz,
+				 ptrdiff_t align);
+void *static_scratch_alloc(allocator_t mem, alloc_mode_t mode, void *ptr,
+						   ptrdiff_t oldnmemb, ptrdiff_t newnmemb, ptrdiff_t elemsz,
+						   ptrdiff_t align);
+
+[[_mlib_inline]] static inline allocator_t
+init_arena_allocator(arena_ctx_t *ctx, jmp_buf *jmp)
 {
-	return (arena){._init = n ? n : MLIB_ARENA_BLKSIZE};
+	return (allocator_t){
+		.alloc = arena_alloc,	
+		.err = jmp,
+		.ctx = ctx,
+	};
 }
 
-/* Arena allocation functions */
-[[nodiscard, gnu::malloc, gnu::alloc_size(2, 3), gnu::alloc_align(4)]]
-void *arena_alloc(arena *, size_t, size_t, size_t);
-[[nodiscard]]
-void *arena_realloc(arena *, void *, size_t, size_t, size_t, size_t);
-void arena_zero(arena *);
-void arena_free(arena *);
+[[_mlib_inline]] static inline allocator_t
+init_heap_allocator(jmp_buf *jmp)
+{
+	return (allocator_t){
+		.alloc = heap_alloc,
+		.err = jmp,
+	};
+}
 
-/* Arena allocation macro wrappers */
-#define arena_new(a, T, n) ((T *)arena_alloc((a), (n), sizeof(T), alignof(T)))
-#define arena_resz(a, T, p, n)                                                 \
-	((T *)arena_realloc((a), (p), (n), sizeof(T), alignof(T)))
-
-/* Memory allocator callbacks for memory-allocating functions */
-struct arena_ctx {
-	arena *a;
-	jmp_buf *jmp;
-};
-struct heap_ctx {
-	jmp_buf *jmp;
-};
-
-[[nodiscard]] void *alloc_arena(void *, void *, size_t, size_t, size_t, size_t);
-[[nodiscard]] void *alloc_heap(void *, void *, size_t, size_t, size_t, size_t);
+[[_mlib_inline]] static inline allocator_t
+init_static_scratch_allocator(st_buf_t *ctx, jmp_buf *jmp)
+{
+	return (allocator_t){
+		.alloc = static_scratch_alloc,
+		.err = jmp,
+		.ctx = ctx,
+	};
+}
 
 #endif /* !MLIB_ALLOC_H */

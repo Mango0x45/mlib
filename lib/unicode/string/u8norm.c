@@ -1,6 +1,10 @@
+#include <errno.h>
 #include <inttypes.h>
+#include <stdckdint.h>
+#include <stddef.h>
 #include <string.h>
 
+#include "alloc.h"
 #include "macros.h"
 #include "mbstring.h"
 #include "unicode/_cm.h"
@@ -28,22 +32,20 @@ constexpr int TCNT = 28;
 constexpr int NCNT = VCNT * TCNT;
 constexpr int SCNT = LCNT * NCNT;
 
-static void decomp(char8_t *, size_t *, size_t, rune, enum normform);
+static void decomp(char8_t *, size_t *, size_t, rune, normform_t);
 static void compbuf(char8_t *, size_t *);
 
 static const qcfn qc_lookup[] = {
-	[NF_NFC] = (qcfn)uprop_get_nfc_qc,
-	[NF_NFD] = (qcfn)uprop_get_nfd_qc,
+	[NF_NFC]  = (qcfn)uprop_get_nfc_qc,
+	[NF_NFD]  = (qcfn)uprop_get_nfd_qc,
 	[NF_NFKC] = (qcfn)uprop_get_nfkc_qc,
 	[NF_NFKD] = (qcfn)uprop_get_nfkd_qc,
 };
 
 char8_t *
-u8norm(size_t *dstn, u8view_t src, alloc_fn alloc, void *ctx,
-       enum normform nf)
+u8norm(size_t *dstn, u8view_t src, allocator_t mem, normform_t nf)
 {
 	ASSUME(dstn != nullptr);
-	ASSUME(alloc != nullptr);
 	ASSUME(BETWEEN(0, nf, 4));
 
 	{
@@ -57,30 +59,31 @@ u8norm(size_t *dstn, u8view_t src, alloc_fn alloc, void *ctx,
 		}
 
 		*dstn = src.len;
-		char8_t *dst = alloc(ctx, nullptr, 0, src.len, 1, alignof(char8_t));
+		char8_t *dst = new(mem, typeof(*dst), src.len);
 		return memcpy(dst, src.p, src.len);
 	}
 
 no:
-	/* Pre-allocate a buffer with some initial capacity; there is no need to
-	   check for overflow when computing bufsz because alloc() will handle the
-	   overflow error for us. */
 	int scale = (nf & 0b10) ? NFKD_SCALE : NFD_SCALE;
-	size_t bufsz = src.len * scale;
-	char8_t *dst = alloc(ctx, nullptr, 0, src.len, scale, alignof(char8_t));
+	ptrdiff_t bufsz;
+	if (ckd_mul(&bufsz, src.len, scale)) {
+		errno = EOVERFLOW;
+		return nullptr;
+	}
+	char8_t *dst = new(mem, typeof(*dst), bufsz);
 
 	*dstn = 0;
 	for (rune ch; ucsnext(&ch, &src) != 0; decomp(dst, dstn, bufsz, ch, nf))
 		;
 	if (nf & 0b01)
 		compbuf(dst, dstn);
-	return alloc(ctx, dst, src.len, *dstn, 1, alignof(char8_t));
+	return resz(mem, dst, bufsz, *dstn);
 }
 
 #define WRITE(ch) *dstn += rtoucs(dst + *dstn, bufsz - *dstn, (ch))
 
 void
-decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch, enum normform nf)
+decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch, normform_t nf)
 {
 	if (uprop_get_hst(ch) != HST_NA) {
 		int si = ch - SBASE;
@@ -96,8 +99,8 @@ decomp(char8_t *dst, size_t *dstn, size_t bufsz, rune ch, enum normform nf)
 		WRITE(v);
 		if (t != TBASE)
 			WRITE(t);
-	} else if (((nf & 0b10) && uprop_get_dt(ch) != DT_NONE)
-	           || ((nf & 0b10) == 0 && uprop_get_dt(ch) == DT_CAN))
+	} else if (((nf & 0b10) != 0 && uprop_get_dt(ch) != DT_NONE)
+	        || ((nf & 0b10) == 0 && uprop_get_dt(ch) == DT_CAN))
 	{
 		struct rview rv = uprop_get_dm(ch);
 		for (size_t i = 0; i < rv.len; i++)
@@ -170,12 +173,12 @@ compbuf(char8_t *dst, size_t *dstn)
 			/* Try Hangul composition */
 			if (comp == 0) {
 				if (BETWEEN(LBASE, L, LBASE + LCNT - 1)
-				    && BETWEEN(VBASE, C, VBASE + VCNT - 1))
+				 && BETWEEN(VBASE, C, VBASE + VCNT - 1))
 				{
 					comp = SBASE + ((L - LBASE) * NCNT + (C - VBASE) * TCNT);
 				} else if (BETWEEN(TBASE, C, TBASE + TCNT - 1)
-				           && BETWEEN(SBASE, L, SBASE + SCNT - 1)
-				           && ((L - SBASE) % TCNT) == 0)
+				        && BETWEEN(SBASE, L, SBASE + SCNT - 1)
+				        && ((L - SBASE) % TCNT) == 0)
 				{
 					comp = L + (C - TBASE);
 				}

@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 #include <alloc.h>
-#include <dynarr.h>
+#include <array.h>
 #include <errors.h>
 #include <macros.h>
 #include <mbstring.h>
@@ -53,20 +53,14 @@ bool
 test(u8view_t sv, int id)
 {
 	bool rv = true;
-	arena a = mkarena(0);
-	struct arena_ctx ctx = {.a = &a};
-
-	dynarr(u8view_t) columns = {
-		.alloc = alloc_arena,
-		.ctx = &ctx,
-	};
+	arena_ctx_t ctx = {};
+	allocator_t mem = init_arena_allocator(&ctx, nullptr);
 
 	u8view_t column;
+	u8view_t *columns = array_new(mem, typeof(*columns), 64);
+
 	while (ucscut(&column, &sv, U";", 1) != MBEND) {
-		dynarr(char8_t) s = {
-			.alloc = alloc_arena,
-			.ctx = &ctx,
-		};
+		char8_t *s = array_new(mem, typeof(*s), 64);
 
 		rune _;
 		u8view_t cp;
@@ -76,10 +70,10 @@ test(u8view_t sv, int id)
 			sscanf(cp.p, "%" SCNxRUNE, &ch);
 			char8_t buf[U8_LEN_MAX];
 			int w = rtoucs(buf, sizeof(buf), ch);
-			DAEXTEND(&s, buf, w);
+			array_extend(s, buf, w);
 		} while (_ != MBEND);
 
-		DAPUSH(&columns, ((u8view_t){s.buf, s.len}));
+		array_push(&columns, ((u8view_t){s, array_len(s)}));
 	}
 
 	for (size_t i = 0; i < 5; i++) {
@@ -97,17 +91,16 @@ test(u8view_t sv, int id)
 			err("invalid NORMTYPE ‘%s’", nt);
 
 		u8view_t normd = {};
-		normd.p =
-			ucsnorm(&normd.len, columns.buf[i], alloc_arena, &ctx, NORMTYPE);
-		if (!ucseq(columns.buf[base], normd)) {
+		normd.p = ucsnorm(&normd.len, columns[i], mem, NORMTYPE);
+		if (!ucseq(columns[base], normd)) {
 			warn("case %d: expected c%zu to be ‘%.*s’ but got ‘%.*s’", id,
-			     i + 1, SV_PRI_ARGS(columns.buf[base]), SV_PRI_ARGS(normd));
+			     i + 1, SV_PRI_ARGS(columns[base]), SV_PRI_ARGS(normd));
 			rv = false;
 			goto out;
 		}
 	}
 
 out:
-	arena_free(&a);
+	deleteall(mem);
 	return rv;
 }

@@ -15,7 +15,7 @@ exit 0
 #include <string.h>
 
 #include <alloc.h>
-#include <dynarr.h>
+#include <array.h>
 #include <mbstring.h>
 #include <rune.h>
 #include <unicode/prop.h>
@@ -38,7 +38,8 @@ static uint64_t hash(uint64_t);
 int
 main(void)
 {
-	dynarr(struct mapping) maps = {.alloc = alloc_heap};
+	allocator_t mem = init_heap_allocator(nullptr);
+	struct mapping *maps = array_new(mem, typeof(*maps), 1024);
 
 	for (rune ch = 0; ch <= RUNE_MAX; ch++) {
 		if (uprop_get_dt(ch) != DT_CAN || uprop_is_comp_ex(ch))
@@ -57,21 +58,21 @@ main(void)
 		m += rtoucs(buf, sizeof(buf), ch);
 		assert(n >= m);
 
-		DAPUSH(&maps, ((struct mapping){
+		array_push(&maps, (struct mapping){
 			.k = (uint64_t)rv.p[0] << 32 | rv.p[1],
 			.v = ch,
-		}));
+		});
 	}
 
 	struct ht t = {};
-	size_t sz = (size_t)1 << (SIZE_WIDTH - stdc_leading_zeros(maps.len) + N);
+	size_t sz = (size_t)1 << (SIZE_WIDTH - stdc_leading_zeros(array_len(maps)) + N);
 	int e = stdc_trailing_zeros(sz);
 	t.ht = bufalloc(nullptr, sizeof(*t.ht), sz);
 	memset(t.ht, 0, sizeof(*t.ht) * sz);
 	assert(sz == ((size_t)1 << e));
 
 	/* Build up hashtable */
-	da_foreach (maps, m) {
+	array_foreach (maps, m) {
 		uint64_t h = hash(m->k);
 		uint32_t i = h;
 		for (;;) {
@@ -112,9 +113,9 @@ main(void)
 	     "hash(uint64_t x)\n"
 	     "{\n"
 	     "\tx ^= x >> 30;\n"
-	     "\tx *= 0xbf58476d1ce4e5b9U;\n"
+	     "\tx *= 0xBF58476D1CE4E5B9u;\n"
 	     "\tx ^= x >> 27;\n"
-	     "\tx *= 0x94d049bb133111ebU;\n"
+	     "\tx *= 0x94D049BB133111EBu;\n"
 	     "\tx ^= x >> 31;\n"
 	     "\treturn x;\n"
 	     "}\n");
@@ -143,7 +144,7 @@ main(void)
 	     "}");
 
 	free(t.ht);
-	free(maps.buf);
+	array_free(maps);
 }
 
 uint32_t
@@ -158,9 +159,9 @@ uint64_t
 hash(uint64_t x)
 {
 	x ^= x >> 30;
-	x *= 0xbf58476d1ce4e5b9U;
+	x *= 0xBF58476D1CE4E5B9u;
 	x ^= x >> 27;
-	x *= 0x94d049bb133111ebU;
+	x *= 0x94D049BB133111EBu;
 	x ^= x >> 31;
 	return x;
 }
