@@ -16,6 +16,7 @@ exit 0
 
 #include <alloc.h>
 #include <array.h>
+#include <errors.h>
 #include <mbstring.h>
 #include <rune.h>
 #include <unicode/prop.h>
@@ -58,16 +59,19 @@ main(void)
 		m += rtoucs(buf, sizeof(buf), ch);
 		assert(n >= m);
 
-		array_push(&maps, (struct mapping){
+		array_push(&maps, ((struct mapping){
 			.k = (uint64_t)rv.p[0] << 32 | rv.p[1],
 			.v = ch,
-		});
+		}));
 	}
 
 	struct ht t = {};
-	size_t sz = (size_t)1 << (SIZE_WIDTH - stdc_leading_zeros(array_len(maps)) + N);
+	size_t sz = (size_t)1
+		<< (SIZE_WIDTH - stdc_leading_zeros((size_t)array_len(maps)) + N);
 	int e = stdc_trailing_zeros(sz);
-	t.ht = bufalloc(nullptr, sizeof(*t.ht), sz);
+	t.ht = malloc(sizeof(*t.ht) * sz);
+	if (t.ht == nullptr)
+		err("malloc:");
 	memset(t.ht, 0, sizeof(*t.ht) * sz);
 	assert(sz == ((size_t)1 << e));
 

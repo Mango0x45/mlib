@@ -4,7 +4,7 @@ cd "${0%/*}/.."
 
 mkdir -p data
 
-readonly BASE='https://www.unicode.org/Public/15.1.0/ucd'
+readonly BASE='https://www.unicode.org/Public/16.0.0/ucd'
 
 readonly PATHS='
 	auxiliary/GraphemeBreakProperty

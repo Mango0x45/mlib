@@ -959,9 +959,9 @@ static uint64_t
 hash(uint64_t x)
 {
 	x ^= x >> 30;
-	x *= 0xbf58476d1ce4e5b9U;
+	x *= 0xBF58476D1CE4E5B9u;
 	x ^= x >> 27;
-	x *= 0x94d049bb133111ebU;
+	x *= 0x94D049BB133111EBu;
 	x ^= x >> 31;
 	return x;
 }

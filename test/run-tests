@@ -2,12 +2,13 @@
 
 set -e
 cd "${0%/*}"
+mkdir -p data/
 
 download()
 {
 	s="$(basename "$1" .txt)"
 	test -f "data/$s" ||
-		wget -q "https://www.unicode.org/Public/15.1.0/ucd/$1" -O "data/$s"
+		wget -q "https://www.unicode.org/Public/16.0.0/ucd/$1" -O "data/$s"
 }
 
 readonly FLAGS='

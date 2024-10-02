@@ -66,32 +66,33 @@ struct ucctx {
 
 enum uprop_age : uint_least16_t {
 	AGE_NA = 0, /* Not Assigned */
-	AGE_V1_1 = (1 << 8) | 1,
-	AGE_V2_0 = (2 << 8) | 0,
-	AGE_V2_1 = (2 << 8) | 1,
-	AGE_V3_0 = (3 << 8) | 0,
-	AGE_V3_1 = (3 << 8) | 1,
-	AGE_V3_2 = (3 << 8) | 2,
-	AGE_V4_0 = (4 << 8) | 0,
-	AGE_V4_1 = (4 << 8) | 1,
-	AGE_V5_0 = (5 << 8) | 0,
-	AGE_V5_1 = (5 << 8) | 1,
-	AGE_V5_2 = (5 << 8) | 2,
-	AGE_V6_0 = (6 << 8) | 0,
-	AGE_V6_1 = (6 << 8) | 1,
-	AGE_V6_2 = (6 << 8) | 2,
-	AGE_V6_3 = (6 << 8) | 3,
-	AGE_V7_0 = (7 << 8) | 0,
-	AGE_V8_0 = (8 << 8) | 0,
-	AGE_V9_0 = (9 << 8) | 0,
-	AGE_V10_0 = (10 << 8) | 0,
-	AGE_V11_0 = (11 << 8) | 0,
-	AGE_V12_0 = (12 << 8) | 0,
-	AGE_V12_1 = (12 << 8) | 1,
-	AGE_V13_0 = (13 << 8) | 0,
-	AGE_V14_0 = (14 << 8) | 0,
-	AGE_V15_0 = (15 << 8) | 0,
-	AGE_V15_1 = (15 << 8) | 1,
+	AGE_V1_1  =  1<<8 | 1,
+	AGE_V2_0  =  2<<8 | 0,
+	AGE_V2_1  =  2<<8 | 1,
+	AGE_V3_0  =  3<<8 | 0,
+	AGE_V3_1  =  3<<8 | 1,
+	AGE_V3_2  =  3<<8 | 2,
+	AGE_V4_0  =  4<<8 | 0,
+	AGE_V4_1  =  4<<8 | 1,
+	AGE_V5_0  =  5<<8 | 0,
+	AGE_V5_1  =  5<<8 | 1,
+	AGE_V5_2  =  5<<8 | 2,
+	AGE_V6_0  =  6<<8 | 0,
+	AGE_V6_1  =  6<<8 | 1,
+	AGE_V6_2  =  6<<8 | 2,
+	AGE_V6_3  =  6<<8 | 3,
+	AGE_V7_0  =  7<<8 | 0,
+	AGE_V8_0  =  8<<8 | 0,
+	AGE_V9_0  =  9<<8 | 0,
+	AGE_V10_0 = 10<<8 | 0,
+	AGE_V11_0 = 11<<8 | 0,
+	AGE_V12_0 = 12<<8 | 0,
+	AGE_V12_1 = 12<<8 | 1,
+	AGE_V13_0 = 13<<8 | 0,
+	AGE_V14_0 = 14<<8 | 0,
+	AGE_V15_0 = 15<<8 | 0,
+	AGE_V15_1 = 15<<8 | 1,
+	AGE_V16_0 = 16<<8 | 0,
 };
 
 [[_mlib_pure, _mlib_inline]]
@@ -229,9 +230,10 @@ enum uprop_blk : uint_least16_t {
 	BLK_DUPLOYAN,                  /* Duployan */
 	BLK_EARLY_DYNASTIC_CUNEIFORM,  /* Early Dynastic Cuneiform */
 	BLK_EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS, /* Egyptian Hieroglyph Format
-	                                          * Controls
-	                                          */
+	                                            Controls */
 	BLK_EGYPTIAN_HIEROGLYPHS,                /* Egyptian Hieroglyphs */
+	BLK_EGYPTIAN_HIEROGLYPHS_EXT_A,          /* Egyptian Hieroglyphs
+												Extended-A */
 	BLK_ELBASAN,                             /* Elbasan */
 	BLK_ELYMAIC,                             /* Elymaic */
 	BLK_EMOTICONS,                           /* Emoticons */
@@ -244,20 +246,22 @@ enum uprop_blk : uint_least16_t {
 	BLK_ETHIOPIC_EXT_A,              /* Ethiopic Extended-A */
 	BLK_ETHIOPIC_EXT_B,              /* Ethiopic Extended-B */
 	BLK_ETHIOPIC_SUP,                /* Ethiopic Supplement */
-	BLK_GEOMETRIC_SHAPES,            /* Geometric Shapes */
+	BLK_GARAY,                       /* Garay */
 	BLK_GEOMETRIC_SHAPES_EXT,        /* Geometric Shapes Extended */
-	BLK_GEORGIAN,                    /* Georgian */
+	BLK_GEOMETRIC_SHAPES,            /* Geometric Shapes */
 	BLK_GEORGIAN_EXT,                /* Georgian Extended */
+	BLK_GEORGIAN,                    /* Georgian */
 	BLK_GEORGIAN_SUP,                /* Georgian Supplement */
 	BLK_GLAGOLITIC,                  /* Glagolitic */
 	BLK_GLAGOLITIC_SUP,              /* Glagolitic Supplement */
 	BLK_GOTHIC,                      /* Gothic */
 	BLK_GRANTHA,                     /* Grantha */
-	BLK_GREEK,                       /* Greek and Coptic */
 	BLK_GREEK_EXT,                   /* Greek Extended */
+	BLK_GREEK,                       /* Greek and Coptic */
 	BLK_GUJARATI,                    /* Gujarati */
 	BLK_GUNJALA_GONDI,               /* Gunjala Gondi */
 	BLK_GURMUKHI,                    /* Gurmukhi */
+	BLK_GURUNG_KHEMA,                /* Gurung Khema */
 	BLK_HALF_AND_FULL_FORMS,         /* Halfwidth and Fullwidth Forms */
 	BLK_HALF_MARKS,                  /* Combining Half Marks */
 	BLK_HANGUL,                      /* Hangul Syllables */
@@ -288,8 +292,8 @@ enum uprop_blk : uint_least16_t {
 	BLK_KANBUN,                      /* Kanbun */
 	BLK_KANGXI,                      /* Kangxi Radicals */
 	BLK_KANNADA,                     /* Kannada */
-	BLK_KATAKANA,                    /* Katakana */
 	BLK_KATAKANA_EXT,                /* Katakana Phonetic Extensions */
+	BLK_KATAKANA,                    /* Katakana */
 	BLK_KAWI,                        /* Kawi */
 	BLK_KAYAH_LI,                    /* Kayah Li */
 	BLK_KHAROSHTHI,                  /* Kharoshthi */
@@ -298,6 +302,7 @@ enum uprop_blk : uint_least16_t {
 	BLK_KHMER_SYMBOLS,               /* Khmer Symbols */
 	BLK_KHOJKI,                      /* Khojki */
 	BLK_KHUDAWADI,                   /* Khudawadi */
+	BLK_KIRAT_RAI,                   /* Kirat Rai */
 	BLK_LAO,                         /* Lao */
 	BLK_LATIN_1_SUP,                 /* Latin-1 Supplement */
 	BLK_LATIN_EXT_A,                 /* Latin Extended-A */
@@ -354,6 +359,7 @@ enum uprop_blk : uint_least16_t {
 	BLK_MYANMAR,                     /* Myanmar */
 	BLK_MYANMAR_EXT_A,               /* Myanmar Extended-A */
 	BLK_MYANMAR_EXT_B,               /* Myanmar Extended-B */
+	BLK_MYANMAR_EXT_C,               /* Myanmar Extended-C */
 	BLK_NABATAEAN,                   /* Nabataean */
 	BLK_NAG_MUNDARI,                 /* Nag Mundari */
 	BLK_NANDINAGARI,                 /* Nandinagari */
@@ -366,6 +372,7 @@ enum uprop_blk : uint_least16_t {
 	BLK_OCR,                         /* Optical Character Recognition */
 	BLK_OGHAM,                       /* Ogham */
 	BLK_OL_CHIKI,                    /* Ol Chiki */
+	BLK_OL_ONAL,                     /* Ol Onal */
 	BLK_OLD_HUNGARIAN,               /* Old Hungarian */
 	BLK_OLD_ITALIC,                  /* Old Italic */
 	BLK_OLD_NORTH_ARABIAN,           /* Old North Arabian */
@@ -411,6 +418,7 @@ enum uprop_blk : uint_least16_t {
 	BLK_SPECIALS,                    /* Specials */
 	BLK_SUNDANESE,                   /* Sundanese */
 	BLK_SUNDANESE_SUP,               /* Sundanese Supplement */
+	BLK_SUNUWAR,                     /* Sunuwar */
 	BLK_SUP_ARROWS_A,                /* Supplemental Arrows-A */
 	BLK_SUP_ARROWS_B,                /* Supplemental Arrows-B */
 	BLK_SUP_ARROWS_C,                /* Supplemental Arrows-C */
@@ -424,6 +432,8 @@ enum uprop_blk : uint_least16_t {
 	BLK_SYLOTI_NAGRI,                /* Syloti Nagri */
 	BLK_SYMBOLS_AND_PICTOGRAPHS_EXT_A, /* Symbols And Pictographs Extended-A */
 	BLK_SYMBOLS_FOR_LEGACY_COMPUTING,  /* Symbols For Legacy Computing */
+	BLK_SYMBOLS_FOR_LEGACY_COMPUTING_SUP, /* Symbols For Legacy Computing
+											 Supplement */
 	BLK_SYRIAC,                        /* Syriac */
 	BLK_SYRIAC_SUP,                    /* Syriac Supplement */
 	BLK_TAGALOG,                       /* Tagalog */
@@ -434,19 +444,21 @@ enum uprop_blk : uint_least16_t {
 	BLK_TAI_VIET,                      /* Tai Viet */
 	BLK_TAI_XUAN_JING,                 /* Tai Xuan Jing Symbols */
 	BLK_TAKRI,                         /* Takri */
-	BLK_TAMIL,                         /* Tamil */
 	BLK_TAMIL_SUP,                     /* Tamil Supplement */
+	BLK_TAMIL,                         /* Tamil */
 	BLK_TANGSA,                        /* Tangsa */
-	BLK_TANGUT,                        /* Tangut */
 	BLK_TANGUT_COMPONENTS,             /* Tangut Components */
 	BLK_TANGUT_SUP,                    /* Tangut Supplement */
+	BLK_TANGUT,                        /* Tangut */
 	BLK_TELUGU,                        /* Telugu */
 	BLK_THAANA,                        /* Thaana */
 	BLK_THAI,                          /* Thai */
 	BLK_TIBETAN,                       /* Tibetan */
 	BLK_TIFINAGH,                      /* Tifinagh */
 	BLK_TIRHUTA,                       /* Tirhuta */
+	BLK_TODHRI,                        /* Todhri */
 	BLK_TOTO,                          /* Toto */
+	BLK_TULU_TIGALARI,                 /* Tulu Tigalari */
 	BLK_TRANSPORT_AND_MAP,             /* Transport And Map Symbols */
 	BLK_UCAS,             /* Unified Canadian Aboriginal Syllabics */
 	BLK_UCAS_EXT,         /* Unified Canadian Aboriginal Syllabics Extended */
@@ -686,6 +698,7 @@ enum uprop_insc : uint_least8_t {
 	INSC_NUMBER_JOINER,
 	INSC_PURE_KILLER,
 	INSC_REGISTER_SHIFTER,
+	INSC_REORDERING_KILLER,
 	INSC_SYLLABLE_MODIFIER,
 	INSC_TONE_LETTER,
 	INSC_TONE_MARK,
@@ -720,11 +733,12 @@ enum uprop_jg : uint_least8_t {
 	JG_HANIFI_ROHINGYA_KINNA_YA, /* Hanifi Rohingya Kinna Ya */
 	JG_HANIFI_ROHINGYA_PA,       /* Hanifi Rohingya Pa */
 	JG_HE,                       /* He */
-	JG_HEH,                      /* Heh */
 	JG_HEH_GOAL,                 /* Heh Goal */
+	JG_HEH,                      /* Heh */
 	JG_HETH,                     /* Heth */
 	JG_KAF,                      /* Kaf */
 	JG_KAPH,                     /* Kaph */
+	JG_KASHMIRI_YEH,             /* Kashmiri Yeh */
 	JG_KHAPH,                    /* Khaph */
 	JG_KNOTTED_HEH,              /* Knotted Heh */
 	JG_LAM,                      /* Lam */
@@ -949,6 +963,7 @@ enum uprop_sc : uint_least8_t {
 	SC_ELBA,     /* Elbasan */
 	SC_ELYM,     /* Elymaic */
 	SC_ETHI,     /* Ethiopic */
+	SC_GARA,     /* Garay */
 	SC_GEOR,     /* Georgian */
 	SC_GLAG,     /* Glagolitic */
 	SC_GONG,     /* Gunjala Gondi */
@@ -957,6 +972,7 @@ enum uprop_sc : uint_least8_t {
 	SC_GRAN,     /* Grantha */
 	SC_GREK,     /* Greek */
 	SC_GUJR,     /* Gujarati */
+	SC_GUKH,     /* Gurung Khema */
 	SC_GURU,     /* Gurmukhi */
 	SC_HANG,     /* Hangul */
 	SC_HANI,     /* Han */
@@ -979,6 +995,7 @@ enum uprop_sc : uint_least8_t {
 	SC_KHOJ,     /* Khojki */
 	SC_KITS,     /* Khitan Small Script */
 	SC_KNDA,     /* Kannada */
+	SC_KRAI,     /* Kirat Rai */
 	SC_KTHI,     /* Kaithi */
 	SC_LANA,     /* Tai Tham */
 	SC_LAOO,     /* Lao */
@@ -1015,6 +1032,7 @@ enum uprop_sc : uint_least8_t {
 	SC_NSHU,     /* Nushu */
 	SC_OGAM,     /* Ogham */
 	SC_OLCK,     /* Ol Chiki */
+	SC_ONAO,     /* Ol Onal */
 	SC_ORKH,     /* Old Turkic */
 	SC_ORYA,     /* Oriya */
 	SC_OSGE,     /* Osage */
@@ -1046,6 +1064,7 @@ enum uprop_sc : uint_least8_t {
 	SC_SORA,     /* Sora Sompeng */
 	SC_SOYO,     /* Soyombo */
 	SC_SUND,     /* Sundanese */
+	SC_SUNU,     /* Sunuwar */
 	SC_SYLO,     /* Syloti Nagri */
 	SC_SYRC,     /* Syriac */
 	SC_TAGB,     /* Tagbanwa */
@@ -1063,7 +1082,9 @@ enum uprop_sc : uint_least8_t {
 	SC_TIBT,     /* Tibetan */
 	SC_TIRH,     /* Tirhuta */
 	SC_TNSA,     /* Tangsa */
+	SC_TODR,     /* Todhri */
 	SC_TOTO,     /* Toto */
+	SC_TUTG,     /* Tulu Tigalari */
 	SC_UGAR,     /* Ugaritic */
 	SC_VAII,     /* Vai */
 	SC_VITH,     /* Vithkuqi */
