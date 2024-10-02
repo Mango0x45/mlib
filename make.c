@@ -125,15 +125,17 @@ usage:
 				"-not", "(",
 					"-name", "scale",
 					"-or", "-name", "bool-props.py",
+					"-or", "-name", "scale-norm.c",
 					"-or", "-name", "wdth.c",
 				")",
 				"-exec", "{}", ";");
 		} else if (strcmp(argv[0], "test") == 0) {
 			strspushl(&cmd, "./test/run-tests");
 		} else {
-			if (strcmp(nl_langinfo(CODESET), "UTF-8") == 0)
-				err("invalid subcommand — ‘%s’", argv[0]);
-			err("invalid subcommand -- `%s'", argv[0]);
+			err(strcmp(nl_langinfo(CODESET), "UTF-8") == 0
+				? "invalid subcommand — ‘%s’"
+				: "invalid subcommand -- `%s'",
+				argv[0]);
 		}
 
 		cmdput(cmd);
