@@ -26,6 +26,8 @@ static void *alloc(allocator_t mem, ptrdiff_t nmemb, ptrdiff_t elemsz,
                    ptrdiff_t align);
 static void *resize(allocator_t mem, void *ptr, ptrdiff_t oldnmemb,
                     ptrdiff_t newnmemb, ptrdiff_t elemsz, ptrdiff_t align);
+static void free_(allocator_t mem, void *ptr, ptrdiff_t oldnmemb,
+                  ptrdiff_t elemsz);
 static void freeall(allocator_t mem);
 static arena_blk_t *mkblk(ptrdiff_t blksz);
 [[noreturn]] static void errjmp(jmp_buf *env);
@@ -40,7 +42,7 @@ arena_alloc(allocator_t mem, alloc_mode_t mode, void *ptr, ptrdiff_t oldnmemb,
 	case ALLOC_RESIZE:
 		return resize(mem, ptr, oldnmemb, newnmemb, elemsz, align);
 	case ALLOC_FREE:
-		/* TODO: Allow freeing the very last allocation */
+		free_(mem, ptr, oldnmemb, elemsz);
 		return nullptr;
 	case ALLOC_FREEALL:
 		freeall(mem);
@@ -160,6 +162,15 @@ resize(allocator_t mem, void *ptr, ptrdiff_t oldnmemb, ptrdiff_t newnmemb,
 	
 	void *p = alloc(mem, newnmemb, elemsz, align);
 	return memcpy(p, ptr, oldnmemb * elemsz);
+}
+
+void
+free_(allocator_t mem, void *ptr, ptrdiff_t oldnmemb, ptrdiff_t elemsz)
+{
+	arena_ctx_t *ctx = mem.ctx;
+	arena_blk_t *blk = ctx->_head;
+	if ((uint8_t *)ptr + oldnmemb * elemsz == blk->fngr)
+		blk->fngr = ptr;
 }
 
 void
