@@ -11,7 +11,6 @@
 #include <unistd.h>
 
 #include "_attrs.h"
-#include "_charN_t.h"
 #include "alloc.h"
 #include "error.h"
 #include "macros.h"
@@ -19,7 +18,7 @@
 #define PAD(len, align) (((len) + (align) - 1) & ~((align) - 1))
 
 struct arena_blk {
-	char8_t *head, *tail, *fngr;
+	uint8_t *head, *tail, *fngr;
 	struct arena_blk *next;
 };
 
