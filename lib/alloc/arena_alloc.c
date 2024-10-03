@@ -25,14 +25,14 @@ struct arena_blk {
 static void *alloc(allocator_t mem, ptrdiff_t nmemb, ptrdiff_t elemsz,
                    ptrdiff_t align);
 static void *resize(allocator_t mem, void *ptr, ptrdiff_t oldnmemb,
-					ptrdiff_t newnmemb, ptrdiff_t elemsz, ptrdiff_t align);
+                    ptrdiff_t newnmemb, ptrdiff_t elemsz, ptrdiff_t align);
 static void freeall(allocator_t mem);
 static arena_blk_t *mkblk(ptrdiff_t blksz);
 [[noreturn]] static void errjmp(jmp_buf *env);
 
 void *
 arena_alloc(allocator_t mem, alloc_mode_t mode, void *ptr, ptrdiff_t oldnmemb,
-			ptrdiff_t newnmemb, ptrdiff_t elemsz, ptrdiff_t align)
+            ptrdiff_t newnmemb, ptrdiff_t elemsz, ptrdiff_t align)
 {
 	switch (mode) {
 	case ALLOC_NEW:
@@ -181,7 +181,7 @@ mkblk(ptrdiff_t blksz)
 	arena_blk_t blk;
 	/* blk.next and blk.fngr get set by the caller */
 	blk.head = mmap(nullptr, blksz, PROT_READ | PROT_WRITE,
-					MAP_PRIVATE | MAP_ANON, -1, 0);
+	                MAP_PRIVATE | MAP_ANON, -1, 0);
 	if (blk.head == MAP_FAILED)
 		return nullptr;
 	blk.tail = blk.head + blksz;
