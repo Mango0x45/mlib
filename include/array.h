@@ -1,6 +1,7 @@
 #ifndef MLIB_ARRAY_H
 #define MLIB_ARRAY_H
 
+#include <stdbit.h>
 #include <stddef.h>
 #include <string.h>
 
@@ -41,12 +42,11 @@ _mlib_array_hdr(void *p, ptrdiff_t align)
 		(*(p))[hdr->len++] = (x);                                               \
 	} while (false)
 
-/* TODO: Make the resizing not bad */
 #define array_extend(p, xs, n)                                                  \
 	do {                                                                        \
 		_mlib_arr_hdr_t *hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));     \
 		if (hdr->len + (n) <= hdr->cap) {                                       \
-			(p) = array_resz((p), hdr->len * 2 + (n));                          \
+			(p) = array_resz((p), stdc_bit_ceil((size_t)hdr->len + (n)));       \
 			hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));                  \
 		}                                                                       \
 		memcpy(&(p)[hdr->len], (xs), (n) * sizeof(*xs));                        \
