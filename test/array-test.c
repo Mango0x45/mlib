@@ -37,7 +37,7 @@ main(int, char **argv)
 	array_hdr(xs)->len = 4;
 
 	for (int i = 4; i < 69; i++) {
-		array_push(&xs, i + 1);
+		array_push(xs, i + 1);
 		if (stdc_count_ones((unsigned)i) == 1) {
 			/* Integers don’t need padding.  It simplifies the test */
 			if ((size_t)ctx.last_alloc_size

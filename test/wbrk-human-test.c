@@ -56,9 +56,9 @@ test(u8view_t sv, int id)
 	u8view_t *ws = array_new(mem, typeof(*ws), 64);
 
 	while (ucscut(&w, &sv, U"|", 1) != MBEND)
-		array_push(&ws, w);
+		array_push(ws, w);
 	if (w.len > 0)
-		array_push(&ws, w);
+		array_push(ws, w);
 
 	/* Assert the word count is correct */
 	size_t n;

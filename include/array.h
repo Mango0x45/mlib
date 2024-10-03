@@ -34,12 +34,12 @@ _mlib_array_hdr(void *p, ptrdiff_t align)
 
 #define array_push(p, x)                                                        \
 	do {                                                                        \
-		_mlib_arr_hdr_t *hdr = _mlib_array_hdr(*(p), alignof(typeof(**(p))));   \
+		_mlib_arr_hdr_t *hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));     \
 		if (hdr->len == hdr->cap) {                                             \
-			*(p) = array_resz(*(p), hdr->len * 2);                              \
-			hdr = _mlib_array_hdr(*(p), alignof(typeof(**(p))));                \
+			(p) = array_resz((p), hdr->len * 2);                                \
+			hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));                  \
 		}                                                                       \
-		(*(p))[hdr->len++] = (x);                                               \
+		(p)[hdr->len++] = (x);                                                  \
 	} while (false)
 
 #define array_extend(p, xs, n)                                                  \

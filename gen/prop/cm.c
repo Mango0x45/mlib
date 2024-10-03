@@ -59,7 +59,7 @@ main(void)
 		m += rtoucs(buf, sizeof(buf), ch);
 		assert(n >= m);
 
-		array_push(&maps, ((struct mapping){
+		array_push(maps, ((struct mapping){
 			.k = (uint64_t)rv.p[0] << 32 | rv.p[1],
 			.v = ch,
 		}));

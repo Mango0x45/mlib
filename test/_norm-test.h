@@ -73,7 +73,7 @@ test(u8view_t sv, int id)
 			array_extend(s, buf, w);
 		} while (_ != MBEND);
 
-		array_push(&columns, ((u8view_t){s, array_len(s)}));
+		array_push(columns, ((u8view_t){s, array_len(s)}));
 	}
 
 	for (size_t i = 0; i < 5; i++) {

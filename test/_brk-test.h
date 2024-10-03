@@ -73,7 +73,7 @@ test(u8view_t sv, int id)
 		total += w;
 
 		if (op == U'÷')
-			array_push(&items, array_new(mem, char8_t, 64));
+			array_push(items, array_new(mem, char8_t, 64));
 		array_extend(items[array_len(items) - 1], buf, w);
 	}
 
