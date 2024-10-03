@@ -60,9 +60,7 @@ alloc(allocator_t mem, ptrdiff_t nmemb, ptrdiff_t elemsz, ptrdiff_t align)
 	arena_ctx_t *ctx = mem.ctx;
 	if (ctx->blksz == 0) {
 		long blksz = sysconf(_SC_PAGESIZE);
-		if (blksz == -1)
-			errjmp(mem.err);
-		ctx->blksz = blksz;
+		ctx->blksz = blksz == -1 ? 4096 : blksz;
 	}
 
 	ptrdiff_t bufsz;
