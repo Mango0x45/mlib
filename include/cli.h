@@ -7,7 +7,7 @@
 #include "_rune.h"
 #include "_uNview.h"
 
-struct optparser {
+typedef struct {
 	bool _b;
 	int _subopt;
 	char **_argv;
@@ -15,28 +15,27 @@ struct optparser {
 	int optind;
 	char errmsg[128];
 	u8view_t optarg;
-};
+} optparser_t;
 
-enum cliarg {
+typedef enum {
 	CLI_NONE,
 	CLI_OPT,
 	CLI_REQ,
-};
+} cli_opt_kind_t;
 
-struct cli_option {
+typedef struct {
 	rune shortopt;
 	u8view_t longopt;
-	enum cliarg argtype;
-};
+	cli_opt_kind_t argtype;
+} cli_opt_t;
 
-[[nodiscard]] rune optparse(struct optparser *, const struct cli_option *,
-                            size_t);
+[[nodiscard]] rune optparse(optparser_t *, const cli_opt_t *, size_t);
 
 [[_mlib_inline]]
-static inline struct optparser
+static inline optparser_t
 mkoptparser(char **argv)
 {
-	return (struct optparser){
+	return (optparser_t){
 		._argv = argv,
 		.optind = argv[0] != nullptr,
 	};

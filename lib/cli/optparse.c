@@ -16,12 +16,12 @@
 #define error(st, msg, x)                                                      \
 	_Generic((x), u8view_t: error_s, rune: error_r)((st), (msg), (x))
 
-static rune error_r(struct optparser *, const char *, rune);
-static rune error_s(struct optparser *, const char *, u8view_t);
-static rune shortopt(struct optparser *, const struct cli_option *, size_t);
+static rune error_r(optparser_t *, const char *, rune);
+static rune error_s(optparser_t *, const char *, u8view_t);
+static rune shortopt(optparser_t *, const cli_opt_t *, size_t);
 
 rune
-optparse(struct optparser *st, const struct cli_option *opts, size_t nopts)
+optparse(optparser_t *st, const cli_opt_t *opts, size_t nopts)
 {
 	st->errmsg[0] = '\0';
 	st->optarg = (u8view_t){};
@@ -46,7 +46,7 @@ optparse(struct optparser *st, const struct cli_option *opts, size_t nopts)
 	/* Skip ‘--’ */
 	VSHFT(&opt, 2);
 
-	const struct cli_option *o = nullptr;
+	const cli_opt_t *o = nullptr;
 	const char8_t *eq_p = u8chr(opt, '=');
 	u8view_t opt_no_eq = {
 		.p = opt.p,
@@ -101,7 +101,7 @@ optparse(struct optparser *st, const struct cli_option *opts, size_t nopts)
 }
 
 rune
-shortopt(struct optparser *st, const struct cli_option *opts, size_t nopts)
+shortopt(optparser_t *st, const cli_opt_t *opts, size_t nopts)
 {
 	rune ch;
 	const char8_t *opt = st->_argv[st->optind];
@@ -142,7 +142,7 @@ out:
 }
 
 rune
-error_s(struct optparser *st, const char *msg, u8view_t s)
+error_s(optparser_t *st, const char *msg, u8view_t s)
 {
 	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
 	         SV_PRI_ARGS(s));
@@ -150,7 +150,7 @@ error_s(struct optparser *st, const char *msg, u8view_t s)
 }
 
 rune
-error_r(struct optparser *st, const char *msg, rune ch)
+error_r(optparser_t *st, const char *msg, rune ch)
 {
 	char buf[U8_LEN_MAX + 1] = {};
 	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
