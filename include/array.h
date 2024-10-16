@@ -59,7 +59,7 @@ _mlib_array_hdr(void *p, ptrdiff_t align)
 static void
 array_set_size(void *p, ptrdiff_t size, ptrdiff_t align)
 {
-	_mlib_arr_hdr_t *hdr = _mlib_array_hdr(p, alignof(typeof(*p)));
+	_mlib_arr_hdr_t *hdr = _mlib_array_hdr(p, align);
 	hdr->len = size;
 }
 
