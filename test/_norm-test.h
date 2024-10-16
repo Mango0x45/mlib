@@ -70,10 +70,10 @@ test(u8view_t sv, int id)
 			sscanf(cp.p, "%" SCNxRUNE, &ch);
 			char8_t buf[U8_LEN_MAX];
 			int w = rtoucs(buf, sizeof(buf), ch);
-			array_extend(s, buf, w);
+			array_extend(&s, buf, w);
 		} while (_ != MBEND);
 
-		array_push(columns, ((u8view_t){s, array_len(s)}));
+		array_push(&columns, ((u8view_t){s, array_len(s)}));
 	}
 
 	for (size_t i = 0; i < 5; i++) {

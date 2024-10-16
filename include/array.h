@@ -34,22 +34,22 @@ _mlib_array_hdr(void *p, ptrdiff_t align)
 
 #define array_push(p, x)                                                        \
 	do {                                                                        \
-		_mlib_arr_hdr_t *hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));     \
+		_mlib_arr_hdr_t *hdr = _mlib_array_hdr(*(p), alignof(typeof(**(p))));   \
 		if (hdr->len == hdr->cap) {                                             \
-			(p) = array_resz((p), hdr->len * 2);                                \
-			hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));                  \
+			*(p) = array_resz(*(p), hdr->len * 2);                              \
+			hdr = _mlib_array_hdr(*(p), alignof(typeof(**(p))));                \
 		}                                                                       \
-		(p)[hdr->len++] = (x);                                                  \
+		(*(p))[hdr->len++] = (x);                                               \
 	} while (false)
 
 #define array_extend(p, xs, n)                                                  \
 	do {                                                                        \
-		_mlib_arr_hdr_t *hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));     \
+		_mlib_arr_hdr_t *hdr = _mlib_array_hdr(*(p), alignof(typeof(**(p))));   \
 		if (hdr->len + (n) >= hdr->cap) {                                       \
-			(p) = array_resz((p), stdc_bit_ceil((size_t)hdr->len + (n)));       \
-			hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));                  \
+			*(p) = array_resz(*(p), stdc_bit_ceil((size_t)hdr->len + (n)));     \
+			hdr = _mlib_array_hdr(*(p), alignof(typeof(**(p))));                \
 		}                                                                       \
-		memcpy(&(p)[hdr->len], (xs), (n) * sizeof(*xs));                        \
+		memcpy(&(*(p))[hdr->len], (xs), (n) * sizeof(*xs));                     \
 		hdr->len += (n);                                                        \
 	} while (false)
 
