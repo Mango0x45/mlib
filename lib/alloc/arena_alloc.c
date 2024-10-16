@@ -12,7 +12,7 @@
 
 #include "_attrs.h"
 #include "alloc.h"
-#include "error.h"
+#include "errors.h"
 #include "macros.h"
 
 #define PAD(len, align) (((len) + (align) - 1) & ~((align) - 1))
