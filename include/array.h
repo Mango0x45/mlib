@@ -54,7 +54,18 @@ _mlib_array_hdr(void *p, ptrdiff_t align)
 	} while (false)
 
 #define array_foreach(p, i) for (typeof(p) i = (p); i < (p) + array_len(p); i++)
-	
+
+[[_mlib_inline]]
+static void
+array_set_size(void *p, ptrdiff_t size, ptrdiff_t align)
+{
+	_mlib_arr_hdr_t *hdr = _mlib_array_hdr(p, alignof(typeof(*p)));
+	hdr->len = size;
+}
+
+#define array_set_size(p, size)                                                 \
+	array_set_size((p), (size), alignof(typeof(*(p))))
+
 void *(array_new)(allocator_t mem, ptrdiff_t nmemb, ptrdiff_t elemsz,
 	ptrdiff_t align);
 void *(array_resz)(void *ptr, ptrdiff_t ncap, ptrdiff_t elemsz, ptrdiff_t align);
