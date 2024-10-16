@@ -45,7 +45,7 @@ _mlib_array_hdr(void *p, ptrdiff_t align)
 #define array_extend(p, xs, n)                                                  \
 	do {                                                                        \
 		_mlib_arr_hdr_t *hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));     \
-		if (hdr->len + (n) <= hdr->cap) {                                       \
+		if (hdr->len + (n) >= hdr->cap) {                                       \
 			(p) = array_resz((p), stdc_bit_ceil((size_t)hdr->len + (n)));       \
 			hdr = _mlib_array_hdr((p), alignof(typeof(*(p))));                  \
 		}                                                                       \
