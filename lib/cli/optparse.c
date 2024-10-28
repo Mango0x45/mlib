@@ -1,6 +1,8 @@
+#include <langinfo.h>
 #include <stdio.h>
 #include <string.h>
 
+#include "_attrs.h"
 #include "cli.h"
 #include "macros.h"
 #include "mbstring.h"
@@ -141,11 +143,19 @@ out:
 	return ch;
 }
 
+[[_mlib_inline]]
+static inline bool
+utf8p(void)
+{
+	return streq("UTF-8", nl_langinfo(CODESET));
+}
+
 rune
 error_s(optparser_t *st, const char *msg, u8view_t s)
 {
-	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
-	         SV_PRI_ARGS(s));
+	snprintf(st->errmsg, sizeof(st->errmsg),
+	         utf8p() ? u8"%s — ‘%.*s’" : u8"%s -- `%.*s'",
+	         msg, SV_PRI_ARGS(s));
 	return -1;
 }
 
@@ -153,7 +163,8 @@ rune
 error_r(optparser_t *st, const char *msg, rune ch)
 {
 	char buf[U8_LEN_MAX + 1] = {};
-	snprintf(st->errmsg, sizeof(st->errmsg), u8"%s — ‘%.*s’", msg,
-	         rtou8(buf, sizeof(buf), ch), buf);
+	snprintf(st->errmsg, sizeof(st->errmsg),
+	         utf8p() ? u8"%s — ‘%.*s’" : u8"%s -- `%.*s'",
+	         msg, rtou8(buf, sizeof(buf), ch), buf);
 	return -1;
 }
