@@ -2,11 +2,10 @@
 #include "unicode/prop.h"
 #include "unicode/string.h"
 
-size_t
-u8wdth(u8view_t sv, int ts)
+ptrdiff_t
+u8wdth(u8view_t sv, ptrdiff_t n, int ts)
 {
 	rune ch;
-	size_t n = 0;
 
 	while (ucsnext(&ch, &sv) != 0) {
 		if (ch == '\t')

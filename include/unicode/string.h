@@ -30,7 +30,7 @@ typedef enum {
 
 /* clang-format on */
 
-[[nodiscard]] size_t u8wdth(u8view_t, int);
+[[nodiscard]] ptrdiff_t u8wdth(u8view_t, ptrdiff_t, int);
 [[nodiscard]] size_t u8gcnt(u8view_t);
 [[nodiscard]] size_t u8wcnt(u8view_t);
 [[nodiscard]] size_t u8wcnt_human(u8view_t);
@@ -44,7 +44,8 @@ size_t u8wnext_human(u8view_t *, u8view_t *);
 [[nodiscard]] char8_t *u8norm(size_t *, u8view_t, allocator_t, normform_t);
 
 /* Encoding-generic macros */
-#define ucswdth(sv, ts)   _Generic((sv), u8view_t: u8wdth)((sv), (ts))
+#define ucswdth(sv, curwdth, ts) \
+	_Generic((sv), u8view_t: u8wdth)((sv), (curwdth), (ts))
 #define ucsgcnt(sv)       _Generic((sv), u8view_t: u8gcnt)((sv))
 #define ucswcnt(sv)       _Generic((sv), u8view_t: u8wcnt)((sv))
 #define ucswcnt_human(sv) _Generic((sv), u8view_t: u8wcnt_human)((sv))
