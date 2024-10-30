@@ -35,7 +35,7 @@ u8gnext(u8view_t *g, u8view_t *sv)
 	for (;;) {
 		rune ch2;
 
-		if ((size_t)(p - sv->p) >= sv->len)
+		if (p - sv->p >= sv->len)
 			ch2 = 0;
 		else
 			m = u8tor(&ch2, p);

@@ -69,7 +69,7 @@ u8rchr(u8view_t sv, rune ch)
 	char8_t buf[U8_LEN_MAX];
 	int n = rtou8(buf, ch, sizeof(buf));
 
-	if (sv.len < (size_t)n)
+	if (sv.len < n)
 		return nullptr;
 	switch (n) {
 	case 1:

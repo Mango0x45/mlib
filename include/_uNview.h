@@ -7,17 +7,17 @@
 
 typedef struct {
 	const char8_t *p;
-	size_t len;
+	ptrdiff_t len;
 } u8view_t;
 
 typedef struct {
 	const char16_t *p;
-	size_t len;
+	ptrdiff_t len;
 } u16view_t;
 
 typedef struct {
 	const char32_t *p;
-	size_t len;
+	ptrdiff_t len;
 } u32view_t;
 
 #endif /* !MLIB__UNVIEW_H */

@@ -52,7 +52,7 @@ optparse(optparser_t *st, const cli_opt_t *opts, size_t nopts)
 	const char8_t *eq_p = u8chr(opt, '=');
 	u8view_t opt_no_eq = {
 		.p = opt.p,
-		.len = eq_p == nullptr ? opt.len : (size_t)(eq_p - opt.p),
+		.len = eq_p == nullptr ? opt.len : eq_p - opt.p,
 	};
 
 	for (size_t i = 0; i < nopts; i++) {

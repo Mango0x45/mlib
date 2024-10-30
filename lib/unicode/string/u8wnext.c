@@ -22,7 +22,7 @@ struct wbrk_state {
 };
 
 static bool advance(struct wbrk_state *);
-static size_t findwbrk(u8view_t);
+static ptrdiff_t findwbrk(u8view_t);
 static struct wbrk_state mkwbrkstate(u8view_t);
 
 size_t
@@ -34,7 +34,7 @@ u8wnext(u8view_t *w, u8view_t *sv)
 	if (sv->len == 0)
 		return 0;
 
-	size_t off = findwbrk(*sv);
+	ptrdiff_t off = findwbrk(*sv);
 	if (w != nullptr)
 		*w = (u8view_t){sv->p, off};
 
@@ -43,7 +43,7 @@ u8wnext(u8view_t *w, u8view_t *sv)
 	return off;
 }
 
-size_t
+ptrdiff_t
 findwbrk(u8view_t sv)
 {
 	ASSUME(sv.p != nullptr);
