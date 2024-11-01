@@ -93,7 +93,7 @@ optparse(optparser_t *st, const cli_opt_t *opts, size_t nopts)
 			ASSUME(opt.len > opt_no_eq.len);
 			st->optarg = (u8view_t){
 				.p = eq_p + 1,
-				.len = opt.len - opt_no_eq.len + 1,
+				.len = opt.len - opt_no_eq.len - 1,
 			};
 		}
 		break;
